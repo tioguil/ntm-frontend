@@ -1,0 +1,154 @@
+import React, { Component } from 'react';
+import { Input } from 'reactstrap';
+import 'rc-select/assets/index.css';
+import Select, {Option, OptGroup} from 'rc-select';
+import FooterTemplate from '../../components/footer'
+import NavbarTemplate from '../../components/navbar'
+import SidebarTemplate from '../../components/sidebar'
+import {Redirect } from 'react-router-dom';
+import axios from 'axios'
+
+const URL = `http://localhost:8080/`
+
+export default class CadastrarProjeto extends Component {
+  
+  constructor(){
+    super()
+    var usuario = localStorage.getItem('user');
+    const user = JSON.parse(usuario);
+    this.token = user.token.numero
+    this.state = {clientes:[],value:'', 
+    projeto:{numeroProjeto:"", nome:"",descricao:"",estimativaEsforco:"",inicio:"",fim:"",
+    cliente:{id:1},usuarioId:1}}
+    this.cadastrarProjeto =  this.cadastrarProjeto.bind(this)
+    if(usuario == null){
+      this.usuario = null
+    }
+    else{
+      this.usuario = user.perfilAcesso
+    }
+  }
+
+  onChange = (value) => {
+    this.setState({value,});
+    if (value!=" ") {
+      var config = {headers:{Authorization:this.token}};
+      axios.get(`${URL}cliente/gestor/listarclientes/${this.state.value}`,config)
+      .then(resp=> this.setState(...this.state,{clientes:resp.data.response}))
+    }
+  }
+
+  toggleDisabled = () => {
+    this.setState({disabled: !this.state.disabled,});
+  }
+
+  dadosProjeto(nomeInput,evento){
+    var campoSendoAlterado = {}
+    campoSendoAlterado[nomeInput] = evento.target.value
+    this.setState(campoSendoAlterado)
+  }
+  onSelect = (v) => {
+    for (let i=0; i<this.state.clientes.length; i++){
+      if( v ==this.state.clientes[i].nome){
+          this.setState({cliente:{id:this.state.clientes[i].id}})
+      }
+    }
+  }
+
+   cadastrarProjeto(){
+    const json = {cliente:{id:this.state.cliente.id},numeroProjeto:this.state.numeroProjeto,
+    nome:this.state.nome,descricao:this.state.descricao,estimativaEsforco:this.state.estimativaEsforco,
+    inicio:this.state.inicio,fim:this.state.fim,status:"iniciado"}
+    var config = {headers:{Authorization:this.token}};
+    axios.post(`${URL}projeto/gestor/cadastrar`,json,config).then(resp=>console.log(resp.data))
+    this.setState(...this.state, {numeroProjeto:"", nome:"",descricao:"",estimativaEsforco:"",inicio:"",fim:"",status:"iniciado", value:''})
+  }
+
+  render(){
+    if(this.usuario == null || this.usuario === "analista"){      
+      return (
+         <Redirect to ="/"/>
+        );
+      }
+    const clientes = this.state.clientes;
+    let options;
+    options = clientes.map((c) => {
+      return <Option key={c.id,c.nome}> <i>{c.nome}</i></Option>;
+    });
+    return (
+      <div>
+      <NavbarTemplate/>
+          <div className="row">
+            <div className="col-2.5">
+              <SidebarTemplate/>
+            </div>
+              <div className="col Container">
+                <br/>
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      <a href="/dashboardAdmin">Dashboard</a>
+                    </li>
+                    <li className="breadcrumb-item active">Cadastrar Projeto</li>
+                  </ol>
+
+                  <h3>Cadastrar Projeto</h3>
+                  <hr/>
+                  <div className="container CadastrarAnalista">
+                    <form>
+                      <div className="form-row">
+
+                        <div className="form-group col-md-4">
+                          <label htmlFor="inputNomeProjeto" className="required">Nome do projeto:</label>
+                          <Input type="text" value={this.state.nome} onChange={this.dadosProjeto.bind(this,'nome')} className="form-control" id="inputNomeProjeto" placeholder="Ex.: Projeto A"/>
+                        </div>
+
+                        <div className="form-group col-md-2">
+                          <label htmlFor="inputNumeroProjeto"className="required">Número do projeto:</label>
+                          <Input type="text" value={this.state.numeroProjeto} onChange={this.dadosProjeto.bind(this,'numeroProjeto')} className="form-control" id="inputNumProjeto" placeholder="Ex.:1234"/>
+                        </div>
+                        <div className="form-group col-md-2">
+                          <label htmlFor="inputDataInicio"className="required">Data inicial:</label>
+                          <Input type="date" value={this.state.inicio} onChange={this.dadosProjeto.bind(this,'inicio')} className="form-control" id="inputDataInicio"/>
+                        </div>
+                        <div className="form-group col-md-2">
+                          <label htmlFor="inputDataFim"className="required">Data final:</label>
+                          <Input type="date" value={this.state.fim} onChange={this.dadosProjeto.bind(this,'fim')} className="form-control" id="inputDataFim"/>
+                        </div>
+                        <div className="form-group col-md-2">
+                          <label htmlFor="inputEsforco"className="required">Estimativa de esforço:</label>
+                          <Input type="text" value={this.state.estimativaEsforco} onChange={this.dadosProjeto.bind(this,'estimativaEsforco')} className="form-control" id="inputEsforco" placeholder="Ex.:160horas"/>
+                        </div>
+                        <div className="form-group col-md-12">  
+                         <label htmlFor="inputCliente"className="required">Cliente:</label>              
+                            <Select
+                                style={{width:'100%'}}
+                                onChange={this.onChange}
+                                onSelect={this.onSelect}
+                                notFoundContent="Não encontrado"
+                                allowClear
+                                placeholder="Pesquise por nome, cpf ou cnpj"
+                                value={this.state.value}
+                                combobox
+                                backfill
+                                filterOption={false}>
+                             {options}
+                            </Select>
+                          
+                        </div>
+
+
+                        <div className="form-group col-md-12">
+                          <label htmlFor="inputDescricao"className="required">Descrição:</label>
+                          <Input type="textarea" value={this.state.descricao} onChange={this.dadosProjeto.bind(this,'descricao')}  rows="5" className="form-control" name="text" id="inputDescricao"/>
+                        </div>
+                      </div>
+                      <button type="button" onClick={this.cadastrarProjeto}className="btn btn-success float-right mb-2">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
+                    </form>
+                  </div>
+              <FooterTemplate/>
+            </div>
+          </div>
+      </div>
+    );
+  }
+}
