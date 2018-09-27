@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import {Redirect,Link } from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
@@ -11,6 +12,7 @@ import {
   ModalFooter,
   Input } from 'reactstrap';
 
+const URL = `http://localhost:8080/`
 
 export default class Atividades extends Component {
   constructor(){
@@ -18,6 +20,7 @@ export default class Atividades extends Component {
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.usuario = user
+    this.token = user.token.numero
     this.state = {modal: false};
     this.toggle = this.toggle.bind(this);
     if(usuario == null){
@@ -30,7 +33,10 @@ export default class Atividades extends Component {
   }
   componentDidMount(){
     const id = sessionStorage.getItem('idAtividade', id);
-    console.log(id)
+    var config = {headers:{Authorization:this.token}};
+      axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
+      .then(resp=> console.log(resp.data.response))
+    
   }
   closeModal(tabId){
     this.setState({

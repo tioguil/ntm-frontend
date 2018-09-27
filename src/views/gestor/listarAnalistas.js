@@ -74,12 +74,13 @@ export default class ListarAnalistas extends Component {
                     <tbody>
                         {
                           this.state.analistas.map(function(analista){
+                            console.log(analista)
                             return (
                                 <tr key={analista.id} onClick={() => this.analista_detalhes(analista.id)} >
                                   <td> {analista.email} </td>
                                   <td>{analista.nome}</td>
                                   <td> {analista.cargo.cargo}</td>
-                                  <td></td>
+                                  <td>{analista.cidade}</td>
                                 </tr>
                               );
 
