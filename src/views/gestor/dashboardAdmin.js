@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 
 
 
@@ -69,7 +69,7 @@ export default class DashboardAdmin extends Component {
                 <br/>
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
-                        <a href="/dashboardAdmin">Dashboard</a>
+                        <Link to="/dashboardAdmin">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">Visão geral</li>
                     </ol>

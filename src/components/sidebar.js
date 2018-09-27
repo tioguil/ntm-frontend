@@ -1,15 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { Component } from 'react';
+import {Link } from 'react-router-dom';
 
 
 export default class Sidebar extends Component {
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
       var usuario = localStorage.getItem('user');
       const user = JSON.parse(usuario);
       this.state = {tipo:user.perfilAcesso}
     }  
     
+    cadastrarProjeto(){
+      this.props.history.push("/cadastrarProjeto")
+    }
   render(){
     let cadastrarProjetos;
     let listarProjetos;
@@ -28,35 +32,23 @@ export default class Sidebar extends Component {
       display = 'block';
 
       listarProjetos= `
-        <a class="nav-link" href="/listarProjetos">
+        <a class="nav-link">
            <i class="fas fa-list"></i>
           <span>Listar Projetos</span>
         </a>`;
 
       cadastrarProjetos= `
-        <a class="nav-link" href="/cadastrarProjetos">
+        <a class="nav-link">
            <i class="fas fa-file-signature"></i>
           <span>Cadastrar Projetos</span>
         </a>`;
       cadastrarAnalistas= `
-        <a class="nav-link" href="#">
+        <a class="nav-link" >
            <i class="fas fa-user-plus"></i>
           <span>Cadastrar Analistas</span>
         </a>`;
-
-      cadastrarDemanda= `
-        <a class="nav-link" href="#">
-           <i class="fas fa-chart-line"></i>
-          <span>Cadastrar Demanda</span>
-        </a>`;
-      listarDemanda= `
-        <a class="nav-link" href="#">
-           <i class="fas fa-list-ol"></i>
-          <span>Listar Demandas</span>
-        </a>`;
-
         listarAnalistas= `
-        <a class="nav-link" href="/listarAnalistas">
+        <a class="nav-link">
            <i class="fas fa-users"></i>
           <span>Listar Analistas</span>
         </a>`;
@@ -65,7 +57,7 @@ export default class Sidebar extends Component {
     }
     if (this.state.tipo == "analista"){
        calendario= `
-        <a class="nav-link" href="#">
+        <a class="nav-link" >
            <i class="fas fa-fw fa-calendar-alt"></i>
           <span>Calendário</span>
         </a>`;
@@ -75,18 +67,16 @@ export default class Sidebar extends Component {
       <div className="sidebar navbar-nav">
         <div className="container">
           <li className="nav-item active">
-            <a className="nav-link" href={dashboard}>
+            <Link className="nav-link" to={dashboard}>
               <i className="fas fa-fw fa-tachometer-alt"></i>
               <span className="ml-1">Dashboard</span>
-            </a>
+            </Link>
           </li>
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: calendario}} style={{display: {display}}}/>
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: cadastrarProjetos}} style={{display: {display}}}/>
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: listarProjetos}} style={{display: {display}}}/>
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: cadastrarDemanda}} style={{display: {display}}}/>
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: listarDemanda}} style={{display: {display}}}/>         
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: cadastrarAnalistas}} style={{display: {display}}}/>
-          <li className="nav-item active" dangerouslySetInnerHTML={{__html: listarAnalistas}} style={{display: {display}}}/>
+          <Link to="/calendario" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: calendario}} style={{display: {display}}}/>
+          <Link to="/cadastrarProjeto"className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: cadastrarProjetos}} style={{display: {display}}}/>
+          <Link to="/listarProjetos" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: listarProjetos}} style={{display: {display}}}/>      
+          <Link to="/cadastrarAnalista" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: cadastrarAnalistas}} style={{display: {display}}}/>
+          <Link to="/listarAnalistas" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: listarAnalistas}} style={{display: {display}}}/>
           
         </div>
       </div>

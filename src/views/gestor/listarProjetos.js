@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
@@ -51,14 +51,13 @@ export default class ListarProjetos extends Component {
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/dashboardAdmin">Dashboard</a>
+                      <Link to="/dashboardAdmin">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Listar Projetos</li>
                   </ol>
-
                   <h3>Listar Projetos</h3>
                   <hr/>
-                  <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                  <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellSpacing="0" width="100%">
                     <thead>
                       <tr>
                         <th className="th-sm">Nº Projetos<i className="fa fa-sort float-right" aria-hidden="true"></i></th>

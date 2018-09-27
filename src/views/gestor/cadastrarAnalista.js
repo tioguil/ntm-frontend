@@ -6,7 +6,7 @@ import 'rc-select/assets/index.css';
 import Select, {Option, OptGroup} from 'rc-select';
 import { Input } from 'reactstrap';
 import axios from 'axios'
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 
 
 const URL = `http://localhost:8080/`
@@ -87,14 +87,13 @@ export default class CadastrarAnalista extends Component {
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/dashboardAdmin">Dashboard</a>
+                      <Link to="/dashboardAdmin">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Cadastrar Analistas</li>
                   </ol>
-
                   <h3>Cadastrar Analistas</h3>
                   <hr/>
-                  <div className="container CadastrarAnalista">
+                  <div className="container cadastrarAnalista table-wrapper-scroll-y">
                     <form>
                       <div className="form-row">
 
@@ -126,7 +125,7 @@ export default class CadastrarAnalista extends Component {
                                 onSelect={this.onSelect}
                                 notFoundContent="Não encontrado"
                                 allowClear
-                                placeholder="Pesquise por nome, cpf ou cnpj"
+                                placeholder="Ex.: Analista de Software"
                                 value={this.state.value}
                                 combobox
                                 backfill
@@ -234,9 +233,13 @@ export default class CadastrarAnalista extends Component {
                     </form>
                   </div>
                 </div>
-                <FooterTemplate/>
+
+      <FooterTemplate/>
+ 
             </div>
+            
       </div>
+
     );
   }
 }

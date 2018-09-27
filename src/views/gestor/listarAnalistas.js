@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link } from 'react-router-dom';
 import { Input } from 'reactstrap';
 import axios from 'axios'
 import FooterTemplate from '../../components/footer'
@@ -53,7 +53,7 @@ export default class ListarAnalistas extends Component {
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/dashboardAdmin">Dashboard</a>
+                      <Link to="/dashboardAdmin">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Listar Analistas</li>
                   </ol>

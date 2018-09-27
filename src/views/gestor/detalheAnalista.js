@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
@@ -51,10 +51,10 @@ export default class DetalheAnalista extends Component {
 
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/dashboardAdmin">Dashboard</a>
+                      <Link to="/dashboardAdmin">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item">
-                      <a href="/listarAnalistas">Listar Analistas</a>
+                      <Link to="/listarAnalistas">Listar Analistas</Link>
                     </li>
                     <li className="breadcrumb-item active">Analista</li>
                   </ol>
@@ -165,8 +165,9 @@ export default class DetalheAnalista extends Component {
                       </div>
                     </div>
                   </div>
-                  <FooterTemplate/>
+                  
               </div>
+              <FooterTemplate/>
             </div>
       </div>
     );

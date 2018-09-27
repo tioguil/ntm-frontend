@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link } from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
@@ -8,7 +8,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter } from 'reactstrap';
+  ModalFooter,
+  Input } from 'reactstrap';
 
 
 export default class Atividades extends Component {
@@ -27,7 +28,10 @@ export default class Atividades extends Component {
     }
     
   }
-
+  componentDidMount(){
+    const id = sessionStorage.getItem('idAtividade', id);
+    console.log(id)
+  }
   closeModal(tabId){
     this.setState({
       [tabId]: false
@@ -68,13 +72,13 @@ export default class Atividades extends Component {
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/dashboardAdmin">Dashboard</a>
+                      <Link to="/dashboardAdmin">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">
-                      <a href="/listarProjetos">Listar Projetos</a>
+                      <Link to="/listarProjetos">Listar Projetos</Link>
                     </li>
                     <li className="breadcrumb-item active">
-                      <a href="/detalheProjeto">Atividades</a>
+                      <Link to="/detalheProjeto">Atividades</Link>
                     </li>
                     <li className="breadcrumb-item active">Detalhar atividade</li>
                   </ol>
@@ -164,19 +168,26 @@ export default class Atividades extends Component {
                       </div>
 
                       <Modal isOpen={this.state.modal1} toggle={this.closeModal.bind(this, 'modal1')} className={this.props.className}>
-                        <ModalHeader toggle={this.closeModal.bind(this, 'modal1')}>Adicionar novos Analistas</ModalHeader>
-                        <ModalBody>
-                          <input type="text" classname="form-control" placeholder="Buscar Analistas"/>
+                        <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'modal1')}>Adicionar novos Analistas</ModalHeader>
+                        <ModalBody className="card-header" >
+                          <form >
+                            <div className="form-row">
+                              <div className="col-md-12">
+                                <label htmlFor="inputNomeAtividade">Buscar Analista:</label>
+                                <Input type="text" className="form-control" id="inputNomeAtividade" placeholder="Ex:Buscar por nome, localização, habilidades ou cargo.."/>
+                              </div>
+                              </div>
+                          </form>
                         </ModalBody>
-                        <ModalFooter>
+                        <ModalFooter className="card-header" >
                           <Button color="success">Adicionar</Button>
                           <Button color="primary" onClick={this.closeModal.bind(this, 'modal1')}>Fechar</Button>
-
                         </ModalFooter>
                       </Modal>
                     </div>  
-                    <FooterTemplate/>
+                    
                   </div>
+                  <FooterTemplate/>
               </div>
             
         </div>

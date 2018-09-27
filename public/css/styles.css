@@ -563,3 +563,28 @@ input.borda_input{
 .margin-bottom-card-atividades{
   margin-bottom: 3%;
 }
+
+.line-color{
+
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+    color:black; 
+}
+
+.cadastrarAnalista{
+  padding-bottom: 10%;
+}
+
+.detalhe-projeto{
+  height: 400px;
+  padding-bottom: 5%;
+}
+
+a.nounderline:link 
+{ 
+text-decoration:none; 
+} 

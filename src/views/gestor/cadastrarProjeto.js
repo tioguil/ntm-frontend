@@ -5,7 +5,7 @@ import Select, {Option, OptGroup} from 'rc-select';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link } from 'react-router-dom';
 import axios from 'axios'
 
 const URL = `http://localhost:8080/`
@@ -86,14 +86,13 @@ export default class CadastrarProjeto extends Component {
                 <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/dashboardAdmin">Dashboard</a>
+                      <Link to="/dashboardAdmin">Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Cadastrar Projeto</li>
                   </ol>
-
                   <h3>Cadastrar Projeto</h3>
                   <hr/>
-                  <div className="container CadastrarAnalista">
+                  <div className="container table-wrapper-scroll-y">
                     <form>
                       <div className="form-row">
 
