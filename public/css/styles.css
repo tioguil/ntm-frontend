@@ -469,8 +469,8 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .no-margin {
-  margin: 0;
-  padding: 0;
+  margin-right: 0.2% !important;
+  padding: 0 !important;
 }
 
 .members-margin {

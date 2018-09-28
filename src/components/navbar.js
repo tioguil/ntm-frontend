@@ -53,14 +53,6 @@ export default class Navbar extends Component {
         </button>
         <span>{tipoUsuario}</span>
         <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-          <div className="input-group">
-            <input type="text" className="form-control" placeholder="Pesquisar..." aria-label="Pesquisar" aria-describedby="basic-addon2"/>
-            <div className="input-group-append">
-              <button className="btn btn-primary" type="button">
-                <i className="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
         </form>
         <ul className="navbar-nav ml-auto ml-md-0">
           <li className="nav-item dropdown no-arrow mx-1">

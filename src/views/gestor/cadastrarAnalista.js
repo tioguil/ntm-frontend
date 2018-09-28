@@ -14,8 +14,9 @@ const URL = `http://localhost:8080/`
 
 export default class CadastrarAnalista extends Component {
   
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.token = user.token.numero
