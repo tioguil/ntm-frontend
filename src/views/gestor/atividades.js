@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import {Redirect,Link } from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
@@ -12,7 +11,6 @@ import {
   ModalFooter,
   Input } from 'reactstrap';
 
-const URL = `http://localhost:8080/`
 
 export default class Atividades extends Component {
   constructor(){
@@ -20,8 +18,7 @@ export default class Atividades extends Component {
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.usuario = user
-    this.token = user.token.numero
-    this.state = {modal: false,atividade:{},alocados:[]};
+    this.state = {modal: false};
     this.toggle = this.toggle.bind(this);
     if(usuario == null){
       this.usuario = null
@@ -33,11 +30,7 @@ export default class Atividades extends Component {
   }
   componentDidMount(){
     const id = sessionStorage.getItem('idAtividade', id);
-    var config = {headers:{Authorization:this.token}};
-      axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
-      // .then(resp => console.log(resp.data.response))
-      .then(resp=> this.setState(...this.state,{atividade:resp.data.response,alocados:resp.data.response.historicoAlocacao}))
-    
+    console.log(id)
   }
   closeModal(tabId){
     this.setState({
@@ -62,20 +55,6 @@ export default class Atividades extends Component {
     this.props.history.push("/detalheAnalista");
   }
 
-   mapsSelector() {
-   const endereco=  this.state.atividade.endereco
-   const numero = this.state.atividade.enderecoNumero
-
-    if /* if we're on iOS, open in Apple Maps */
-      ((navigator.platform.indexOf("iPhone") !== -1) ||
-      (navigator.platform.indexOf("iPod") !== -1) ||
-      (navigator.platform.indexOf("iPad") !== -1)){
-      window.open("maps://maps.google.com/maps?daddr=" +endereco + numero);
-    } else {/* else use Google */
-      window.open("https://maps.google.com/maps?daddr="+ endereco + numero);
-    }
-  }
-
   render(){
     if(this.usuario == null || this.usuario === "analista"){
       return (
@@ -84,13 +63,7 @@ export default class Atividades extends Component {
       }
     return (
       <div>
-      <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col content-wrapper">
-              <br/>
+            <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                       <Link to="/dashboardAdmin">Dashboard</Link>
@@ -117,57 +90,76 @@ export default class Atividades extends Component {
                       <div className="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="home-tab">
 
                         <div className="atividade-projeto">
-                          <h3 className="inline-projeto">{this.state.atividade.nome}</h3> <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} </i>
+                          <h3 className="inline-projeto">Atividade A</h3> <i className="inline-projeto color-p-projeto"> - criado em 30/02/2018 </i>
                           <div>
-                            <i className="inline-projeto color-p-projeto">{this.state.atividade.status} </i>
-                            complexidade:{this.state.atividade.complexidade}
                             <span className="fa fa-star checked"></span>
                             <span className="fa fa-star checked"></span>
                             <span className="fa fa-star"></span>
                           </div>
                           <p className="descript">
-                            {this.state.atividade.descricao}
+                            Et et consectetur ipsum labore excepteur est proident excepteur ad velit
+                            occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim
+                            pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua
+                            ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat.
+                            Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit.
+                            Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore.
+                            Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
+                            Et et consectetur ipsum labore excepteur est proident excepteur ad velit
+                            occaecat qui minim occaecat veniam. Fugiat veniam incididunt anim aliqua enim
+                            pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua
+                            ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat.
+                            Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit.
+                            Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore.
+                            Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.
                           </p>
                           <div className="location-margin">
-
-                            <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, {this.state.atividade.enderecoNumero}, {this.state.atividade.cidade}- 
-                            {this.state.atividade.uf} - {this.state.atividade.cep} </a></li>
+                            <strong> São Judas Tadeu - Butantã <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i></li> </strong>
                           </div>
+
                         </div>
                       </div>
-
-
-
                       <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="profile-tab">
-                        <div className="card-group row members-margin">  
-                        {
-                          this.state.alocados.map(function(analista){
-                          return( <div className="card col-md-3 no-margin" onClick={this.btn_detalheAnalista.bind(this)}>
+                        <div className="card-group row members-margin">
+                          
+                          <div className="card col-md-3 no-margin" onClick={this.btn_detalheAnalista.bind(this)}>
                             <div className="card-body">
-                              <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
-                                <p className="card-text">
-                                  <li> {analista.usuario.celular} </li>
-                                  <li> {analista.usuario.telefone} </li>
-                                </p>
+                              <h5 className="card-title">Analista A</h5>
+                              <p className="card-text">analistaa@empresa.com.br.</p>
                             </div>
                             <div className="card-footer">
-                              <div className="text-muted">{analista.usuario.cidade}-{analista.usuario.uf}</div>
+                              <small className="text-muted">São Paulo</small>
                             </div>
                           </div>
-                          );
-                        }.bind(this))
-                      } 
-                        <div className="card col-md-3 no-margin color-plus" onClick={this.showModal.bind(this, 'modal1')}>
-                          <div className="card-body">
-                            <p className="card-text text-center">
-                              <i className="fas fa-plus fa-5x color-fa-atividade"></i></p>
-                              <p className="text-center members-font" >Adicionar Analistas</p>
+                          <div className="card col-md-3 no-margin">
+                            <div className="card-body">
+                              <h5 className="card-title">Analista B</h5>
+                              <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                            <div className="card-footer">
+                              <small className="text-muted">São Paulo</small>
+                            </div>
+                          </div>
+                          
+
+                          <div className="card col-md-3 no-margin">
+                            <div className="card-body">
+                              <h5 className="card-title">Analista C</h5>
+                              <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            </div>
+                            <div className="card-footer">
+                              <small className="text-muted">São Paulo</small>
+                            </div>
+                          </div>
+                          <div className="card col-md-3 no-margin color-plus" onClick={this.showModal.bind(this, 'modal1')}>
+                            <div className="card-body">
+                              <p className="card-text text-center">
+                                <i className="fas fa-plus fa-5x color-fa-atividade"></i></p>
+                                <p className="text-center members-font" >Adicionar Analistas</p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
 
                       <Modal isOpen={this.state.modal1} toggle={this.closeModal.bind(this, 'modal1')} className={this.props.className}>
                         <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'modal1')}>Adicionar novos Analistas</ModalHeader>
@@ -186,12 +178,7 @@ export default class Atividades extends Component {
                           <Button color="primary" onClick={this.closeModal.bind(this, 'modal1')}>Fechar</Button>
                         </ModalFooter>
                       </Modal>
-                    </div>  
-                    
-                  </div>
-                  <FooterTemplate/>
-              </div>
-            
+                </div>  
         </div>
     );
   }

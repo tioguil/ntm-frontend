@@ -59,13 +59,7 @@ export default class DashboardAdmin extends Component {
         );
       }
       return (
-        <div>
-        <NavbarTemplate/>
-            <div className="row">
-              <div className="col-2.5">
-                <SidebarTemplate/>
-              </div>
-                <div className="col Container">
+          <div>
                 <br/>
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
@@ -142,9 +136,6 @@ export default class DashboardAdmin extends Component {
                       </div>
                     </div>
                     <hr/>
-              <FooterTemplate/>
-              </div>
-            </div>
         </div>
     );
   }

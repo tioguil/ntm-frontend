@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Routes from './routes';
 import registerServiceWorker from './registerServiceWorker';
 import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -11,6 +11,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // ReactDOM.render(<NavbarTemplate/>, document.getElementById('navbar'));
 // ReactDOM.render(<SidebarTemplate/>, document.getElementById('sidebar'));
 // ReactDOM.render(<FooterTemplate/>, document.getElementById('footer'));
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<Routes/>, document.getElementById('root'));
 
 // registerServiceWorker();

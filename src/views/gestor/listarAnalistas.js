@@ -42,14 +42,8 @@ export default class ListarAnalistas extends Component {
          <Redirect to ="/"/>
         );
       }
-    return (
-      <div>
-      <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
+    return ( 
+          <div>
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -74,13 +68,12 @@ export default class ListarAnalistas extends Component {
                     <tbody>
                         {
                           this.state.analistas.map(function(analista){
-                            console.log(analista)
                             return (
                                 <tr key={analista.id} onClick={() => this.analista_detalhes(analista.id)} >
                                   <td> {analista.email} </td>
                                   <td>{analista.nome}</td>
                                   <td> {analista.cargo.cargo}</td>
-                                  <td>{analista.cidade}</td>
+                                  <td></td>
                                 </tr>
                               );
 
@@ -88,9 +81,6 @@ export default class ListarAnalistas extends Component {
                         } 
                     </tbody>
                   </table>
-              </div>
-              <FooterTemplate/>
-            </div>
       </div>
     );
   }

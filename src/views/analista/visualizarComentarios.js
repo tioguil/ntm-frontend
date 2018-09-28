@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
@@ -25,19 +25,13 @@ export default class VisualizarComentarios extends Component {
       }
     return (
       <div>
-        <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
-              <br/>
+            <br/>
                 <ol className="breadcrumb">
                   <li className="breadcrumb-item">
-                    <a href="/dashboard">Dashboard</a>
+                    <Link to="/Dashboard">Dashboard</Link>
                   </li>
                   <li className="breadcrumb-item">
-                    <a href="/detalheAtividade">Atividade</a>
+                    <Link to="/detalheAtividade">Atividade</Link>
                   </li>
                   <li className="breadcrumb-item active">Comentários</li>
                 </ol>
@@ -71,10 +65,6 @@ export default class VisualizarComentarios extends Component {
                       </div>
                     </div>
                 </div>
-                <FooterTemplate/>
-              </div>
-
-          </div>
       </div>
     );
   }

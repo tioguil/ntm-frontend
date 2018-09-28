@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link } from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
@@ -29,16 +29,10 @@ export default class Calendario extends Component {
       }
     return (
       <div>
-        <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                      <a href="/calendario">Calendário</a>
+                      <Link to="/calendario">Calendário</Link>
                     </li>
                   </ol>
 
@@ -105,9 +99,6 @@ export default class Calendario extends Component {
                       <td></td>
                     </tr>
                   </table>
-              <FooterTemplate/>
-              </div>
-            </div>
       </div>
     );
   }

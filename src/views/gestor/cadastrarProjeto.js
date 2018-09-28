@@ -76,13 +76,7 @@ export default class CadastrarProjeto extends Component {
       return <Option key={c.id,c.nome}> <i>{c.nome}</i></Option>;
     });
     return (
-      <div>
-      <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
+          <div>
                 <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -144,10 +138,8 @@ export default class CadastrarProjeto extends Component {
                       <button type="button" onClick={this.cadastrarProjeto}className="btn btn-success float-right mb-2">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
                     </form>
                   </div>
-              <FooterTemplate/>
-            </div>
           </div>
-      </div>
+   
     );
   }
 }

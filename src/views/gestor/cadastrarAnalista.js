@@ -14,9 +14,8 @@ const URL = `http://localhost:8080/`
 
 export default class CadastrarAnalista extends Component {
   
-  constructor(props){
-    super(props);
-    
+  constructor(){
+    super();
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.token = user.token.numero
@@ -77,14 +76,8 @@ export default class CadastrarAnalista extends Component {
     options = cargos.map((c) => {
       return <Option key={c.cargo}> <i>{c.cargo}</i></Option>;
     });
-    return (
-      <div>
-      <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
+    return (            
+        <div>
               <br/>
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -233,12 +226,6 @@ export default class CadastrarAnalista extends Component {
                       
                     </form>
                   </div>
-                </div>
-
-      <FooterTemplate/>
- 
-            </div>
-            
       </div>
 
     );

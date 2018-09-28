@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link } from 'react-router-dom';
 
 
 export default class Dashboard extends Component {
@@ -42,17 +42,11 @@ export default class Dashboard extends Component {
         );
       }
         return (
-          <div>
-            <NavbarTemplate/>
-              <div className="row">
-                <div className="col-2.5">
-                  <SidebarTemplate/>
-                </div>
-                  <div className="col Container">
-                  <br/>
+          <div>  
+                <br/>
                       <ol className="breadcrumb">
                         <li className="breadcrumb-item">
-                          <a href="/dashboard">Dashboard</a>
+                          <Link to="/Dashboard">Dashboard</Link>
                         </li>
                         <li className="breadcrumb-item active">Visão geral</li>
                       </ol>
@@ -92,10 +86,7 @@ export default class Dashboard extends Component {
                           </div>
                         </div>
                         <hr/>
-                      </div>
-                    </div>
-                    <FooterTemplate/>
-                </div>
+                  </div>
           </div>
           );
   }

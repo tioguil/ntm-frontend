@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect } from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
@@ -58,16 +58,10 @@ export default class DetalheAtividade extends Component {
       }
     return (
       <div>
-      <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
               <br/>
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
-                        <a href="/dashboard">Dashboard</a>
+                        <Link to="/Dashboard">Dashboard</Link>
                       </li>
                       <li className="breadcrumb-item active">Atividade</li>
                     </ol>
@@ -159,9 +153,6 @@ export default class DetalheAtividade extends Component {
                         <Button color="btn btn-success float-right mt-2" onClick={this.closeModal.bind(this, 'modal2')}>Adicionar</Button>
                       </ModalBody>
                     </Modal>
-                    <FooterTemplate/>
-                </div>
-            </div>
       </div>
     );
   }

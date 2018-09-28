@@ -39,16 +39,10 @@ export default class DetalheAnalista extends Component {
         );
       }
     return (
-      <div>
-      <NavbarTemplate/>
-          <div className="row">
-            <div className="col-2.5">
-              <SidebarTemplate/>
-            </div>
-              <div className="col Container">
+
+           
+        <div>
               <br/>
-
-
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                       <Link to="/dashboardAdmin">Dashboard</Link>
@@ -164,12 +158,8 @@ export default class DetalheAnalista extends Component {
                         </div>
                       </div>
                     </div>
-                  </div>
-                  
-              </div>
-              <FooterTemplate/>
-            </div>
-      </div>
+                  </div>        
+          </div>
     );
   }
 }

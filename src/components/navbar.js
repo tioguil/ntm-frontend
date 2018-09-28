@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
+
+
 export default class Navbar extends Component {
 
-  
   constructor(props){
     super(props);
     var usuario = localStorage.getItem('user');
