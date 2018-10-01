@@ -19,7 +19,9 @@ export default class DetalheProjeto extends Component {
       var usuario = localStorage.getItem('user');
       const user = JSON.parse(usuario);
       this.usuario = user
-      this.state = {modal: false,projeto:{},atividades:[],atividade:{}};
+      this.token = user.token.numero
+      this.projeto_id=0
+      this.state = {modal: false,projeto:{},atividades:[],atividade:{},nome:"",descricao:"",complemento:"", complexidade:1, data_entrega:"", cep:"", endereco:"", numero_endereco:"", cidade:"", uf:"", status:"iniciada"};
       this.toggle = this.toggle.bind(this);
       this.activity = {}
       if(usuario == null){
@@ -31,8 +33,8 @@ export default class DetalheProjeto extends Component {
 
     componentDidMount(){
       const id = sessionStorage.getItem('idProjeto', id);
-      var config = {headers:{Authorization:this.token}};
-      axios.get(`${URL}projeto/gestor/buscaid/${id}`,config)
+      this.projeto_id = id
+      axios.get(`${URL}projeto/gestor/buscaid/${id}`)
       .then(resp=> this.setState({projeto:resp.data.response,atividades:resp.data.response.atividades}))
       
     }
@@ -63,10 +65,26 @@ export default class DetalheProjeto extends Component {
   	}
 
   	atividade(id){
-    
       sessionStorage.setItem('idAtividade', id);
   		this.props.history.push("/atividades");
   	}
+
+    dadosAtividade(nomeInput,evento){
+    var campoSendoAlterado = {}
+    campoSendoAlterado[nomeInput] = evento.target.value
+    this.setState(campoSendoAlterado)
+    }
+
+    cadastrarAtividade(){
+    const json = {nome:this.state.nome,dataEntrega:this.state.data_entrega,status:this.state.status,
+    complexidade:this.state.complexidade,descricao:this.state.descricao,endereco:this.state.endereco,
+    enderecoNumero:this.state.numero_endereco,complemento:this.state.complemento,cidade:this.state.cidade,
+    cep:this.state.cep,uf:this.state.uf,projeto:{id:this.projeto_id}}
+    console.log(json)
+    var config = {headers:{Authorization:this.token}};
+    axios.post(`${URL}atividade/gestor/cadastrar`,json,config).then(this.closeModal.bind(this, 'adicionar_atividade'))
+    }
+
 
   render(){
     if(this.usuario == null || this.usuario === "analista"){
@@ -118,16 +136,16 @@ export default class DetalheProjeto extends Component {
                 
                       <Modal isOpen={this.state.adicionar_atividade} toggle={this.closeModal.bind(this, 'adicionar_atividade')}className="modal-dialog modal-lg">
                         <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'adicionar_atividade')}>Adicionar nova atividade</ModalHeader>
-                        <ModalBody className="card-header" >
+                        <ModalBody className="card-header">
                           <form >
                             <div className="form-row">
                               <div className="form-group col-md-6">
                                 <label htmlFor="inputNomeAtividade">Nome da atividade:</label>
-                                <Input type="text" className="form-control" id="inputNomeAtividade" placeholder="Nome da atividade"/>
+                                <Input type="text" className="form-control" id="inputNomeAtividade" value={this.state.nome} onChange={this.dadosAtividade.bind(this,'nome')} placeholder="Nome da atividade"/>
                               </div>
                               <div className="form-group col-md-6">
                                 <label htmlFor="inputDate">Data de entrega:</label>
-                                <Input type="date" className="form-control" id="inputDate"/>
+                                <Input type="date" value={this.state.data_entrega} onChange={this.dadosAtividade.bind(this,'data_entrega')} className="form-control" id="inputDate"/>
                               </div>
                               <div className="form-group col-md-6">
                               <label>Dificuldade:</label>
@@ -137,31 +155,31 @@ export default class DetalheProjeto extends Component {
                               </div>
                               <div className="form-group col-md-12">
                                 <label htmlFor="inputDescricaoAtividade">Descrição:</label>
-                                <Input type="textarea" className="form-control" name="text" id="inputDescricaoAtividade" placeholder="Descrição"/>
+                                <Input type="textarea" value={this.state.descricao} onChange={this.dadosAtividade.bind(this,'descricao')} className="form-control" name="text" id="inputDescricaoAtividade" placeholder="Descrição"/>
                               </div>
                               <div className="form-group col-md-8">
                                 <label htmlFor="inputEndereco">Endereço:</label>
-                                <Input type="text" className="form-control" id="inputEndereco" placeholder="Ex.:Rua/Av.."/>
+                                <Input type="text" value={this.state.endereco} onChange={this.dadosAtividade.bind(this,'endereco')} className="form-control" id="inputEndereco" placeholder="Ex.:Rua/Av.."/>
                               </div>
                                <div className="form-group col-md-4">
                                 <label htmlFor="inputEnderecoNumero">Nº:</label>
-                                <Input type="text" className="form-control" id="inputEnderecoNumero" placeholder="EX.:123"/>
+                                <Input type="text"  value={this.state.numero_endereco} onChange={this.dadosAtividade.bind(this,'numero_endereco')} className="form-control" id="inputEnderecoNumero" placeholder="EX.:123"/>
                               </div>
                               <div className="form-group col-md-3">
                                 <label htmlFor="inputComplemento">Complemento:</label>
-                                <Input type="text" className="form-control" id="inputComplemento" placeholder="Ex.:Casa/Apto"/>
+                                <Input type="text" value={this.state.complemento} onChange={this.dadosAtividade.bind(this,'complemento')} className="form-control" id="inputComplemento" placeholder="Ex.:Casa/Apto"/>
                               </div>
                               <div className="form-group col-md-3">
                                 <label htmlFor="inputCidade">Cidade:</label>
-                                <Input type="text" className="form-control" id="inputCidade" placeholder="Ex.:São Paulo"/>
+                                <Input type="text" value={this.state.cidade}  onChange={this.dadosAtividade.bind(this,'cidade')} className="form-control" id="inputCidade" placeholder="Ex.:São Paulo"/>
                               </div>
                               <div className="form-group col-md-2">
                                 <label htmlFor="inputCEP">CEP:</label>
-                                <Input type="text" className="form-control" id="inputCEP" placeholder="00000-000"/>
+                                <Input type="text" value={this.state.cep} onChange={this.dadosAtividade.bind(this,'cep')} className="form-control" id="inputCEP" placeholder="00000-000"/>
                               </div>
                                 <div className="form-group col-md-4">
                                   <label htmlFor="inputEstado"className="required">UF:</label>
-                                    <select id="inputEstado"  className="form-control">
+                                    <select id="inputEstado"  value={this.state.uf} onChange={this.dadosAtividade.bind(this,'uf')} className="form-control">
                                       <option selected>Selecione o estado</option>
                                       <option>AC</option>
                                       <option>AL</option>
@@ -196,14 +214,14 @@ export default class DetalheProjeto extends Component {
                           </form>
                         </ModalBody>
                         <ModalFooter className="card-header" >
-                          <button className="btn btn-success float-right mt-2">Cadastrar</button>
+                          <button onClick={this.cadastrarAtividade.bind(this)} className="btn btn-success float-right mt-2">Cadastrar</button>
                         </ModalFooter>
                       </Modal>
 
                       <Modal isOpen={this.state.editar_atividade} toggle={this.closeModal.bind(this, 'editar_atividade')} className="modal-dialog modal-lg">
                         <ModalHeader className="card-header"  toggle={this.closeModal.bind(this, 'editar_atividade')}>Editar Atividade</ModalHeader>
                           <ModalBody className="card-header" >
-                          <form >
+                          <form>
                             <div className="form-row">
                               <div className="form-group col-md-6">
                                 <label htmlFor="inputNomeAtividade">Nome da atividade:</label>
