@@ -3,6 +3,10 @@ import {Redirect,Link } from 'react-router-dom';
 import FooterTemplate from '../../components/footer'
 import NavbarTemplate from '../../components/navbar'
 import SidebarTemplate from '../../components/sidebar'
+import { ToastContainer, toast } from 'react-toastify';
+import ReactStars from 'react-stars'
+import 'react-toastify/dist/ReactToastify.css';
+import ListaAtividades from './listaAtividades';
 import axios from 'axios'
 import {
   Modal,
@@ -21,8 +25,10 @@ export default class DetalheProjeto extends Component {
       this.usuario = user
       this.token = user.token.numero
       this.projeto_id=0
-      this.state = {modal: false,projeto:{},atividades:[],atividade:{},nome:"",descricao:"",complemento:"", complexidade:1, data_entrega:"", cep:"", endereco:"", numero_endereco:"", cidade:"", uf:"", status:"iniciada"};
+      this.state = {modal: false,projeto:{},atividades:[],nome:"",descricao:"",complemento:"", complexidade:0, data_entrega:"", cep:"", endereco:"", numero_endereco:"", cidade:"", uf:"", status:"iniciada"};
       this.toggle = this.toggle.bind(this);
+      this.showModal=this.showModal.bind(this)
+      this.atividade = this.atividade.bind(this)
       this.activity = {}
       if(usuario == null){
         this.usuario = null
@@ -32,13 +38,19 @@ export default class DetalheProjeto extends Component {
   	}
 
     componentDidMount(){
+      this.refresh()
+    }
+    
+    refresh(){
       const id = sessionStorage.getItem('idProjeto', id);
       this.projeto_id = id
       axios.get(`${URL}projeto/gestor/buscaid/${id}`)
-      .then(resp=> this.setState({projeto:resp.data.response,atividades:resp.data.response.atividades}))
-      
-    }
-  	closeModal(tabId){
+          .then(resp=> this.setState({...this.state,projeto:resp.data.response,
+            atividades:resp.data.response.atividades}))
+  	 
+     }
+
+    closeModal(tabId){
     	this.setState({
      	 [tabId]: false
     	});
@@ -70,22 +82,36 @@ export default class DetalheProjeto extends Component {
   	}
 
     dadosAtividade(nomeInput,evento){
-    var campoSendoAlterado = {}
-    campoSendoAlterado[nomeInput] = evento.target.value
-    this.setState(campoSendoAlterado)
+      var campoSendoAlterado = {}
+      campoSendoAlterado[nomeInput] = evento.target.value
+      this.setState(campoSendoAlterado)
     }
 
     cadastrarAtividade(){
-    const json = {nome:this.state.nome,dataEntrega:this.state.data_entrega,status:this.state.status,
-    complexidade:this.state.complexidade,descricao:this.state.descricao,endereco:this.state.endereco,
-    enderecoNumero:this.state.numero_endereco,complemento:this.state.complemento,cidade:this.state.cidade,
-    cep:this.state.cep,uf:this.state.uf,projeto:{id:this.projeto_id}}
-    console.log(json)
-    var config = {headers:{Authorization:this.token}};
-    axios.post(`${URL}atividade/gestor/cadastrar`,json,config).then(this.closeModal.bind(this, 'adicionar_atividade'))
+      const json = {nome:this.state.nome,dataEntrega:this.state.data_entrega,status:this.state.status,
+      complexidade:this.state.complexidade,descricao:this.state.descricao,endereco:this.state.endereco,
+      enderecoNumero:this.state.numero_endereco,complemento:this.state.complemento,cidade:this.state.cidade,
+      cep:this.state.cep,uf:this.state.uf,projeto:{id:this.projeto_id}}
+      var config = {headers:{Authorization:this.token}};
+      axios.post(`${URL}atividade/gestor/cadastrar`,json,config)
+        .then(resp => this.refresh())
+        .then(toast.success('Cadastrado com sucesso!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            }))
+        .then(this.closeModal.bind(this, 'adicionar_atividade'))
+    
     }
 
+  stars(evento){
+    this.setState({complexidade:evento})
 
+  }
+  
   render(){
     if(this.usuario == null || this.usuario === "analista"){
       return (
@@ -93,7 +119,6 @@ export default class DetalheProjeto extends Component {
         );
       }
     return (
-      
           <div>
               <br/>
                     <ol className="breadcrumb">
@@ -111,29 +136,10 @@ export default class DetalheProjeto extends Component {
                       <button className="btn btn-success float-right" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
                       <div className="clearfix"/>
                       <hr/>
-                      <div className="detalhe-projeto table-wrapper-scroll-y">
-                      {
-                        this.state.atividades.map(function(atividade){
-                              return(
-                              <div key={atividade.id}className="card margin-bottom-card-atividades">
-                              <div className="card-header">
-                                <strong> {atividade.nome} - </strong> <em> {atividade.status}</em><a className="fas fa-lg fa-edit float-right editar-atividade" onClick={this.showModal.bind(this,atividade)}></a>
-                              </div>
-                              <div className="card-body">
-                                <p className="card-text">
-                                {atividade.descricao}
-                                </p>
-                                <button className="btn btn-primary float-right" onClick={this.atividade.bind(this,atividade.id)}>Visualizar</button>
-                              </div>
-                              <div className="card-footer text-muted">
-                                {atividade.dataCriacao} - {atividade.dataEntrega}
-                              </div>
-                            </div>
-                              );
-                          }.bind(this))
-                      }
-                      </div>
-                
+                       <ListaAtividades 
+                          atividades={this.state.atividades}
+                          showModal={this.showModal}
+                          atividade={this.atividade}/> 
                       <Modal isOpen={this.state.adicionar_atividade} toggle={this.closeModal.bind(this, 'adicionar_atividade')}className="modal-dialog modal-lg">
                         <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'adicionar_atividade')}>Adicionar nova atividade</ModalHeader>
                         <ModalBody className="card-header">
@@ -147,11 +153,15 @@ export default class DetalheProjeto extends Component {
                                 <label htmlFor="inputDate">Data de entrega:</label>
                                 <Input type="date" value={this.state.data_entrega} onChange={this.dadosAtividade.bind(this,'data_entrega')} className="form-control" id="inputDate"/>
                               </div>
-                              <div className="form-group col-md-6">
-                              <label>Dificuldade:</label>
-                                <span className="fa fa-star checked"></span>
-                                <span className="fa fa-star checked"></span>
-                                <span className="fa fa-star"></span>
+                              <div className="form-group col-md-12 alinhamento-atividade">
+
+                              <label>Dificuldade:&nbsp;</label>
+                                <ReactStars
+                                    count={5}
+                                    value={this.state.complexidade}
+                                    onChange={this.stars.bind(this)}
+                                    size={16}
+                                    color2={'#ffd700'} />
                               </div>
                               <div className="form-group col-md-12">
                                 <label htmlFor="inputDescricaoAtividade">Descrição:</label>
@@ -232,10 +242,13 @@ export default class DetalheProjeto extends Component {
                                 <Input type="date" className="form-control"  value={this.activity.dataEntrega} id="inputDate"/>
                               </div>
                               <div className="form-group col-md-6">
-                              <label>Dificuldade:</label>
-                                <span className="fa fa-star checked"></span>
-                                <span className="fa fa-star checked"></span>
-                                <span className="fa fa-star"></span>
+                                 <label>Dificuldade:&nbsp;</label>
+                                <ReactStars
+                                    count={5}
+                                    value={this.activity.complexidade}
+                                    onChange=""
+                                    size={16}
+                                    color2={'#ffd700'} />
                               </div>
                               <div className="form-group col-md-12">
                                 <label htmlFor="inputDescricaoAtividade">Descrição:</label>
@@ -302,6 +315,19 @@ export default class DetalheProjeto extends Component {
                         </ModalFooter>
                       </Modal>
                     </div>
+                    <ToastContainer
+                      position="top-right"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnVisibilityChange
+                      draggable
+                      pauseOnHover
+                      />
+                      {/* Same as */}
+                      <ToastContainer />
                     
         </div>
     );

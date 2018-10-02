@@ -588,3 +588,8 @@ a.nounderline:link
 { 
 text-decoration:none; 
 } 
+
+
+.alinhamento-atividade{
+  display: inherit;
+}
