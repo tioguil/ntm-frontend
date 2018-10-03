@@ -7,11 +7,11 @@ const URL = `http://localhost:8080/`
 export default class Login extends Component {
   constructor(){
     super();
-    this.state = {email:"",senha:"",usuario:[]}
+    this.state = {email:"",senha:"",usuario:[], autenticado: false}
     this.setEmail = this.setEmail.bind(this)
     this.setSenha = this.setSenha.bind(this)
-
   }
+
 
   esqueceuSenha(){
     this.props.history.push("/esqueceuSenha");
@@ -29,7 +29,8 @@ export default class Login extends Component {
     event.preventDefault();
     axios.post(`${URL}login`,{email:this.state.email , senha:this.state.senha})
           .then(resp => this.setState({...this.state,usuario:resp.data}))
-          .then(resp=>this.verify_user())  
+          .then(resp=>this.verify_user())
+          .catch(err=>(console.log("Erro ao logar"), this.setState({autenticado: true})))
   }
 
   verify_user(){
@@ -60,6 +61,13 @@ export default class Login extends Component {
           <div className="card card-login mx-auto mt-5">
             <div className="card-header"><img className="size-logo" src="img/logo.png" alt="Logo"/></div>
             <div className="card-body">
+              { this.state.autenticado?
+                  <div className="alert alert-danger" role="alert">
+                    Usuário e/ou senhas inválidos!
+                  </div>
+                  :
+                  null
+              }
               <form>
                 <div className="form-group">
                   <div className="form-label-group">
@@ -73,7 +81,7 @@ export default class Login extends Component {
                     <label for="inputPassword">Senha</label>
                   </div>
                 </div>
-                <a className="btn btn-primary btn-block" onClick={this.btn_login.bind(this)}>Acessar</a>
+                <input type="submit" className="btn btn-primary btn-block" onClick={this.btn_login.bind(this)} value="Acessar"/>
               </form>
               <div className="text-center mt-2">
                 <a className="d-block small" onClick={this.esqueceuSenha.bind(this)}>Esqueceu a sua senha?</a>
