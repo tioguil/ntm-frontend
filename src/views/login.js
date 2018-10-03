@@ -7,11 +7,17 @@ const URL = `http://localhost:8080/`
 export default class Login extends Component {
   constructor(){
     super();
-    this.state = {email:"",senha:"",usuario:[], autenticado: false}
-    this.setEmail = this.setEmail.bind(this)
-    this.setSenha = this.setSenha.bind(this)
-  }
 
+    this.state = {
+      email: "",
+      senha: "",
+      usuario: [],
+      acesso_invalido: false
+    }
+
+    this.setEmail = this.setEmail.bind(this);
+    this.setSenha = this.setSenha.bind(this);
+  }
 
   esqueceuSenha(){
     this.props.history.push("/esqueceuSenha");
@@ -30,7 +36,7 @@ export default class Login extends Component {
     axios.post(`${URL}login`,{email:this.state.email , senha:this.state.senha})
           .then(resp => this.setState({...this.state,usuario:resp.data}))
           .then(resp=>this.verify_user())
-          .catch(err=>(console.log("Erro ao logar"), this.setState({autenticado: true})))
+          .catch(err=>(this.setState({acesso_invalido: true})))
   }
 
   verify_user(){
@@ -40,7 +46,7 @@ export default class Login extends Component {
       if (perfilAcesso === "gestor"){
         window.tipo_usuario = 1;
         this.props.history.push("/DashboardAdmin");
-      } 
+      }
       if (perfilAcesso === "analista"){
         window.tipo_usuario = 0;
         this.props.history.push("/Dashboard");
@@ -52,6 +58,14 @@ export default class Login extends Component {
   }
 
   render(){
+     const errorMessage = (
+      this.state.acesso_invalido?
+        <div className="alert alert-danger" role="alert">
+          Usuário e/ou senhas inválidos!
+        </div>
+      : null
+    );
+
     return(
       <div>
           <Helmet>
@@ -61,13 +75,7 @@ export default class Login extends Component {
           <div className="card card-login mx-auto mt-5">
             <div className="card-header"><img className="size-logo" src="img/logo.png" alt="Logo"/></div>
             <div className="card-body">
-              { this.state.autenticado?
-                  <div className="alert alert-danger" role="alert">
-                    Usuário e/ou senhas inválidos!
-                  </div>
-                  :
-                  null
-              }
+              {errorMessage}
               <form>
                 <div className="form-group">
                   <div className="form-label-group">
@@ -90,7 +98,7 @@ export default class Login extends Component {
           </div>
         </div>
       </div>
-      
+
     );
   }
 }
