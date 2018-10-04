@@ -21,7 +21,6 @@ export default class ListarAnalistas extends Component {
   }
 
   analista_detalhes(id){
-    console.log(id)
     this.props.history.push("/detalheAnalista");
   }
 

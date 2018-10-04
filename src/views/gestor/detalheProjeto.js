@@ -22,7 +22,7 @@ export default class DetalheProjeto extends Component {
       this.usuario = user
       this.token = user.token.numero
       this.projeto_id=0
-      this.state = {modal: false,projeto:{},atividades:[],nome:"",descricao:"",complemento:"", complexidade:0, data_entrega:"", cep:"", endereco:"", numero_endereco:"", cidade:"", uf:"", status:"iniciada"};
+      this.state = {modal:false,projeto:{},atividades:[],nome:"",descricao:"",complemento:"", complexidade:0, data_entrega:"", cep:"", endereco:"", numero_endereco:"", cidade:"", uf:""};
       this.toggle = this.toggle.bind(this);
       this.showModal=this.showModal.bind(this)
       this.atividade = this.atividade.bind(this)
@@ -85,14 +85,14 @@ export default class DetalheProjeto extends Component {
     }
 
     cadastrarAtividade(){
-      const json = {nome:this.state.nome,dataEntrega:this.state.data_entrega,status:this.state.status,
+      const json = {nome:this.state.nome,dataEntrega:this.state.data_entrega,
       complexidade:this.state.complexidade,descricao:this.state.descricao,endereco:this.state.endereco,
       enderecoNumero:this.state.numero_endereco,complemento:this.state.complemento,cidade:this.state.cidade,
       cep:this.state.cep,uf:this.state.uf,projeto:{id:this.projeto_id}}
       var config = {headers:{Authorization:this.token}};
       axios.post(`${URL}atividade/gestor/cadastrar`,json,config)
         .then(resp => this.refresh())
-        .then(toast.success('Cadastrado com sucesso!', {
+        .then(resp=>toast.success('Cadastrado com sucesso!', {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -100,10 +100,17 @@ export default class DetalheProjeto extends Component {
             pauseOnHover: true,
             draggable: true
             }))
-        .then(this.closeModal.bind(this, 'adicionar_atividade'))
-    
+          .then(this.closeModal.bind(this, 'adicionar_atividade'))
+        .catch(resp=>
+          toast.error('Falha ao cadastrar Atividade!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            }))
     }
-
   stars(evento){
     this.setState({complexidade:evento})
 

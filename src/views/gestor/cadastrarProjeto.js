@@ -45,13 +45,13 @@ export default class CadastrarProjeto extends Component {
     campoSendoAlterado[nomeInput] = evento.target.value
     this.setState(campoSendoAlterado)
   }
-  onSelect = (v) => {
-    for (let i=0; i<this.state.clientes.length; i++){
-      if( v ==this.state.clientes[i].nome){
-          this.setState({cliente:{id:this.state.clientes[i].id}})
+    onSelect = (v) => {
+      for (let i=0; i<this.state.clientes.length; i++){
+        if( v ==this.state.clientes[i].nome){
+            this.setState({cliente:{id:this.state.clientes[i].id}})
+        }
       }
     }
-  }
 
    cadastrarProjeto(){
     const json = {cliente:{id:this.state.cliente.id},numeroProjeto:this.state.numeroProjeto,

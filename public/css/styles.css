@@ -593,3 +593,17 @@ text-decoration:none;
 .alinhamento-atividade{
   display: inherit;
 }
+
+.label-buscar-analistas{
+  width: 100%;
+  display: block;
+}
+
+.btn-adicionar-analista{
+  margin-left: 2%;
+}
+
+.c-analista{
+
+  margin: 1% !important;
+}
