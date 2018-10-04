@@ -244,6 +244,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   height: calc(100vh - 56px);
   overflow-y: auto;
 }
+
 .card-body-icon {
   position: absolute;
   z-index: 0;
@@ -293,19 +294,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 }
 
 .card-login {
-  max-width: 28rem;
-}
-
-.link-login{
-  padding-top: 20px;
-  cursor:pointer;
-  color: #007bff !important;
-}
-
-.link-login:hover{
-  text-decoration: underline !important;
-  color: #007bff !important;
-
+  max-width: 25rem;
 }
 
 .card-register {
@@ -314,15 +303,6 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 
 .form-label-group {
   position: relative;
-}
-.btn-red{
-    background-color: #eb2324 !important;
-    border-color: #9d1718 !important;
-}
-
-.btn-red:hover{
-    background-color: #ac1a1a !important;
-    border-color: #841414 !important;
 }
 
 .form-label-group > input,
@@ -407,30 +387,11 @@ body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 0px);
   }
 }
-.card-center{
-    padding-top: 8%;
-}
 
-
-.login_info{
-    color:#015b86;
-    margin-bottom: 2rem;
-    font-size: 16px;
-    font-weight: bold;
-}
-.contact-image {
-    text-align: center;
-}
-
-.contact-form{
-    border-radius: 20px !important;
-    
-}
-
-.contact-image img{
-    border-radius: 5rem;
-    width: 23%;
-    margin-top: 5%;
+.size-logo{
+  width: 30%;
+  margin: 10%;
+  margin-left: 33%;
 }
 
 .scrollbar {
