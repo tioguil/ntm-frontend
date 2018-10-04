@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
-import FooterTemplate from '../../components/footer'
-import NavbarTemplate from '../../components/navbar'
-import SidebarTemplate from '../../components/sidebar'
+
 
 export default class VisualizarComentarios extends Component {
   constructor(){

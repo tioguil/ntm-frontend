@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
-import FooterTemplate from '../../components/footer'
-import NavbarTemplate from '../../components/navbar'
-import SidebarTemplate from '../../components/sidebar'
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars'
 import 'react-toastify/dist/ReactToastify.css';
@@ -140,6 +137,7 @@ export default class DetalheProjeto extends Component {
                           atividades={this.state.atividades}
                           showModal={this.showModal}
                           atividade={this.atividade}/> 
+
                       <Modal isOpen={this.state.adicionar_atividade} toggle={this.closeModal.bind(this, 'adicionar_atividade')}className="modal-dialog modal-lg">
                         <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'adicionar_atividade')}>Adicionar nova atividade</ModalHeader>
                         <ModalBody className="card-header">

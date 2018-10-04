@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Input } from 'reactstrap';
+import { ToastContainer, toast } from 'react-toastify';
 import 'rc-select/assets/index.css';
 import Select, {Option, OptGroup} from 'rc-select';
-import FooterTemplate from '../../components/footer'
-import NavbarTemplate from '../../components/navbar'
-import SidebarTemplate from '../../components/sidebar'
 import {Redirect,Link } from 'react-router-dom';
 import axios from 'axios'
 
@@ -60,8 +58,18 @@ export default class CadastrarProjeto extends Component {
     nome:this.state.nome,descricao:this.state.descricao,estimativaEsforco:this.state.estimativaEsforco,
     inicio:this.state.inicio,fim:this.state.fim,status:"iniciado"}
     var config = {headers:{Authorization:this.token}};
-    axios.post(`${URL}projeto/gestor/cadastrar`,json,config).then(resp=>console.log(resp.data))
-    this.setState(...this.state, {numeroProjeto:"", nome:"",descricao:"",estimativaEsforco:"",inicio:"",fim:"",status:"iniciado", value:''})
+    axios.post(`${URL}projeto/gestor/cadastrar`,json,config)
+      .then(toast.success('Projeto cadastrado com sucesso!',{
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            }))
+      this.setState(...this.state, {numeroProjeto:"", nome:"",descricao:"",
+      estimativaEsforco:"",inicio:"",fim:"",status:"iniciado", value:''})
+        
   }
 
   render(){
@@ -138,6 +146,20 @@ export default class CadastrarProjeto extends Component {
                       <button type="button" onClick={this.cadastrarProjeto}className="btn btn-success float-right mb-2">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
                     </form>
                   </div>
+
+                  <ToastContainer
+                      position="top-right"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnVisibilityChange
+                      draggable
+                      pauseOnHover
+                      />
+                      {/* Same as */}
+                      <ToastContainer />
           </div>
    
     );

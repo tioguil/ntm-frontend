@@ -11,6 +11,10 @@ export default class Navbar extends Component {
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.state = {nome:user.nome,modal:false}
+    this.perfilAcesso = user.perfilAcesso
+
+
+
   }
   componentDidMount(){
     const script = document.createElement("script");
@@ -27,15 +31,11 @@ export default class Navbar extends Component {
 
   logout(props){
     this.toggle()
-    // this.setState({
-    //   modal: !this.state.modal
-    // });
     localStorage.clear();
   }
 
   render(){
-    let tipoUsuario;
-    tipoUsuario = window.tipo_usuario === 1 ? "Gestor" : "Analista";
+    
 
     return (
       <div className="navbar navbar-expand static-top navbar-dark">
@@ -53,7 +53,7 @@ export default class Navbar extends Component {
         <button className="btn btn-link btn-lg text-dark" id="sidebarToggle" href="#">
           <i className="fas fa-bars"></i>
         </button>
-        <span>{tipoUsuario}</span>
+        <span>{this.perfilAcesso}</span>
         <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         </form>
         <ul className="navbar-nav ml-auto ml-md-0">
