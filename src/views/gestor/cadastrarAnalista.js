@@ -219,12 +219,7 @@ export default class CadastrarAnalista extends Component {
                         </div>
                       </div>
 
-                      <div className="form-row">
-                        <div className="form-group col-md-9">
-                          <label htmlFor="inputObs">Observação:</label>
-                          <Input type="textarea" value={this.state.observacao} onChange={this.dadosUsuario.bind(this,'observacao')} rows="4" name="text" id="inputObs" />
-                        </div>
-                        
+                      <div className="form-row">                                          
                         <div className="col-md-2 botaoCadastratAnalista">
                           <button type="button" onClick={this.cadastrarAnalista}className="btn btn-success float-right mb-3">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
                         </div>
