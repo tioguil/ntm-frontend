@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import {Link} from 'react-router-dom';
-import {Redirect} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 import axios from 'axios'
 

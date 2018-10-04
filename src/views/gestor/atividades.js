@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
-import FooterTemplate from '../../components/footer'
-import NavbarTemplate from '../../components/navbar'
-import SidebarTemplate from '../../components/sidebar'
+import ReactStars from 'react-stars'
 import axios from 'axios'
 import {
   Button,
@@ -55,8 +53,7 @@ export default class Atividades extends Component {
     });
   }
 
-  btn_detalheAnalista(){
-
+  btn_detalheAnalista(id){
     this.props.history.push("/detalheAnalista");
   }
 
@@ -109,14 +106,16 @@ export default class Atividades extends Component {
                       <div className="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="home-tab">
 
                         <div className="atividade-projeto">
-                         <h3 className="inline-projeto">{this.state.atividade.nome}</h3> <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} </i>
-                          <div>
-                            <i className="inline-projeto color-p-projeto">{this.state.atividade.status} </i>
-                           complexidade:{this.state.atividade.complexidade}
-                            <span className="fa fa-star checked"></span>
-                            <span className="fa fa-star checked"></span>
-                            <span className="fa fa-star"></span>
-                          </div>
+                         <h3 className="inline-projeto">{this.state.atividade.nome}</h3> <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} </i>  <i className="color-p-projeto">({this.state.atividade.status})</i>
+                              <div>
+                                <ReactStars
+                                  count={5}
+                                  value={this.state.atividade.complexidade}
+                                  size={22}
+                                  edit={false}
+                                  color2={'#ffd700'} />
+                              </div>
+
                           <p className="descript">
                             {this.state.atividade.descricao}
                           </p>
@@ -132,7 +131,7 @@ export default class Atividades extends Component {
                         {
                         this.state.alocados.map(function(analista){
                          return( 
-                         <div className="card col-md-3 no-margin" onClick={this.btn_detalheAnalista.bind(this)}>
+                         <div  key={analista.id}className="card col-md-3 no-margin" onClick={this.btn_detalheAnalista.bind(this,analista.id)}>
                              <div className="card-body">
                                 <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
                                   <p className="card-text">

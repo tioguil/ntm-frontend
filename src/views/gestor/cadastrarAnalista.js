@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import FooterTemplate from '../../components/footer'
-import NavbarTemplate from '../../components/navbar'
-import SidebarTemplate from '../../components/sidebar'
+import { ToastContainer, toast } from 'react-toastify';
 import 'rc-select/assets/index.css';
 import Select, {Option, OptGroup} from 'rc-select';
 import { Input } from 'reactstrap';
@@ -40,7 +38,15 @@ export default class CadastrarAnalista extends Component {
   cadastrarAnalista(){
    var config = {headers:{Authorization:this.token}};
    axios.post(`${URL}usuario/gestor/cadastrar`,this.state,config).then(resp=>console.log(resp.data))
-   this.setState(...this.state, {nome:"", senha:"",sobreNome:"",cpfCnpj:"",rg:"",email:"",telefone:"",
+      .then(toast.success('Projeto cadastrado com sucesso!',{
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true
+              }))
+    this.setState(...this.state, {nome:"", senha:"",sobreNome:"",cpfCnpj:"",rg:"",email:"",telefone:"",
     value:"",endereco:"",enderecoNumero:"",complemento:"",cep:"",cidade:"",uf:"",observacao:"",perfilAcesso:""})
   }
 
@@ -48,7 +54,7 @@ export default class CadastrarAnalista extends Component {
     this.setState({value,});
     if (value!=" ") {
       var config = {headers:{Authorization:this.token}};
-      axios.get(`${URL}cargo/gestor/pesquisar/${this.state.value}`,config)//.then(resp=> console.log(resp.data))
+      axios.get(`${URL}cargo/gestor/pesquisar/${this.state.value}`,config)
       .then(resp=> this.setState(...this.state,{cargos:resp.data.response}))
     }
   }
@@ -226,6 +232,20 @@ export default class CadastrarAnalista extends Component {
                       
                     </form>
                   </div>
+
+                  <ToastContainer
+                      position="top-right"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnVisibilityChange
+                      draggable
+                      pauseOnHover
+                      />
+                      {/* Same as */}
+                  <ToastContainer />
       </div>
 
     );

@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
 import { Input } from 'reactstrap';
 import axios from 'axios'
-import FooterTemplate from '../../components/footer'
-import NavbarTemplate from '../../components/navbar'
-import SidebarTemplate from '../../components/sidebar'
-
 
 const URL = `http://localhost:8080/`
 

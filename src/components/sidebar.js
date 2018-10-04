@@ -19,10 +19,10 @@ export default class Sidebar extends Component {
     let listarProjetos;
     let cadastrarAnalistas;
     let listarAnalistas;
-    let listarDemanda;
+
     let display = 'none';
     let dashboard = "/Dashboard";
-    let cadastrarDemanda;
+
     let calendario;
 
     
