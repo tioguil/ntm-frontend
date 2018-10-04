@@ -17,6 +17,8 @@ import VisualizarComentarios from "./views/analista/visualizarComentarios";
 import Atividades from './views/gestor/atividades';
 import Calendario from './views/analista/calendario';
 	
+import EditarPerfil from './views/editarPerfil'
+
 const history = createHistory();
 
 export default class Routes extends Component{
@@ -39,6 +41,7 @@ export default class Routes extends Component{
 					<Switch>
 						<Route exact path="/" component={Login}/>
 						<Route path="/esqueceuSenha" component={EsqueceuSenha}/>
+						<Route path="/editarPerfil" component={EditarPerfil}/>
 							<App>
 								<Switch>
 									<Route exact path="/DashboardAdmin" component={DashboardAdmin}/>
