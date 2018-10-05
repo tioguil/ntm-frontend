@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Input } from 'reactstrap';
+import { DateInputComponent, 
+  DateFormats } from 'react-controlled-date-input';
 import { ToastContainer, toast } from 'react-toastify';
 import 'rc-select/assets/index.css';
 import Select, {Option, OptGroup} from 'rc-select';
@@ -14,22 +16,41 @@ export default class CadastrarProjeto extends Component {
     super()
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-    this.token = user.token.numero
-    this.state = {clientes:[],value:'', 
-    projeto:{numeroProjeto:"", nome:"",descricao:"",estimativaEsforco:"",inicio:"",fim:"",
-    cliente:{id:1},usuarioId:1}}
-    this.cadastrarProjeto =  this.cadastrarProjeto.bind(this)
-    if(usuario == null){
-      this.usuario = null
+    this.token = user.token.numero;
+    this.state = {
+      dd_inicio: "",
+      mm_inicio: "",
+      yyyy_inicio: "",
+      dd_fim: "",
+      mm_fim: "",
+      yyyy_fim: "",
+      clientes: [],
+      value: "", 
+      projeto: {
+        numeroProjeto: "", 
+        nome: "",
+        descricao: "",
+        estimativaEsforco: "",
+        inicio: "",
+        fim: "",
+        cliente: {
+          id: 1
+        },
+        usuarioId: 1
+      }
     }
-    else{
-      this.usuario = user.perfilAcesso
+
+    this.cadastrarProjeto =  this.cadastrarProjeto.bind(this);
+    if(usuario == null){
+      this.usuario = null;
+    } else {
+      this.usuario = user.perfilAcesso;
     }
   }
 
   onChange = (value) => {
     this.setState({value,});
-    if (value!=" ") {
+    if (value != " ") {
       var config = {headers:{Authorization:this.token}};
       axios.get(`${URL}cliente/gestor/listarclientes/${this.state.value}`,config)
       .then(resp=> this.setState(...this.state,{clientes:resp.data.response}))
@@ -38,6 +59,18 @@ export default class CadastrarProjeto extends Component {
 
   toggleDisabled = () => {
     this.setState({disabled: !this.state.disabled,});
+  }
+
+  formataDataInicio(ano, mes, dia){
+    this.state.dd_inicio = dia;
+    this.state.mm_inicio = mes;
+    this.state.yyyy_inicio = ano;
+  }
+
+  formataDataFim(ano, mes, dia){
+    this.state.dd_fim = dia;
+    this.state.mm_fim = mes;
+    this.state.yyyy_fim = ano;
   }
 
   dadosProjeto(nomeInput,evento){
@@ -54,12 +87,37 @@ export default class CadastrarProjeto extends Component {
     }
 
    cadastrarProjeto(){
-    const json = {cliente:{id:this.state.cliente.id},numeroProjeto:this.state.numeroProjeto,
-    nome:this.state.nome,descricao:this.state.descricao,estimativaEsforco:this.state.estimativaEsforco,
-    inicio:this.state.inicio,fim:this.state.fim,status:"iniciado"}
-    var config = {headers:{Authorization:this.token}};
-    axios.post(`${URL}projeto/gestor/cadastrar`,json,config)
-      .then(toast.success('Projeto cadastrado com sucesso!',{
+    this.state.inicio = this.state.dd_inicio+"/"+this.state.mm_inicio+"/"+this.state.yyyy_inicio;
+    this.state.fim = this.state.dd_fim+"/"+this.state.mm_fim+"/"+this.state.yyyy_fim;
+
+    const json = {
+      cliente: {
+        id: this.state.cliente.id
+      },
+      numeroProjeto: this.state.numeroProjeto, 
+      nome: this.state.nome,
+      descricao: this.state.descricao,
+      estimativaEsforco: this.state.estimativaEsforco,
+      inicio: this.state.inicio,
+      fim: this.state.fim,
+      status: "iniciado"
+    }
+    var config = {
+      headers: {
+        Authorization: this.token
+      }
+    };
+    axios.post(`${URL}projeto/gestor/cadastrar`, json, config)
+      .then(resp => toast.success('Projeto cadastrado com sucesso!', 
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        }))
+      .catch(err => toast.error('Não foi possível cadastrar o projeto, tente novamente.',{
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -83,6 +141,11 @@ export default class CadastrarProjeto extends Component {
     options = clientes.map((c) => {
       return <Option key={c.id,c.nome}> <i>{c.nome}</i></Option>;
     });
+
+    let {yyyy, mm, dd} = this.state;
+    if(!!!yyyy) {yyyy = "YYYY"};
+    if(!!!mm) {mm = "MM"};
+    if(!!!dd) {dd = "DD"};
     return (
           <div>
                 <br/>
@@ -109,11 +172,11 @@ export default class CadastrarProjeto extends Component {
                         </div>
                         <div className="form-group col-md-2">
                           <label htmlFor="inputDataInicio"className="required">Data inicial:</label>
-                          <Input type="date" value={this.state.inicio} onChange={this.dadosProjeto.bind(this,'inicio')} className="form-control" id="inputDataInicio"/>
+                          <DateInputComponent value={this.state.inicio} onChange={this.formataDataInicio.bind(this)} className="form-control" id="inputDataInicio" dateFormat={DateFormats.DDMMYYYY}/>
                         </div>
                         <div className="form-group col-md-2">
                           <label htmlFor="inputDataFim"className="required">Data final:</label>
-                          <Input type="date" value={this.state.fim} onChange={this.dadosProjeto.bind(this,'fim')} className="form-control" id="inputDataFim"/>
+                          <DateInputComponent value={this.state.fim} onChange={this.formataDataFim.bind(this)} className="form-control" id="inputDataFim" dateFormat={DateFormats.DDMMYYYY}/>
                         </div>
                         <div className="form-group col-md-2">
                           <label htmlFor="inputEsforco"className="required">Estimativa de esforço:</label>
