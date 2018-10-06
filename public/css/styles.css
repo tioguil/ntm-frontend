@@ -642,16 +642,13 @@ text-decoration:none;
 .alinhamento-atividade{
   display: inherit;
 }
-
 .label-buscar-analistas{
   width: 100%;
   display: block;
 }
-
 .btn-adicionar-analista{
   margin-left: 2%;
 }
-
 .c-analista{
 
   margin: 1% !important;
@@ -660,7 +657,6 @@ text-decoration:none;
   padding-top: 0px !important;
   width: 0px !important;
 }
-
 .content-wrapper{
   background-color: white !important;
 
@@ -671,12 +667,15 @@ text-decoration:none;
     height: 100%;
     padding-top: 0px;
 }
-
-
-
 @media(max-width: 767px){
   .main-sidebar{
     -webkit-transform:translate(0,0) !important;
     transform: translate(0,0) !important;
   }
+}
+.calendar-properties{
+  text-align: center;
+  width: 70% !important;
+  margin-top: 10%;
+  margin-left: 15%;
 }

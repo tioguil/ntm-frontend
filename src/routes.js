@@ -41,8 +41,9 @@ export default class Routes extends Component{
 					<Switch>
 						<Route exact path="/" component={Login}/>
 						<Route path="/esqueceuSenha" component={EsqueceuSenha}/>
-						<Route path="/editarPerfil" component={EditarPerfil}/>
+						
 							<App>
+							
 								<Switch>
 									<Route exact path="/DashboardAdmin" component={DashboardAdmin}/>
 									<Route  path="/listarAnalistas" component={ListarAnalistas}/>			
@@ -52,7 +53,7 @@ export default class Routes extends Component{
 									<Route  path="/listarProjetos" component={ListarProjetos}/>
 									<Route  path="/detalheProjeto" component={DetalheProjeto}/>
 									<Route  path="/atividades" component={Atividades}/>
-
+									<Route path="/editarPerfil" component={EditarPerfil}/>
 								
 									<Route path="/Dashboard" component={Dashboard}/>
 									<Route path="/calendario" component={Calendario}/>

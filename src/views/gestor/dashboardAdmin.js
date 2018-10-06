@@ -12,7 +12,6 @@ export default class DashboardAdmin extends Component {
     if(usuario == null){
       this.state = {user:null}
     }
-
     else{
       this.state = {user:user.perfilAcesso}
     }

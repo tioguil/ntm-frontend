@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { Component } from 'react';
-import {Link } from 'react-router-dom';
+import {Link,Redirect } from 'react-router-dom';
 
 
 export default class Sidebar extends Component {
@@ -8,25 +8,29 @@ export default class Sidebar extends Component {
       super(props);
       var usuario = localStorage.getItem('user');
       const user = JSON.parse(usuario);
-      this.state = {tipo:user.perfilAcesso}
+      if (usuario == null){
+        this.state = {user:null}
+      }
+      else {this.state = {tipo:user.perfilAcesso}
+      }
     }  
     
     cadastrarProjeto(){
       this.props.history.push("/cadastrarProjeto")
     }
   render(){
+    if(this.state.user == null){
+      return (
+         <Redirect to ="/"/>
+        );
+      }
     let cadastrarProjetos;
     let listarProjetos;
     let cadastrarAnalistas;
     let listarAnalistas;
-
     let display = 'none';
     let dashboard = "/Dashboard";
-
     let calendario;
-
-    
-
     if(this.state.tipo == "gestor" ){
       dashboard = "/DashboardAdmin";
       display = 'block';

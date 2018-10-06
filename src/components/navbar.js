@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 
 
 
@@ -10,9 +11,12 @@ export default class Navbar extends Component {
     super(props);
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-    this.state = {nome:user.nome,modal:false}
-    this.perfilAcesso = user.perfilAcesso
-
+    if(usuario == null){
+      this.state = {user:null}
+    }else{
+      this.state = {nome:user.nome,modal:false}
+      this.perfilAcesso = user.perfilAcesso
+    }
 
 
   }
@@ -35,7 +39,11 @@ export default class Navbar extends Component {
   }
 
   render(){
-    
+      if(this.state.user == null){
+      return (
+         <Redirect to ="/"/>
+        );
+      }
 
     return (
       <div className="navbar navbar-expand static-top navbar-dark">
@@ -87,7 +95,7 @@ export default class Navbar extends Component {
               <span className="text-dark">{this.state.nome} <img src="img/icon_online.png" className="icon-size" alt="Online"/></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-              <a className="dropdown-item" href="#">Configurações</a>
+              <Link className="dropdown-item" to="/editarPerfil">Configurações</Link>
               <a className="dropdown-item" href="#">Registro de Atividades</a>
               <div className="dropdown-divider"></div>
               <a className="dropdown-item" onClick={this.toggle.bind(this)} >Sair</a>

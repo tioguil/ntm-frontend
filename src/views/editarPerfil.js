@@ -27,19 +27,15 @@ export default class EditarPerfil extends Component {
       cidade:usuario.cidade,
       uf:usuario.uf,
     }
-
   	this.editar= this.editar.bind(this);
-
-
   }
 
-    dadosUsuario(nomeInput,evento){
+  dadosUsuario(nomeInput,evento){
     var campoSendoAlterado = {}
     campoSendoAlterado[nomeInput] = evento.target.value
     this.setState(campoSendoAlterado)
   }
   	editar(){
-	  	
 	    var config = {headers:{Authorization:this.token}};
 	    axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=>console.log(resp.data))
 	}
