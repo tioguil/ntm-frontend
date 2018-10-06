@@ -6,6 +6,7 @@
     e.preventDefault();
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
+    $(".content-wrapper").toggleClass("change-wrapper");
   });
 
 })(jQuery); // End of use strict

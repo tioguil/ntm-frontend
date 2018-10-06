@@ -64,8 +64,8 @@ export default class Sidebar extends Component {
     }
 
     return (
-      <div className="sidebar navbar-nav">
-        <div className="container">
+      <div className="main-sidebar navbar-nav">
+        <div className="sidebar">
           <li className="nav-item active">
             <Link className="nav-link" to={dashboard}>
               <i className="fas fa-fw fa-tachometer-alt"></i>
