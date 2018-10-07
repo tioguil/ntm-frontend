@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
+import axios from 'axios'
 import {
   Button,
   Modal,
@@ -8,14 +9,18 @@ import {
   ModalFooter,
   Input } from 'reactstrap';
 
+
+const URL = `http://localhost:8080/`
+
 export default class DetalheAtividade extends Component {
   constructor(){
     super();
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.usuario = user
+    this.token = user.token.numero
     this.toggle = this.toggle.bind(this);
-    this.state = { modal: false};
+    this.state = {modal:false, atividade:{}};
     if(usuario == null){
       this.usuario = null
     }
@@ -23,6 +28,15 @@ export default class DetalheAtividade extends Component {
     else{
       this.usuario = user.perfilAcesso
     }  
+  }
+
+  componentDidMount(){
+    const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
+    var config = {headers:{Authorization:this.token}};
+    axios.get(`${URL}atividade/analista/detalhe/${idAtividade}`,config)
+          .then(resp=> this.setState({...this.state,atividade:resp.data.response}))
+          .then(resp=> console.log(this.state.atividade))
+
   }
 
   closeModal(tabId){
@@ -66,16 +80,12 @@ export default class DetalheAtividade extends Component {
                     <div className="text-center">
                       <div className="card card_body">
                         <div className="card-body">
-                          <h5 className="card-title">Nome da atividade</h5>
+                          <h5 className="card-title">{this.state.atividade.nome}</h5>
                           <p className="card-text">
-                          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
-                          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
+                            {this.state.atividade.descricao}
                           </p>
-                          <p className="card-text"><small className="text-muted">Data de criação: 11/03/2018</small></p>
+                          <p className="card-text"><small className="text-muted"><strong>Data de criação:</strong>{this.state.atividade.dataCriacao} -  
+                          <strong> Data de Entrega:</strong> {this.state.atividade.dataEntrega}  </small></p>
                         </div>
                       </div>
 

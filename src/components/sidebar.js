@@ -8,22 +8,15 @@ export default class Sidebar extends Component {
       super(props);
       var usuario = localStorage.getItem('user');
       const user = JSON.parse(usuario);
-      if (usuario == null){
-        this.state = {user:null}
-      }
-      else {this.state = {tipo:user.perfilAcesso}
-      }
+     
+      this.state = {tipo:user.perfilAcesso}
     }  
     
     cadastrarProjeto(){
       this.props.history.push("/cadastrarProjeto")
     }
   render(){
-    if(this.state.user == null){
-      return (
-         <Redirect to ="/"/>
-        );
-      }
+    
     let cadastrarProjetos;
     let listarProjetos;
     let cadastrarAnalistas;

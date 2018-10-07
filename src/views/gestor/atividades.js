@@ -4,6 +4,7 @@ import Select, {Option, OptGroup} from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars'
 import axios from 'axios'
+import ListaComentarios from './listaComentarios'
 import {
   Button,
   Modal,
@@ -22,9 +23,17 @@ export default class Atividades extends Component {
     const user = JSON.parse(usuario);
     this.usuario = user
     this.token = user.token.numero
-    this.state = {atividade:{},alocados:[],usuario:{id:0},analistas:[],value:''};
+    this.atividadeId=0
+    this.state = {
+    atividade:{},
+    comentario:"",
+    alocados:[],
+    usuario:{id:0},
+    analistas:[],
+    value:''};
     this.adicionar = this.adicionar.bind(this)
     this.refresh = this.refresh.bind(this)
+    this.comentarios = this.comentarios.bind(this)
     if(usuario == null){
       this.usuario = null
     }
@@ -39,9 +48,11 @@ export default class Atividades extends Component {
 
   refresh(){
     const id = sessionStorage.getItem('idAtividade', id);
+    this.atividadeId = id
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
       .then(resp=> this.setState(...this.state,{atividade:resp.data.response,alocados:resp.data.response.historicoAlocacao}))
+      
   }
 
   btn_detalheAnalista(id){
@@ -55,13 +66,10 @@ export default class Atividades extends Component {
             this.setState({usuario:{id:this.state.analistas[i].id}})
         }
       }
-    }
-
+  }
 
   adicionar(){
     const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
-    console.log(json)
-  
     var config = {headers:{Authorization:this.token}};
     axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
       .then(resp=> this.refresh())
@@ -83,6 +91,21 @@ export default class Atividades extends Component {
             }))
   }
 
+  adicionarComentario(){
+      var config = {headers:{Authorization:this.token}};
+      console.log(config)
+      const json = {comentario:this.state.comentario,atividade:{id:45},usuario:{id:1}}
+      console.log(json)
+      axios.post(`${URL}comentario/analista/cadastrar`,json,config)
+      .then(resp=> console.log(resp.data))
+      .catch(error => console.log(error))
+     
+  }
+
+  comentarios(event){
+      this.setState({comentario:event.target.value})
+  }
+
   onChange = (value) => {
     this.setState({value,});
     if (value!=" ") {
@@ -95,8 +118,7 @@ export default class Atividades extends Component {
   mapsSelector() {
    const endereco=  this.state.atividade.endereco
    const numero = this.state.atividade.enderecoNumero
-
-    if /* if we're on iOS, open in Apple Maps */
+    if 
       ((navigator.platform.indexOf("iPhone") !== -1) ||
       (navigator.platform.indexOf("iPod") !== -1) ||
       (navigator.platform.indexOf("iPad") !== -1)){
@@ -112,7 +134,7 @@ export default class Atividades extends Component {
          <Redirect to ="/"/>
         );
       }
-  const analistas = this.state.analistas;
+    const analistas = this.state.analistas;
     let options;
     options = analistas.map((a) => {
       return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
@@ -140,14 +162,22 @@ export default class Atividades extends Component {
                         <a className="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="home" aria-selected="true">Detalhes</a>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" id="profile-tab" data-toggle="tab" href="#members" role="tab" aria-controls="profile" aria-selected="false">Analistas</a>
+                        <a className="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="profile" aria-selected="false">Analistas</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" id="comentarios-tab" data-toggle="tab" href="#comentarios" role="tab" aria-controls="comentarios" aria-selected="false">Comentários</a>
+                      </li>
+                      <li className="nav-item">
+                        <a className="nav-link" id="anexos-tab" data-toggle="tab" href="#anexos" role="tab" aria-controls="anexos" aria-selected="false">Anexos</a>
                       </li>
                     </ul>
+
                     <div className="tab-content" id="myTabContent">
                       <div className="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="home-tab">
-
                         <div className="atividade-projeto">
-                         <h3 className="inline-projeto">{this.state.atividade.nome}</h3> <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} </i>  <i className="color-p-projeto">({this.state.atividade.status})</i>
+                            <h3 className="inline-projeto">{this.state.atividade.nome}</h3> 
+                              <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} 
+                              </i> <i className="color-p-projeto">({this.state.atividade.status})</i>
                               <div>
                                 <ReactStars
                                   count={5}
@@ -157,18 +187,34 @@ export default class Atividades extends Component {
                                   color2={'#ffd700'} />
                               </div>
 
-                          <p className="descript">
-                            {this.state.atividade.descricao}
-                          </p>
+                              <p className="descript">
+                                {this.state.atividade.descricao}
+                              </p>
                             <div className="location-margin">
-                            <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, {this.state.atividade.enderecoNumero}, {this.state.atividade.cidade}- 
-                            {this.state.atividade.uf} - {this.state.atividade.cep} </a></li>
-                         </div>  
-
+                                <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, {this.state.atividade.enderecoNumero}, {this.state.atividade.cidade}- 
+                                {this.state.atividade.uf} - {this.state.atividade.cep} </a></li>
+                            </div>  
                         </div>
                       </div>
-                      <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="profile-tab">
-                        
+
+                      <div className="tab-pane fade" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
+                        <div className="atividade-projeto">
+                          <ListaComentarios />
+                            <div className="form-group col-md-12">
+                                <Input type="textarea" value={this.state.comentario} onChange={this.comentarios} className="form-control" name="text" id="inputComentarios" />
+                            </div>
+                            <button onClick={this.adicionarComentario.bind(this)} className="btn btn-primary float-right">adicionar</button>
+                        </div>
+                      </div>
+
+                      <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
+                        <div className="atividade-projeto">
+           
+                        </div>
+                      </div>
+
+                  
+                    <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
                       <label className="label-buscar-analistas" htmlFor="inputNomeAtividade">Buscar Analista:</label>
                                     <Select
                                         style={{width:'50%'}}
@@ -183,10 +229,7 @@ export default class Atividades extends Component {
                                         filterOption={true}>
                                      {options} 
                                     </Select>
-
                         <button type="button" onClick={this.adicionar} className="btn btn-primary btn-adicionar-analista">Adicionar</button>
-
-
                         <div className="row members-margin">  
                               { 
                                 this.state.alocados.map(function(analista){
@@ -212,6 +255,8 @@ export default class Atividades extends Component {
                        </div>
                    </div>
               </div>  
+
+
               <ToastContainer
                       position="top-right"
                       autoClose={5000}

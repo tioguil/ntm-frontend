@@ -11,14 +11,9 @@ export default class Navbar extends Component {
     super(props);
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-    if(usuario == null){
-      this.state = {user:null}
-    }else{
-      this.state = {nome:user.nome,modal:false}
-      this.perfilAcesso = user.perfilAcesso
-    }
-
-
+    this.state = {nome:user.nome,modal:false}
+    this.perfilAcesso = user.perfilAcesso
+    
   }
   componentDidMount(){
     const script = document.createElement("script");
@@ -39,12 +34,6 @@ export default class Navbar extends Component {
   }
 
   render(){
-      if(this.state.user == null){
-      return (
-         <Redirect to ="/"/>
-        );
-      }
-
     return (
       <div className="navbar navbar-expand static-top navbar-dark">
        <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)} className={this.props.className}>

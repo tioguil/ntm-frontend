@@ -1,90 +1,78 @@
 import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
+import AnalistaListarAtividade from './analistaListaAtividade'
+import axios from 'axios'
 
+
+const URL = `http://localhost:8080/`
 
 export default class Dashboard extends Component {
     constructor(){
       super();
       var usuario = localStorage.getItem('user');
       const user = JSON.parse(usuario);
+      this.usuario = user
+      this.state={atividades:[]}
+      this.token = user.token.numero
+      this.refresh = this.refresh.bind(this)
+      this.mostrarDetalhes = this.mostrarDetalhes.bind(this)
       if(usuario == null){
-        this.state = {user:null}
+        this.usuario = null
       }
-
       else{
-        this.state = {user:user.perfilAcesso}
-      }
+        this.usuario = user.perfilAcesso
+        }
+      this.refresh()
+
     }
 
+    refresh(){
+      console.log("dsdksodksodk")
+      var config = {headers:{Authorization:this.token}};
+      axios.get(`${URL}atividade/analista/lista`,config)
+        .then(resp=> this.setState(...this.state,{atividades:resp.data.response.atividades}))
+  
+    }
+    mostrarDetalhes(idAtividade){
+      sessionStorage.setItem('idAtividadeAnalista', idAtividade);
+      this.props.history.push(`/DetalheAtividade`);
+    }
 
-  mostrarDetalhes(){
-    this.props.history.push("/DetalheAtividade");
-  }
-
-  mapsSelector() {
-    if /* if we're on iOS, open in Apple Maps */
+    mapsSelector(endereco,numero) {
+      if 
       ((navigator.platform.indexOf("iPhone") !== -1) ||
       (navigator.platform.indexOf("iPod") !== -1) ||
       (navigator.platform.indexOf("iPad") !== -1)){
-      window.open("maps://maps.google.com/maps?daddr=universidade+sao+judas+tadeu");
+      window.open("maps://maps.google.com/maps?daddr=" +endereco + numero);
     } else {/* else use Google */
-      window.open("https://maps.google.com/maps?daddr=universidade+sao+judas+tadeu");
+      window.open("https://maps.google.com/maps?daddr="+ endereco + numero);
     }
-  }
+    }
 
   render(){
-     if(this.state.user == null || this.state.user === "gestor"){
-      return (
-         <Redirect to ="/"/>
-        );
-      }
+     if(this.usuario == null || this.usuario === "gestor"){
         return (
-          <div>  
-                <br/>
-                      <ol className="breadcrumb">
-                        <li className="breadcrumb-item">
-                          <Link to="/Dashboard">Dashboard</Link>
-                        </li>
-                        <li className="breadcrumb-item active">Visão geral</li>
-                      </ol>
+           <Redirect to ="/"/>
+          );
+        }
 
-                      <h3>Visão geral</h3>
-                      <hr/>
-                      <div className="container">
-                        <div className="row row-striped" onClick={this.mostrarDetalhes.bind(this)}>
-                          <div className="col-2 text-right">
-                            <p className="display-4"><span className="badge badge-secondary">23</span></p>
-                            <h5>OCT</h5>
-                          </div>
-                          <div className="col-10">
-                            <h4 className="text-uppercase"><strong>Atividade 1</strong></h4>
-                            <ul className="list-inline">
-                              <li className="list-inline-item"><i className="fa fa-calendar-o" aria-hidden="true"></i>Monday</li>
-                              <li className="list-inline-item"><i className="fa fa-clock-o" aria-hidden="true"></i>12:30 PM - 2:00 PM</li>
-                              <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> São Judas Tadeu - Butantã </a></li>
-                            </ul>
-                            <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                          </div>
-                        </div>
+        return (
+                <div>  
+                  <br/>
+                        <ol className="breadcrumb">
+                          <li className="breadcrumb-item">
+                            <Link to="/Dashboard">Dashboard</Link>
+                          </li>
+                          <li className="breadcrumb-item active">Visão geral</li>
+                        </ol>
+                        <h3>Visão geral</h3>
                         <hr/>
-                        <div className="row row-striped">
-                          <div className="col-2 text-right">
-                            <p className="display-4"><span className="badge badge-secondary">23</span></p>
-                            <h5>OCT</h5>
-                          </div>
-                          <div className="col-10">
-                            <h4 className="text-uppercase"><strong>Atividade 2</strong></h4>
-                            <ul className="list-inline">
-                              <li className="list-inline-item"><i className="fa fa-calendar-o" aria-hidden="true"></i>Monday</li>
-                              <li className="list-inline-item"><i className="fa fa-clock-o" aria-hidden="true"></i>12:30 PM - 2:00 PM</li>
-                              <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> Cafe</li>
-                            </ul>
-                            <p>Lorem ipsum dolsit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                          </div>
-                        </div>
-                        <hr/>
-                  </div>
-          </div>
+                        <AnalistaListarAtividade 
+                          atividades={this.state.atividades}
+                          mostrarDetalhes={this.mostrarDetalhes}
+                          mapsSelector={this.mapsSelector}/> 
+
+                </div>
           );
   }
 }
