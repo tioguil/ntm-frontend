@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
 import {
   Button,
   Modal,
@@ -20,7 +21,7 @@ export default class DetalheAtividade extends Component {
     this.usuario = user
     this.token = user.token.numero
     this.toggle = this.toggle.bind(this);
-    this.state = {modal:false, atividade:{}};
+    this.state = {modal:false, atividade:{},idAtividade:0,comentario:""};
     if(usuario == null){
       this.usuario = null
     }
@@ -32,12 +33,14 @@ export default class DetalheAtividade extends Component {
 
   componentDidMount(){
     const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
+    this.setState({...this.state,idAtividade:idAtividade})
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/detalhe/${idAtividade}`,config)
           .then(resp=> this.setState({...this.state,atividade:resp.data.response}))
           .then(resp=> console.log(this.state.atividade))
-
   }
+
+
 
   closeModal(tabId){
     this.setState({
@@ -59,6 +62,37 @@ export default class DetalheAtividade extends Component {
 
   visualizar(){
     this.props.history.push("/visualizarComentarios");
+  }
+
+  setComentario(event){
+    console.log(event.target.value)
+    this.setState({comentario:event.target.value})
+  }
+
+  enviarComentario(){
+      var config = {headers:{Authorization:this.token}};
+      const json = {comentario:this.state.comentario,atividade:{id:this.state.idAtividade}}
+      console.log(json)
+      axios.post(`${URL}comentario/analista/cadastrar`,json,config)
+      .then(resp => toast.success('Comentário realizado com sucesso!', 
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })).then(resp=> this.setState({...this.state,comentario:""}))
+      .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.',{
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            }))
+
+      this.closeModal('modal2')
   }
 
   render(){
@@ -156,10 +190,25 @@ export default class DetalheAtividade extends Component {
                     <Modal isOpen={this.state.modal2} toggle={this.closeModal.bind(this, 'modal2')} className={this.props.className}>
                       <ModalHeader toggle={this.closeModal.bind(this, 'modal2')}>Novo comentário</ModalHeader>
                       <ModalBody>
-                        <Input type="textarea" name="text" id="inputComentario" />
-                        <Button color="btn btn-success float-right mt-2" onClick={this.closeModal.bind(this, 'modal2')}>Adicionar</Button>
+                        <Input type="textarea" onChange={this.setComentario.bind(this)} value={this.state.comentario} name="text" id="inputComentario" />
+                        <Button color="btn btn-success float-right mt-2" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
                       </ModalBody>
                     </Modal>
+
+                     <ToastContainer
+                      position="top-right"
+                      autoClose={5000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnVisibilityChange
+                      draggable
+                      pauseOnHover
+                      />
+                      {/* Same as */}
+                      <ToastContainer />
+
       </div>
     );
   }
