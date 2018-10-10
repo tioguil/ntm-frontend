@@ -744,3 +744,12 @@ text-decoration:none;
 .btn-comentario{
   margin:2%;
 }
+
+div.calendario{
+  width: 85%;
+  margin: 0 auto;
+}
+
+.rbc-calendar{
+  min-height: 580px;
+}

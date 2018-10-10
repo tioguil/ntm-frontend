@@ -1,102 +1,84 @@
 import React, { Component } from 'react';
-import {Redirect,Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import BigCalendar from "react-big-calendar";
+import * as moment from 'moment';
+import 'moment/locale/pt-br';
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
+export let navigate = {
+    PREVIOUS: 'PREV',
+    NEXT: 'NEXT',
+    TODAY: 'TODAY',
+    DATE: 'DATE',
+}
+
+moment.locale('pt-BR');
+const localizer = BigCalendar.momentLocalizer(moment);
+const eventos = [
+  {
+    'title': 'Criar Menu',
+    'start': new Date(2018, 9, 15, 19, 30, 0),
+    'end': new Date(2018, 9, 19, 2, 0, 0)
+  }
+]
+
+class CustomToolbar extends React.Component {
+    render() {
+        let { localizer: { messages }, label } = this.props
+        return(
+            <div className="rbc-toolbar">
+                <span className="rbc-btn-group">
+                    <button type="button" onClick={this.navigate.bind(null, navigate.PREVIOUS)}><i className="fas fa-arrow-left"></i></button>
+                </span>
+                <span className="rbc-toolbar-label">{label}</span>
+                <span className="rbc-btn-group">
+                    <button type="button" onClick={this.navigate.bind(null, navigate.NEXT)}><i class="fas fa-arrow-right"></i></button>
+                </span>
+            </div>
+        )
+    }
+    navigate = action => {
+        this.props.onNavigate(action)
+    }
+}
 
 export default class Calendario extends Component {
   constructor(){
     super();
+
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-    this.usuario = user
-    if(usuario == null){
-      this.usuario = null
-    }
+    this.usuario = user;
 
-    else{
-      this.usuario = user.perfilAcesso
-    }
-    
+    this.usuario = usuario == null ? null : user.perfilAcesso;
   }
 
-
   render(){
-    if(this.usuario == null || this.usuario === "gestor"){
+    if (this.usuario == null || this.usuario === "gestor") {
       return (
-         <Redirect to ="/"/>
-        );
-      }
+        <Redirect to="/"/>
+      );
+    } 
     return (
       <div>
-              <br/>
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to="/calendario">Calendário</Link>
-                    </li>
-                  </ol>
-
-                  <h1>Calendário</h1>
-                  <hr/>
-                  <table className="table table-bordered table-style table-display">
-                    <tr>
-                      <th colSpan="2"><a><span className="glyphicon glyphicon-chevron-left"></span></a></th>
-                      <th colSpan="3"> Jan - 2018 </th>
-                      <th colSpan="2"><a> > <span className="glyphicon glyphicon-chevron-right"></span></a></th>
-                    </tr>
-                    <tr>
-                      <th>S</th>
-                      <th>M</th>
-                      <th>T</th>
-                      <th>W</th>
-                      <th>T</th>
-                      <th>F</th>
-                      <th>S</th>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>2</td>
-                      <td>3</td>
-                      <td>4</td>
-                      <td>5</td>
-                      <td>6</td>
-                      <td>7</td>
-                    </tr>
-                    <tr>
-                      <td>8</td>
-                      <td>9</td>
-                      <td>10</td>
-                      <td>11</td>
-                      <td className="today">12</td>
-                      <td>13</td>
-                      <td>14</td>
-                    </tr>
-                    <tr>
-                      <td>15</td>
-                      <td>16</td>
-                      <td>17</td>
-                      <td>18</td>
-                      <td>19</td>
-                      <td>20</td>
-                      <td>21</td>
-                    </tr>
-                    <tr>
-                      <td>22</td>
-                      <td>23</td>
-                      <td>24</td>
-                      <td>25</td>
-                      <td>26</td>
-                      <td>27</td>
-                      <td>28</td>
-                    </tr>
-                    <tr>
-                      <td>29</td>
-                      <td>30</td>
-                      <td>31</td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </table>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
+            <Link to="/calendario">Calendário</Link>
+          </li>
+        </ol>
+        
+        <h1>Calendário</h1>
+        <hr/>
+        <BigCalendar
+          style={{ height: 500 }}
+          events={eventos}
+          localizer={localizer}
+          // components={{
+          //   toolbar: CustomToolbar
+          // }}
+          startAccessor='start'
+          endAccessor='end'
+        />
       </div>
     );
   }
