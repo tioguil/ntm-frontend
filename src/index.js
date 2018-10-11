@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Routes from './routes';
 import registerServiceWorker from './registerServiceWorker';
-import {Link} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
