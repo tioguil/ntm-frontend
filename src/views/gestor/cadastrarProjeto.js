@@ -13,7 +13,7 @@ import moment from "moment";
 const URL = `http://localhost:8080/`;
 
 export default class CadastrarProjeto extends Component {
-  constructor(){
+  constructor() {
     super();
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
@@ -53,16 +53,17 @@ export default class CadastrarProjeto extends Component {
   }
 
   onChange = (value) => {
-    this.setState({value,});
+    this.setState({value});
     if (value != " ") {
       var config = {headers:{Authorization:this.token}};
       axios.get(`${URL}cliente/gestor/listarclientes/${this.state.value}`, config)
         .then(resp => this.setState(
-          ...this.state, {
-              clientes: resp.data.response
-            }
-          )
+          ...this.state, 
+          {
+            clientes: resp.data.response
+          }
         )
+      );
     }
   }
 
@@ -82,7 +83,7 @@ export default class CadastrarProjeto extends Component {
 
   onSelect = (v) => {
     for (let i=0; i<this.state.clientes.length; i++) {
-      if(v == this.state.clientes[i].nome)
+      if (v == this.state.clientes[i].nome)
         this.setState({cliente:{id:this.state.clientes[i].id}});
     }
   }
@@ -224,7 +225,7 @@ export default class CadastrarProjeto extends Component {
           pauseOnVisibilityChange
           draggable
           pauseOnHover
-          />
+        />
           {/* Same as */}
         <ToastContainer/>
       </div>

@@ -753,3 +753,7 @@ div.calendario{
 .rbc-calendar{
   min-height: 580px;
 }
+
+.DayPickerInput{
+  display: unset !important;
+}
