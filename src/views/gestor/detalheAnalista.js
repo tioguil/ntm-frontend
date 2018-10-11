@@ -20,6 +20,11 @@ export default class DetalheAnalista extends Component {
     
   }
 
+  componentDidMount(){
+    const idAnalsta = sessionStorage.getItem("idAnalista")
+    
+  }
+
   toggle(){
     this.setState({
       modal: !this.state.modal

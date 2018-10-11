@@ -21,6 +21,7 @@ export default class ListarAnalistas extends Component {
   }
 
   analista_detalhes(id){
+    sessionStorage.setItem('idAnalista',id)
     this.props.history.push("/detalheAnalista");
   }
 

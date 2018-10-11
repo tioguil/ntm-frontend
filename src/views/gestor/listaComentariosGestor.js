@@ -17,6 +17,7 @@ export default props => {
                   <span className="time-right">{comentario.dataComentario}</span>
                 </div>
               </div>
+
         ))
       }
     return (

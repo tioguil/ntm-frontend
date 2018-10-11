@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
 import AnalistaListarAtividade from './analistaListaAtividade'
 import axios from 'axios'
+import Demo from '../../Demo'
 
 
 const URL = `http://localhost:8080/`
@@ -16,6 +17,7 @@ export default class Dashboard extends Component {
       this.token = user.token.numero
       this.refresh = this.refresh.bind(this)
       this.mostrarDetalhes = this.mostrarDetalhes.bind(this)
+      
       if(usuario == null){
         this.usuario = null
       }
@@ -57,7 +59,8 @@ export default class Dashboard extends Component {
         }
 
         return (
-                <div>  
+                <div> 
+                <Demo/> 
                   <br/>
                         <ol className="breadcrumb">
                           <li className="breadcrumb-item">

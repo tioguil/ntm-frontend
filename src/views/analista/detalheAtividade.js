@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
+import ButtonAtividade from './buttonAtividade';
 import { ToastContainer, toast } from 'react-toastify';
 import {
   Button,
@@ -21,6 +22,7 @@ export default class DetalheAtividade extends Component {
     this.usuario = user
     this.token = user.token.numero
     this.toggle = this.toggle.bind(this);
+    this.changeStatus = this.changeStatus.bind(this)
     this.state = {modal:false, atividade:{},idAtividade:0,comentario:""};
     if(usuario == null){
       this.usuario = null
@@ -37,10 +39,12 @@ export default class DetalheAtividade extends Component {
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/detalhe/${idAtividade}`,config)
           .then(resp=> this.setState({...this.state,atividade:resp.data.response}))
-          .then(resp=> console.log(this.state.atividade))
+
   }
 
-
+  changeStatus(){
+    console.log("consoles")
+  }
 
   closeModal(tabId){
     this.setState({
@@ -101,6 +105,7 @@ export default class DetalheAtividade extends Component {
          <Redirect to ="/"/>
         );
       }
+
     return (
       <div>
               <br/>
@@ -122,15 +127,14 @@ export default class DetalheAtividade extends Component {
                           <strong> Data de Entrega:</strong> {this.state.atividade.dataEntrega}  </small></p>
                         </div>
                       </div>
-
-                      <div className="contador mt-2">
-                        <i className="far fa-play-circle fa-8x play"></i>
-                        {/*<i className="far fa-stop-circle fa-8x stop"></i>*/}
-                      </div>
+                      <ButtonAtividade 
+                          button={this.changeStatus}
+                          status={this.state.atividade.status}/>
                     </div>
 
                     <div className="row mt-3">
                       <div className="col-xl-4 col-sm-6 mb-3">
+                        
                         <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.showModal.bind(this, 'modal1')}>
                           <div className="card-body">
                             <div className="card-body-icon-activities">
@@ -144,6 +148,7 @@ export default class DetalheAtividade extends Component {
                             </span>
                           </div>
                         </a>
+
                       </div>
                       <div className="col-xl-4 col-sm-6 mb-3">
                         <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.visualizar.bind(this)}>

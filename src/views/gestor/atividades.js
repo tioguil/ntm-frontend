@@ -4,7 +4,7 @@ import Select, {Option, OptGroup} from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars'
 import axios from 'axios'
-import ListaComentarios from './listaComentarios'
+import ListaComentariosGestor from './listaComentariosGestor'
 import {
   Button,
   Modal,
@@ -30,10 +30,11 @@ export default class Atividades extends Component {
     alocados:[],
     usuario:{id:0},
     analistas:[],
+    comentarios:[],
     value:''};
     this.adicionar = this.adicionar.bind(this)
     this.refresh = this.refresh.bind(this)
-    this.comentarios = this.comentarios.bind(this)
+    this.setComentarios =this.setComentarios.bind(this)
     if(usuario == null){
       this.usuario = null
     }
@@ -51,7 +52,7 @@ export default class Atividades extends Component {
     this.atividadeId = id
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
-      .then(resp=> this.setState(...this.state,{atividade:resp.data.response,alocados:resp.data.response.historicoAlocacao}))
+      .then(resp=> this.setState(...this.state,{atividade:resp.data.response,alocados:resp.data.response.historicoAlocacao,comentarios:resp.data.response.comentarios}))
       
   }
 
@@ -91,18 +92,16 @@ export default class Atividades extends Component {
             }))
   }
 
-  adicionarComentario(){
+  enviarComentario(){
       var config = {headers:{Authorization:this.token}};
-      console.log(config)
-      const json = {comentario:this.state.comentario,atividade:{id:45},usuario:{id:1}}
-      console.log(json)
+      const json = {comentario:this.state.comentario,atividade:{id:this.atividadeId}}
       axios.post(`${URL}comentario/analista/cadastrar`,json,config)
       .then(resp=> console.log(resp.data))
       .catch(error => console.log(error))
      
   }
 
-  comentarios(event){
+  setComentarios(event){
       this.setState({comentario:event.target.value})
   }
 
@@ -199,11 +198,12 @@ export default class Atividades extends Component {
 
                       <div className="tab-pane fade" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
                         <div className="atividade-projeto">
-                          <ListaComentarios />
-                            <div className="form-group col-md-12">
-                                <Input type="textarea" value={this.state.comentario} onChange={this.comentarios} className="form-control" name="text" id="inputComentarios" />
-                            </div>
-                            <button onClick={this.adicionarComentario.bind(this)} className="btn btn-primary float-right">adicionar</button>
+                            <ListaComentariosGestor comentarios={this.state.comentarios}/>
+                            <div className="text-comentario row">
+                              <Input  className="input-comentario col-md-10" type="textarea" onChange={this.setComentarios} value={this.state.comentario} name="text" id="inputComentario" />
+                              <Button className="btn-comentario col-md-1" color="btn btn-success" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
+                           </div>
+                            
                         </div>
                       </div>
 

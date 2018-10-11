@@ -14,7 +14,7 @@ export default props => (
 		
 	<div>
 		<Navbar/>
-
+		<div className="main-body">
 			<div className="position">
 				<Sidebar/>
 			</div>
@@ -24,7 +24,7 @@ export default props => (
 				<Footer/>
 			</div>
 		
-		
+		</div>
 		
 	</div>	
 	)

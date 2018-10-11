@@ -31,6 +31,7 @@ export default class Navbar extends Component {
   logout(props){
     this.toggle()
     localStorage.clear();
+    sessionStorage.clear()
   }
 
   render(){

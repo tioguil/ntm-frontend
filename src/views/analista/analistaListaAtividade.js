@@ -11,7 +11,7 @@ export default props => {
                             <h5>OCT</h5>
                           </div>
                           <div className="col-10">
-                            <h4 className="text-uppercase"><strong>{atividade.nome}<p className="inline">({atividade.status})</p></strong></h4>
+                            <h4 className="text-uppercase"><strong>{atividade.nome}<p className="inline status-atividade-analista">({atividade.status})</p></strong></h4>
                               <ul className="list-inline">
                               <li className="list-inline-item"><i className="fa fa-clock-o" aria-hidden="true"></i>{atividade.dataEntrega}</li>
                               <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a onClick={()=>props.mapsSelector(atividade.endereco,atividade.enderecoNumero)}className="atividade-localizacao"> {atividade.endereco}, {atividade.enderecoNumero}-{atividade.cidade} - {atividade.uf}</a></li>

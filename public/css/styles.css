@@ -390,7 +390,7 @@ footer.sticky-footer {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   width: 100%;
@@ -743,4 +743,14 @@ text-decoration:none;
 
 .btn-comentario{
   margin:2%;
+}
+
+.main-body{
+  position: absolute;
+  width: 100%;
+}
+
+.status-atividade-analista{
+  font-size: 12px;
+  font-style: italic;
 }
