@@ -60,21 +60,19 @@ export default class Dashboard extends Component {
 
         return (
                 <div> 
-                <Demo/> 
                   <br/>
-                        <ol className="breadcrumb">
-                          <li className="breadcrumb-item">
-                            <Link to="/Dashboard">Dashboard</Link>
-                          </li>
-                          <li className="breadcrumb-item active">Visão geral</li>
-                        </ol>
+                      <ol className="breadcrumb">
+                        <li className="breadcrumb-item">
+                          <Link to="/Dashboard">Dashboard</Link>
+                        </li>
+                        <li className="breadcrumb-item active">Visão geral</li>
+                      </ol>
                         <h3>Visão geral</h3>
                         <hr/>
                         <AnalistaListarAtividade 
                           atividades={this.state.atividades}
                           mostrarDetalhes={this.mostrarDetalhes}
                           mapsSelector={this.mapsSelector}/> 
-
                 </div>
           );
   }
