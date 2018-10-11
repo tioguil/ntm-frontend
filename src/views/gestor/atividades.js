@@ -4,6 +4,7 @@ import Select, { Option, OptGroup } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars'
 import axios from 'axios'
+import {URL} from '../../global'
 import ListaComentariosGestor from './listaComentariosGestor'
 import {
   Button,
@@ -13,7 +14,6 @@ import {
   ModalFooter,
   Input } from 'reactstrap';
 
-const URL = `http://localhost:8080/`;
 
 export default class Atividades extends Component {
   constructor(props){

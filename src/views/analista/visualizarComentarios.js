@@ -3,6 +3,7 @@ import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import ListaComentarios from './listaComentarios'
+import {URL} from '../../global'  
 import {
   Button,
   Modal,
@@ -10,8 +11,6 @@ import {
   ModalBody,
   ModalFooter,
   Input } from 'reactstrap';
-
-const URL = `http://localhost:8080/`
 
 export default class VisualizarComentarios extends Component {
   constructor(){

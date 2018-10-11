@@ -3,6 +3,7 @@ import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios';
 import ButtonAtividade from './buttonAtividade';
 import { ToastContainer, toast } from 'react-toastify';
+import {URL} from '../../global'
 import {
   Button,
   Modal,
@@ -11,8 +12,6 @@ import {
   ModalFooter,
   Input } from 'reactstrap';
 
-
-const URL = `http://localhost:8080/`
 
 export default class DetalheAtividade extends Component {
   constructor(){
@@ -23,7 +22,11 @@ export default class DetalheAtividade extends Component {
     this.token = user.token.numero
     this.toggle = this.toggle.bind(this);
     this.changeStatus = this.changeStatus.bind(this)
-    this.state = {modal:false, atividade:{},idAtividade:0,comentario:""};
+    this.state = {
+      modal:false,
+      atividade:{},
+      idAtividade:0,
+      comentario:""};
     if(usuario == null){
       this.usuario = null
     }
@@ -43,8 +46,22 @@ export default class DetalheAtividade extends Component {
   }
 
   changeStatus(){
-    console.log("consoles")
-  }
+    var options = {
+        enableHighAccuracy: false,
+        maximumAge: 0
+    };
+
+    function success(pos) {
+      var crd = pos.coords;
+      console.log(crd.latitude);
+      console.log(crd.longitude);
+    }
+
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    }
 
   closeModal(tabId){
     this.setState({

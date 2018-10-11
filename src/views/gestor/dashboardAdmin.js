@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 
+
 export default class DashboardAdmin extends Component {
   
   constructor(props){
@@ -18,16 +19,6 @@ export default class DashboardAdmin extends Component {
 
   mostrarDetalhes(){
     this.props.history.push("/DetalheAtividade");
-  }
-
-  mapsSelector() {
-    if ((navigator.platform.indexOf("iPhone") !== -1) ||
-        (navigator.platform.indexOf("iPod") !== -1) ||
-        (navigator.platform.indexOf("iPad") !== -1)){
-      window.open("maps://maps.google.com/maps?daddr=universidade+sao+judas+tadeu");
-    } else {
-      window.open("https://maps.google.com/maps?daddr=universidade+sao+judas+tadeu");
-    }
   }
 
   cadastrar_projeto(){

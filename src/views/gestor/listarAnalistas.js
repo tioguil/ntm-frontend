@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
 import { Input } from 'reactstrap';
 import axios from 'axios'
-
-const URL = `http://localhost:8080/`
+import {URL} from '../../global'
 
 export default class ListarAnalistas extends Component {
   constructor(){

@@ -5,9 +5,7 @@ import Select, {Option, OptGroup} from 'rc-select';
 import { Input } from 'reactstrap';
 import axios from 'axios'
 import {Redirect,Link} from 'react-router-dom';
-
-
-const URL = `http://localhost:8080/`
+import {URL} from '../../global'
 
 
 export default class CadastrarAnalista extends Component {

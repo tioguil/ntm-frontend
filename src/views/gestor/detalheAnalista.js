@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import Calendar from 'react-calendar';
+import {URL} from '../../global'
 
 export default class DetalheAnalista extends Component {
   constructor(){

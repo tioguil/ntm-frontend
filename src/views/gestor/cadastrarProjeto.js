@@ -8,8 +8,8 @@ import axios from 'axios';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
+import {URL} from '../../global'
 
-const URL = `http://localhost:8080/`;
 
 export default class CadastrarProjeto extends Component {
   constructor() {
@@ -37,18 +37,21 @@ export default class CadastrarProjeto extends Component {
     this.formataDataInicio = this.formataDataInicio.bind(this);
     this.formataDataFim = this.formataDataFim.bind(this);
     this.cadastrarProjeto = this.cadastrarProjeto.bind(this);
-
     this.usuario = usuario == null ? null : user.perfilAcesso;
   }
 
   formataDataInicio(data) {
-    var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-    this.state.inicio = dataFormatada;
+    if (data!=undefined){
+      var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
+      this.state.inicio = dataFormatada;
+    }
   }
 
   formataDataFim(data) {
-    var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-    this.state.fim = dataFormatada;
+    if (data!=undefined){
+      var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
+      this.state.fim = dataFormatada;
+    }
   }
 
   onChange = (value) => {

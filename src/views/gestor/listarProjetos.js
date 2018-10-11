@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
 import $ from 'jquery';
-
-const URL = `http://localhost:8080/`
+import {URL} from '../../global'
 
 export default class ListarProjetos extends Component {
   constructor(props){

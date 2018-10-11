@@ -15,8 +15,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
 import moment from "moment";
-
-const URL = `http://localhost:8080/`;
+import {URL} from '../../global'
 
 export default class DetalheProjeto extends Component {
   constructor(props) {

@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import {Redirect,Link } from 'react-router-dom';
 import AnalistaListarAtividade from './analistaListaAtividade'
 import axios from 'axios'
-import Demo from '../../Demo'
-
-
-const URL = `http://localhost:8080/`
+import {URL} from '../../global'
 
 export default class Dashboard extends Component {
     constructor(){
