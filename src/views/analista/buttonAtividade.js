@@ -5,7 +5,11 @@ export default props => {
     const user = JSON.parse(usuario);
     const idLogado = user.id
 
-    const botao = (<i  onClick={props.button} className={props.status=='iniciada'? 'far fa-play-circle fa-8x play':'far fa-stop-circle fa-8x stop'}></i>) 
+    const botao = (
+      <i onClick={props.button} 
+        className={props.status=='iniciada'? 'far fa-play-circle fa-2x play ':'far fa-stop-circle stop'}>
+      </i>
+      ) 
   
   return (
     	<div className="contador mt-2">

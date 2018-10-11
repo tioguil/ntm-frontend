@@ -390,7 +390,7 @@ footer.sticky-footer {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
-  position: fixed;
+  position: absolute;
   right: 0;
   bottom: 0;
   width: 100%;
@@ -659,7 +659,7 @@ text-decoration:none;
 }
 .content-wrapper{
   background-color: white !important;
-
+  margin-bottom: 90px;
 }
 .position{
     width: 100%;
@@ -767,4 +767,21 @@ div.calendario{
 .DayPickerInput{
   display: unset !important;
 
+}
+
+.title-detail-analista{
+  border: 1px solid;
+
+}
+
+.card-detail-atividade{
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.padding-bottons-atividade{
+  padding-left: 10px;
+  padding-right: 10px;
 }
