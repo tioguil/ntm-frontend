@@ -22,7 +22,6 @@ export default class DetalheAtividade extends Component {
     this.usuario = user
     this.token = user.token.numero
     this.toggle = this.toggle.bind(this);
-    this.changeStatus = this.changeStatus.bind(this)
     this.getLocation = this.getLocation.bind(this)
     this.atualizarHorarioTrabalho = this.atualizarHorarioTrabalho.bind(this)
     this.state = {
@@ -50,8 +49,6 @@ export default class DetalheAtividade extends Component {
           .then(resp=> this.setState({...this.state,atividade:resp.data.response}))
       axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`,config)
           .then(resp=> this.setState({...this.state,horarioTrabalho:resp.data.response}))
-
-
   }
 
   atualizarHorarioTrabalho(){
@@ -101,14 +98,28 @@ export default class DetalheAtividade extends Component {
     this.setState({comentario:event.target.value})
   }
 
-  changeStatus(){
+  changeStatus(id){
+
     var coord = JSON.parse(sessionStorage.getItem("location"))
     var config = {headers:{Authorization:this.token}};
-    var json = {atividade:{id:26},latitude:coord.latitude,longitude:coord.longitude}
-    axios.post(`${URL}historico-trabalho/analista/registrar`,json,config)
-      .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
+    var json = {atividade:{id:this.state.idAtividade},latitude:coord.latitude,longitude:coord.longitude}
+    console.log(id)
+    if(id==null){
+      axios.post(`${URL}historico-trabalho/analista/registrar`,json,config)
+        .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
+      }
+    else{
+      const pause = {id:id,atividade:{id:this.state.idAtividade}} 
+        axios.post(`${URL}historico-trabalho/analista/finalizar-trabalho`,pause,config)
+          .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
+      }
+  }
+
+  finalizarAtividade(){
 
   }
+
+
 
   enviarComentario(){
       var config = {headers:{Authorization:this.token}};
@@ -156,7 +167,7 @@ export default class DetalheAtividade extends Component {
             <div className="row">
                 <div className="col-md-12">
                     <span style={{"font-size":"20px"}}>{this.state.atividade.nome}</span>
-                    <button className="btn btn-danger" style={{"float": "right"}}>Finalizar atividade</button><br/>
+                    <button onClick={this.showModal.bind(this, 'modal3')} className="btn btn-danger" style={{"float": "right"}}>Finalizar atividade</button><br/>
 
                     <small className="text-muted">
                         <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
@@ -186,7 +197,8 @@ export default class DetalheAtividade extends Component {
                     </div>
                     <div className="padding-bottons-atividade">
                        <ButtonAtividade
-                         button={this.changeStatus}
+                         button={this.changeStatus.bind(this)}
+                          list={this.state.horarioTrabalho}
                           status={this.state.atividade.status}/>
                     </div>
                       <div>
@@ -265,6 +277,16 @@ export default class DetalheAtividade extends Component {
                     <Button color="btn btn-success float-right mt-2" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
                 </ModalBody>
             </Modal>
+
+            <Modal isOpen={this.state.modal3} toggle={this.closeModal.bind(this, 'modal3')} className={this.props.className}>
+                <ModalHeader toggle={this.closeModal.bind(this, 'modal3')}>Deseja Finalizar Atividade?</ModalHeader>
+                <ModalBody>
+          
+                  
+                    <Button color="btn btn-primary float-right mt-2" onClick={this.finalizarAtividade.bind(this)}>Finalizar</Button>
+                </ModalBody>
+            </Modal>
+            
 
             <ToastContainer
                 position="top-right"
