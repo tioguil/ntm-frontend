@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {Redirect,Link } from 'react-router-dom';
-import Select, {Option, OptGroup} from 'rc-select';
+import { Redirect, Link } from 'react-router-dom';
+import Select, { Option, OptGroup } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
-import ReactStars from 'react-stars'
-import axios from 'axios'
-import ListaComentarios from './listaComentarios'
+import ReactStars from 'react-stars';
+import axios from 'axios';
+import ListaComentarios from './listaComentarios';
 import {
   Button,
   Modal,
@@ -13,8 +13,7 @@ import {
   ModalFooter,
   Input } from 'reactstrap';
 
-
-const URL = `http://localhost:8080/`
+const URL = `http://localhost:8080/`;
 
 export default class Atividades extends Component {
   constructor(props){

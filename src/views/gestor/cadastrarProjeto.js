@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { Input } from 'reactstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'rc-select/assets/index.css';
-import Select, { Option, OptGroup } from 'rc-select';
+import Select, { Option } from 'rc-select';
 import { Redirect,Link } from 'react-router-dom';
 import axios from 'axios';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
-import moment from "moment";
 
 const URL = `http://localhost:8080/`;
 

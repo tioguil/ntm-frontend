@@ -22,7 +22,7 @@ export default props => {
           <button className="btn btn-primary float-right" onClick={() => props.atividade(atividade.id)}>Visualizar</button>
         </div>
         <div className="card-footer text-muted">
-          {formataData(atividade.dataCriacao)} - {formataData(atividade.dataEntrega)}
+          Criado em: {formataData(atividade.dataCriacao)} - Data de entrega: {formataData(atividade.dataEntrega)}
         </div>
       </div>
       )
