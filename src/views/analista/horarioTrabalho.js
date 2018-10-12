@@ -2,12 +2,12 @@ import React from 'react'
 
 export default props => {
 	const trabalho = ()=>{
-        const lista = props.horarioTrabalho 
+        const lista = props.horarioTrabalho
           return lista.map(trabalho => ( 
                 <tr key={trabalho.id}>
                   <td>{trabalho.dataInicio}</td>
                   <td>{trabalho.dataFim === null ? "Em andamento": trabalho.dataFim}</td>
-                  <td></td>
+                  <td>{trabalho.totalHoras}</td>
                 </tr>
 
         ))
@@ -26,7 +26,7 @@ export default props => {
                               {trabalho()}
                             <tr>
                                 <td colspan="2">Total</td>
-                                <td>10 horas</td>
+                                <td>{props.totalTrabalho} horas</td>
                             </tr>
                             </tbody>
 
