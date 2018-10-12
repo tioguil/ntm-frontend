@@ -116,7 +116,11 @@ export default class DetalheAtividade extends Component {
   }
 
   finalizarAtividade(){
-
+      var config = {headers:{Authorization:this.token}};
+      var json = {id:this.state.idAtividade}
+      axios.post(`${URL}atividade/analista/finalizar`,json,config)
+          .then(resp => this.setState({...this.state, atividade:resp.data.response}))
+      this.closeModal('modal3')
   }
 
 
@@ -279,10 +283,10 @@ export default class DetalheAtividade extends Component {
             </Modal>
 
             <Modal isOpen={this.state.modal3} toggle={this.closeModal.bind(this, 'modal3')} className={this.props.className}>
-                <ModalHeader toggle={this.closeModal.bind(this, 'modal3')}>Deseja Finalizar Atividade?</ModalHeader>
+                <ModalHeader toggle={this.closeModal.bind(this, 'modal3')}>Deseja realmente finalizar atividade?</ModalHeader>
                 <ModalBody>
-          
-                  
+
+                    <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal3')}>Cancelar</Button>
                     <Button color="btn btn-primary float-right mt-2" onClick={this.finalizarAtividade.bind(this)}>Finalizar</Button>
                 </ModalBody>
             </Modal>
