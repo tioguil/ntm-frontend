@@ -121,6 +121,7 @@ export default class DetalheAtividade extends Component {
         var json = {id:this.state.idAtividade}
         axios.post(`${URL}atividade/analista/finalizar`,json,config)
             .then(resp => this.setState({...this.state, atividade:resp.data.response}))
+            .then(resp => this.atualizarHorarioTrabalho())
         this.closeModal('modal3')
     }
 
