@@ -9,26 +9,28 @@ import {Redirect,Link} from 'react-router-dom';
 const URL = `http://localhost:8080/`
 
 export default class EditarPerfil extends Component {
-  constructor(){
-    super();
+    constructor(){
+        super();
 
-    let usuario = JSON.parse(localStorage.getItem('user'));
-    console.log(usuario);
-    this.state = {
-      nome:usuario.nome,
-      sobreNome: usuario.sobreNome,
-      telefone:usuario.telefone,
-      celular:usuario.celular,
-      cep:usuario.cep,
-      endereco:usuario.endereco,
-      enderecoNumero:usuario.enderecoNumero,
-      complemento:usuario.complemento,
-      email: usuario.email,
-      cidade:usuario.cidade,
-      uf:usuario.uf,
+        let usuario = JSON.parse(localStorage.getItem('user'));
+        this.state = {
+            nome:usuario.nome,
+            sobreNome: usuario.sobreNome,
+            telefone:usuario.telefone,
+            celular:usuario.celular,
+            cep:usuario.cep,
+            perfilAcesso: usuario.perfilAcesso,
+            endereco:usuario.endereco,
+            enderecoNumero:usuario.enderecoNumero,
+            complemento:usuario.complemento,
+            email: usuario.email,
+            cidade:usuario.cidade,
+            uf:usuario.uf,
+            token:{ numero: usuario.token.numero}
+        }
+        this.editar= this.editar.bind(this);
+        this.atualizaLocalStorage = this.atualizaLocalStorage.bind(this)
     }
-  	this.editar= this.editar.bind(this);
-  }
 
   dadosUsuario(nomeInput,evento){
     var campoSendoAlterado = {}
@@ -36,9 +38,16 @@ export default class EditarPerfil extends Component {
     this.setState(campoSendoAlterado)
   }
   	editar(){
-	    var config = {headers:{Authorization:this.token}};
-	    axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=>console.log(resp.data))
+
+	    var config = {headers:{Authorization:this.state.token.numero}};
+	    axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data) )
 	}
+
+	atualizaLocalStorage(response){
+        let user = response.response
+        user.token.numero = this.state.token.numero;
+        localStorage.setItem("user", JSON.stringify(user));
+    }
 
   render(){
 

@@ -55,7 +55,7 @@ export default class DetalheAtividade extends Component {
     atualizarHorarioTrabalho(){
         var config = {headers:{Authorization:this.token}};
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${this.state.idAtividade}`,config)
-            .then(resp=> this.setState({...this.state,horarioTrabalho:resp.data.response,  totalTrabalho: resp.data.message}))
+            .then(resp=> this.setState({...this.state,horarioTrabalho:resp.data.response, totalTrabalho: resp.data.message}))
     }
 
     getLocation(){
