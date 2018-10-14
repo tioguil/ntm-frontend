@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
+import { Line } from 'rc-progress';
 import axios from 'axios';
 import ButtonAtividade from './buttonAtividade';
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,14 +24,20 @@ export default class DetalheAtividade extends Component {
         this.token = user.token.numero
         this.toggle = this.toggle.bind(this);
         this.getLocation = this.getLocation.bind(this)
+        this.fileSelected = this.fileSelected.bind(this)
+        this.fileUpload = this.fileUpload.bind(this)
         this.atualizarHorarioTrabalho = this.atualizarHorarioTrabalho.bind(this)
+
         this.state = {
             modal:false,
             atividade:{},
             idAtividade:0,
             comentario:"",
             horarioTrabalho:[],
-            totalTrabalho: ''};
+            totalTrabalho: '',
+            anexo: null,
+            progressUpload: 0
+        };
 
         if(usuario == null){
             this.usuario = null
@@ -40,6 +47,7 @@ export default class DetalheAtividade extends Component {
             this.usuario = user.perfilAcesso
         }
     }
+
 
     componentDidMount(){
         this.getLocation()
@@ -76,6 +84,20 @@ export default class DetalheAtividade extends Component {
         this.setState({
             [tabId]: false
         });
+    }
+
+    fileSelected (event){
+        this.setState({...this.state, anexo: event.target.files[0]});
+    }
+
+    fileUpload(){
+        const formData = new FormData();
+        formData.append('anexo', this.state.anexo, this.state.anexo.name);
+        var config = {headers:{Authorization:this.token},onUploadProgress: progressEvent => {
+                this.setState({...this.state, progressUpload: Math.round(progressEvent.loaded / progressEvent.total * 100)})
+            }};
+        axios.post(`${URL}anexo/analista/upload`,formData,config)
+            .then(resp=> console.log(resp))
     }
 
     showModal(modal){
@@ -283,10 +305,12 @@ export default class DetalheAtividade extends Component {
                 <Modal isOpen={this.state.modal1} toggle={this.closeModal.bind(this, 'modal1')} className={this.props.className}>
                     <ModalHeader toggle={this.closeModal.bind(this, 'modal1')}>Anexar arquivo</ModalHeader>
                     <ModalBody>
-                        Selecione o anexo: <input type="file" name="myFile"/>
+                        Selecione o anexo: <input type="file" onChange={this.fileSelected} />
+                        <Line percent={this.state.progressUpload} strokeWidth="4" strokeColor="#19c556" />
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.closeModal.bind(this, 'modal1')}>Fechar</Button>
+                        <button onClick={this.fileUpload} className="btn btn-success">Salvar</button>
                     </ModalFooter>
                 </Modal>
 
