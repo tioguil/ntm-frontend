@@ -116,6 +116,7 @@ export default class DetalheAtividade extends Component {
   }
 
   finalizarAtividade(){
+    axios.post(`${URL}historico-trabalho/analista/finalizar-trabalho`,pause,config)
 
   }
 
