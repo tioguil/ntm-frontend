@@ -27,6 +27,7 @@ export default class DetalheAtividade extends Component {
         this.fileSelected = this.fileSelected.bind(this)
         this.fileUpload = this.fileUpload.bind(this)
         this.atualizarHorarioTrabalho = this.atualizarHorarioTrabalho.bind(this)
+        this.downloadAnexo = this.downloadAnexo.bind(this)
 
         this.state = {
             modal:false,
@@ -93,11 +94,28 @@ export default class DetalheAtividade extends Component {
     fileUpload(){
         const formData = new FormData();
         formData.append('anexo', this.state.anexo, this.state.anexo.name);
+        formData.append('idAtividade', this.state.atividade.id);
         var config = {headers:{Authorization:this.token},onUploadProgress: progressEvent => {
                 this.setState({...this.state, progressUpload: Math.round(progressEvent.loaded / progressEvent.total * 100)})
             }};
         axios.post(`${URL}anexo/analista/upload`,formData,config)
-            .then(resp=> console.log(resp))
+            .then(resp=> console.log(resp.data))
+    }
+
+    downloadAnexo(){
+        axios({
+            url: 'http://localhost:8080/anexo/analista/download/1',
+            method: 'GET',
+            responseType: 'blob', // important
+            headers:{Authorization:this.token}
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.pdf');
+            document.body.appendChild(link);
+            link.click();
+        });
     }
 
     showModal(modal){
@@ -309,6 +327,8 @@ export default class DetalheAtividade extends Component {
                         <Line percent={this.state.progressUpload} strokeWidth="4" strokeColor="#19c556" />
                     </ModalBody>
                     <ModalFooter>
+
+                        <Button color="primary" onClick={this.downloadAnexo}>Baixar</Button>
                         <Button color="primary" onClick={this.closeModal.bind(this, 'modal1')}>Fechar</Button>
                         <button onClick={this.fileUpload} className="btn btn-success">Salvar</button>
                     </ModalFooter>
