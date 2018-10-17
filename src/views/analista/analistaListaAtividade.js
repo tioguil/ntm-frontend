@@ -3,14 +3,13 @@ import React from 'react'
 export default props => {
 
 
-const date = (atividade) =>{
-  
-  var date = new Date(0,atividade.substring(5,7),0),
-    locale = "pt-BR",
-    month = date.toLocaleString(locale, { month: "short" });
-    return month.toUpperCase()
-}
-
+  const date = (atividade) =>{
+    
+    var date = new Date(0,atividade.substring(5,7),0),
+      locale = "pt-BR",
+      month = date.toLocaleString(locale, { month: "short" });
+      return month.toUpperCase()
+  }
 	const atividades = ()=>{
         const lista = props.atividades 
           return lista.map(atividade=>           

@@ -46,7 +46,6 @@ export default class DetalheProjeto extends Component {
     this.showModal = this.showModal.bind(this);
     this.atividade = this.atividade.bind(this);
     this.activity = {}
-
     this.usuario = usuario == null ? null : user.perfilAcesso;
   }
 
@@ -55,9 +54,10 @@ export default class DetalheProjeto extends Component {
   }
 
   refresh() {
+    var config = {headers:{Authorization:this.token}};
     const id = sessionStorage.getItem('idProjeto', id);
     this.projeto_id = id;
-    axios.get(`${URL}projeto/gestor/buscaid/${id}`)
+    axios.get(`${URL}projeto/gestor/buscaid/${id}`,config)
       .then(resp => this.setState(
         {
           ...this.state,
@@ -101,9 +101,12 @@ export default class DetalheProjeto extends Component {
     );
   }
 
-  formataDataEntrega(data) {
-    var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-    this.state.data_entrega = dataFormatada;
+  formataDataEntrega(evento) {
+   this.setState({data_entrega:evento.target.value}) 
+  }
+
+  formataDataCriacao(evento) {
+    this.setState({data_criacao:evento.target.value}) 
   }
 
   atividade(id) {
@@ -121,6 +124,7 @@ export default class DetalheProjeto extends Component {
     const json = {
       nome: this.state.nome,
       dataEntrega: this.state.data_entrega,
+      dataCriacao:this.state.data_criacao,
       complexidade: this.state.complexidade,
       descricao: this.state.descricao,
       endereco: this.state.endereco,
@@ -216,9 +220,13 @@ export default class DetalheProjeto extends Component {
                     <label htmlFor="inputNomeAtividade">Nome da atividade:</label>
                     <Input type="text" className="form-control" id="inputNomeAtividade" value={this.state.nome} onChange={this.dadosAtividade.bind(this,'nome')} placeholder="Nome da atividade"/>
                   </div>
-                  <div className="form-group col-md-6">
+                  <div className="form-group col-md-3">
+                    <label htmlFor="inputDate">Data de inicio:</label>
+                    <Input type="date" onChange={this.formataDataCriacao.bind(this)} value={this.state.data_criacao} />
+                  </div>
+                  <div className="form-group col-md-3">
                     <label htmlFor="inputDate">Data de entrega:</label>
-                    <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataEntrega.bind(this)} value={this.state.data_entrega} inputProps={{className: 'form-control'}} />
+                    <Input type="date" onChange={this.formataDataEntrega.bind(this)} value={this.state.data_entrega} />
                   </div>
                   <div className="form-group col-md-12 alinhamento-atividade">
                     <label>Dificuldade:&nbsp;</label>

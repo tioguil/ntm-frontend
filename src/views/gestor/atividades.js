@@ -32,6 +32,7 @@ export default class Atividades extends Component {
     comentarios:[],
     value:''};
     this.adicionar = this.adicionar.bind(this)
+    this.verificaAnalista = this.verificaAnalista.bind(this)
     this.refresh = this.refresh.bind(this)
     this.setComentarios =this.setComentarios.bind(this)
     if(usuario == null){
@@ -68,27 +69,62 @@ export default class Atividades extends Component {
       }
   }
 
+  verificaAnalista(dados){
+    console.log(dados)
+    if(dados.statusCode ==='200'){
+      toast.success('Usuario Vinculado sucesso!',{
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            })
+      this.refresh()
+    }
+    else {
+      toast.warn('Usuário já Vinculado',{
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            })
+      }
+  }
+
+  verificaConflito(data){
+    if(data.statusCode=='401'){
+      
+      }
+    
+    else{
+      const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
+      var config = {headers:{Authorization:this.token}};
+    
+    axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
+      .then(resp => this.verificaAnalista(resp.data))
+      .then(resp=> this.setState({value:""}))
+      .catch(error=> toast.error('Erro no servidor!',{
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+            }))
+    }
+  }
+
   adicionar(){
     const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
     var config = {headers:{Authorization:this.token}};
-    axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
-      .then(resp=> this.refresh())
-      .then(resp=> toast.success('Usuario Vinculado sucesso!',{
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true
-            }))
-      .catch(error=> toast.warn('Usuário já vinculado!',{
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true
-            }))
+    axios.post(`${URL}historicoAlocacao/gestor/conflito`,json,config)
+      .then(resp=> this.verificaConflito(resp.data))
+
+    
+    
   }
 
   enviarComentario(){
