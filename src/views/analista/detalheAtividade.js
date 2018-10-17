@@ -140,22 +140,28 @@ export default class DetalheAtividade extends Component {
         this.setState({comentario:event.target.value})
     }
 
-
     changeStatus(id){
 
-        var coord = JSON.parse(sessionStorage.getItem("location"))
-        var config = {headers:{Authorization:this.token}};
-        var json = {atividade:{id:this.state.idAtividade},latitude:coord.latitude,longitude:coord.longitude}
-        console.log(id)
-        if(id==null){
-            axios.post(`${URL}historico-trabalho/analista/registrar`,json,config)
-                .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
-        }
-        else{
-            const pause = {id:id,atividade:{id:this.state.idAtividade}}
-            axios.post(`${URL}historico-trabalho/analista/finalizar-trabalho`,pause,config)
-                .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
-        }
+            var coord = JSON.parse(sessionStorage.getItem("location"))
+            var config = {headers:{Authorization:this.token}};
+            let json; 
+            if(coord == null){
+            json = {atividade:{id:this.state.idAtividade},latitude:'',longitude:''}
+
+            }
+            else {
+                json = {atividade:{id:this.state.idAtividade},latitude:coord.latitude,longitude:coord.longitude}
+            }
+           
+            if(id==null){
+                axios.post(`${URL}historico-trabalho/analista/registrar`,json,config)
+                    .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
+            }
+            else{
+                const pause = {id:id,atividade:{id:this.state.idAtividade}}
+                axios.post(`${URL}historico-trabalho/analista/finalizar-trabalho`,pause,config)
+                    .then(resp=> console.log(resp.data)).then(resp => this.atualizarHorarioTrabalho())
+            }
     }
 
     finalizarAtividade(){
@@ -251,10 +257,6 @@ export default class DetalheAtividade extends Component {
 
                         <span>
                             {this.state.atividade.descricao}
-                            Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica
-                            e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor
-                            Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-                            e vem sendo utilizado desde o século XVI, quando um impressor
                         </span>
                         </div>
 

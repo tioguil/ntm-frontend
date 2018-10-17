@@ -25,6 +25,8 @@ export default class Atividades extends Component {
     this.atividadeId=0
     this.state = {
     atividade:{},
+    dataEntrega:'',
+    modal:false,
     comentario:"",
     alocados:[],
     usuario:{id:0},
@@ -35,6 +37,7 @@ export default class Atividades extends Component {
     this.verificaAnalista = this.verificaAnalista.bind(this)
     this.refresh = this.refresh.bind(this)
     this.setComentarios =this.setComentarios.bind(this)
+
     if(usuario == null){
       this.usuario = null
     }
@@ -53,13 +56,12 @@ export default class Atividades extends Component {
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
       .then(resp=> this.setState(...this.state,{atividade:resp.data.response,alocados:resp.data.response.historicoAlocacao,comentarios:resp.data.response.comentarios}))
-      
+      .then(resp=> this.formataData(this.state.atividade.dataEntrega))
   }
 
   btn_detalheAnalista(id){
     this.props.history.push("/detalheAnalista");
   }
-
 
   onSelect = (v) => {
       for (let i=0; i<this.state.analistas.length; i++){
@@ -68,6 +70,24 @@ export default class Atividades extends Component {
         }
       }
   }
+
+  adicionarDepoisDeVeirificar(){
+    const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
+    var config = {headers:{Authorization:this.token}};
+    axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
+        .then(resp => this.verificaAnalista(resp.data))
+        .then(resp=> this.setState({value:""}))
+        .then(resp=> this.closeModal('modal'))
+        .catch(error=> toast.error('Erro no servidor!',{
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true
+              }))
+      
+  } 
 
   verificaAnalista(dados){
     console.log(dados)
@@ -96,35 +116,38 @@ export default class Atividades extends Component {
 
   verificaConflito(data){
     if(data.statusCode=='401'){
-      
-      }
-    
+      this.setState({
+            ['modal']: true
+        });
+    }
     else{
       const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
       var config = {headers:{Authorization:this.token}};
-    
-    axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
-      .then(resp => this.verificaAnalista(resp.data))
-      .then(resp=> this.setState({value:""}))
-      .catch(error=> toast.error('Erro no servidor!',{
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true
-            }))
-    }
+      axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
+        .then(resp => this.verificaAnalista(resp.data))
+        .then(resp=> this.setState({value:""}))
+        .catch(error=> toast.error('Erro no servidor!',{
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true
+              }))
+      }
   }
+
+  closeModal(tabId){
+        this.setState({
+            [tabId]: false
+        });
+    }
 
   adicionar(){
     const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
     var config = {headers:{Authorization:this.token}};
     axios.post(`${URL}historicoAlocacao/gestor/conflito`,json,config)
-      .then(resp=> this.verificaConflito(resp.data))
-
-    
-    
+      .then(resp=> this.verificaConflito(resp.data))  
   }
 
   enviarComentario(){
@@ -162,6 +185,13 @@ export default class Atividades extends Component {
     }
   }
 
+ formataData(data) {
+  let dataFormatada = data.split("-");
+  let novaData = dataFormatada[2]+"/"+dataFormatada[1]+"/"+dataFormatada[0]
+  this.setState({
+    dataEntrega: novaData})
+}
+
   render(){
     if(this.usuario == null || this.usuario === "analista"){
       return (
@@ -169,10 +199,14 @@ export default class Atividades extends Component {
         );
       }
     const analistas = this.state.analistas;
-    let options;
-    options = analistas.map((a) => {
-      return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
-    });
+      let options;
+      options = analistas.map((a) => {
+        return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
+      })
+
+
+    
+
 
     return (
       <div>
@@ -210,7 +244,7 @@ export default class Atividades extends Component {
                       <div className="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="home-tab">
                         <div className="atividade-projeto">
                             <h3 className="inline-projeto">{this.state.atividade.nome}</h3> 
-                              <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} 
+                              <i className="inline-projeto color-p-projeto"> - {this.state.dataEntrega} 
                               </i> <i className="color-p-projeto">({this.state.atividade.status})</i>
                               <div>
                                 <ReactStars
@@ -290,7 +324,16 @@ export default class Atividades extends Component {
                        </div>
                    </div>
               </div>  
-
+              <Modal isOpen={this.state.modal} toggle={this.closeModal.bind(this, 'modal')} className={this.props.className}>
+                    <ModalHeader toggle={this.closeModal.bind(this, 'modal')}>Usuário já possui atividade nesse período</ModalHeader>
+                    <ModalBody>
+                        Deseja adicionar mesmo assim ?
+                    </ModalBody>
+                    <ModalFooter> 
+                      <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal')}>Cancelar</Button>
+                      <Button color="btn btn-primary float-right mt-2" onClick={this.adicionarDepoisDeVeirificar.bind(this)}>Adicionar</Button>
+                    </ModalFooter>
+                </Modal>
 
               <ToastContainer
                       position="top-right"

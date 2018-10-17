@@ -22,7 +22,6 @@ export default class DetalheProjeto extends Component {
     super(props);
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-
     this.usuario = user;
     this.token = user.token.numero;
     this.projeto_id = 0;
@@ -41,7 +40,6 @@ export default class DetalheProjeto extends Component {
       cidade: "",
       uf: ""
     };
-
     this.toggle = this.toggle.bind(this);
     this.showModal = this.showModal.bind(this);
     this.atividade = this.atividade.bind(this);
@@ -178,6 +176,8 @@ export default class DetalheProjeto extends Component {
       }
     );
   }
+
+  
 
   render(){
     if (this.usuario == null || this.usuario === "analista") {
