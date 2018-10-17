@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import { Line } from 'rc-progress';
+import ReactStars from 'react-stars'
 import axios from 'axios';
 import ButtonAtividade from './buttonAtividade';
 import { ToastContainer, toast } from 'react-toastify';
@@ -227,9 +228,16 @@ export default class DetalheAtividade extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <span style={{"font-size":"20px"}}>{this.state.atividade.nome}</span>
-
-                        {buttonFinalizar()}<br/>
-
+                        <div >
+                            <ReactStars
+                              count={5}
+                              value={this.state.atividade.complexidade}
+                              size={22}
+                              edit={false}
+                              color2={'#ffd700'} />
+                        </div>
+                        {buttonFinalizar()}
+                        <br/>
                         <small className="text-muted">
                             <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
                             <strong> Entrega: </strong> {this.state.atividade.dataEntrega}

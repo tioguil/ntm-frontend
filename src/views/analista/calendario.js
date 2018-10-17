@@ -74,7 +74,6 @@ export default class Calendario extends Component {
     }
   }
 
-  
   render(){
     if (this.usuario == null || this.usuario === "gestor") {
       return (
