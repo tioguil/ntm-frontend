@@ -31,14 +31,14 @@ export default class DetalheAtividade extends Component {
     this.downloadAnexo = this.downloadAnexo.bind(this);
 
     this.state = {
-        modal: false,
-        atividade: {},
-        idAtividade: 0,
-        comentario: "",
-        horarioTrabalho: [],
-        totalTrabalho: "",
-        anexo: null,
-        progressUpload: 0
+      modal: false,
+      atividade: {},
+      idAtividade: 0,
+      comentario: "",
+      horarioTrabalho: [],
+      totalTrabalho: "",
+      anexo: null,
+      progressUpload: 0
     };
 
     if(usuario == null){
@@ -49,8 +49,8 @@ export default class DetalheAtividade extends Component {
   }
 
   componentDidMount(){
-    this.getLocation();
-    const idAtividade = sessionStorage.getItem('idAtividadeAnalista');
+    this.getLocation()
+    const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
     
     this.setState(
       {
@@ -73,10 +73,11 @@ export default class DetalheAtividade extends Component {
           }
         )
       );
+
     axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
       .then(resp => this.setState(
           {
-            ...this.state, 
+            ...this.state,
             horarioTrabalho: resp.data.response,
             totalTrabalho: resp.data.message
           }
@@ -85,41 +86,41 @@ export default class DetalheAtividade extends Component {
   }
 
   atualizarHorarioTrabalho(){
-      var config = {
-        headers: {
-          Authorization: this.token
-        }
-      };
-
-      axios.get(`${URL}historico-trabalho/analista/lista-horario/${this.state.idAtividade}`,config)
-        .then(resp => this.setState(
-            {
-              ...this.state,
-              horarioTrabalho: resp.data.response,
-              totalTrabalho: resp.data.message
-            }
-          )
-        );
+    var config = {
+      headers: {
+        Authorization: this.token
+      }
+    };
+    
+    axios.get(`${URL}historico-trabalho/analista/lista-horario/${this.state.idAtividade}`,config)
+      .then(resp => this.setState(
+          {
+            ...this.state,
+            horarioTrabalho: resp.data.response,
+            totalTrabalho: resp.data.message
+          }
+        )
+      );
   }
 
   getLocation(){
     var options = {
-        enableHighAccuracy: false,
-        maximumAge: 0
-    }
+      enableHighAccuracy: false,
+      maximumAge: 0
+    };
 
     navigator.geolocation.getCurrentPosition(success, error, options);
-
     function success(pos) {
-        var crd = pos.coords;
-        var json = JSON.stringify(
-          {
-            latitude: crd.latitude,
-            longitude: crd.longitude
-          }
-        );
-        sessionStorage.setItem("location",json)
+      var crd = pos.coords;
+      var json = JSON.stringify(
+        {
+          latitude: crd.latitude,
+          longitude: crd.longitude
+        }
+      );
+      sessionStorage.setItem("location", json);
     }
+
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
@@ -134,7 +135,7 @@ export default class DetalheAtividade extends Component {
   fileSelected (event){
     this.setState(
       {
-        ...this.state,
+        ...this.state, 
         anexo: event.target.files[0]
       }
     );
@@ -151,36 +152,34 @@ export default class DetalheAtividade extends Component {
       onUploadProgress: progressEvent => {
         this.setState(
           {
-            ...this.state,
+            ...this.state, 
             progressUpload: Math.round(progressEvent.loaded / progressEvent.total * 100)
           }
         )
       }
     };
-    
     axios.post(`${URL}anexo/analista/upload`,formData,config)
       .then(resp => console.log(resp.data));
   }
 
   downloadAnexo(){
-    axios(
-      {
-        url: 'http://localhost:8080/anexo/analista/download/1',
-        method: 'GET',
-        responseType: 'blob', // important
-        headers: {
-          Authorization: this.token
-        }
-      })
-    .then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'file.pdf');
-      document.body.appendChild(link);
-      link.click();
-    });
-  }
+    axios({
+      url: 'http://localhost:8080/anexo/analista/download/1',
+      method: 'GET',
+      responseType: 'blob', // important
+      headers: {
+        Authorization:this.token
+      }
+    })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'file.pdf');
+        document.body.appendChild(link);
+        link.click();
+      });
+    }
 
   showModal(modal){
     this.setState({
@@ -200,34 +199,48 @@ export default class DetalheAtividade extends Component {
 
   setComentario(event){
     console.log(event.target.value);
-    this.setState({comentario:event.target.value})
+    this.setState({
+      comentario:event.target.value
+    });
   }
 
   changeStatus(id){
     var coord = JSON.parse(sessionStorage.getItem("location"))
-    var config = {
-      headers: {
-        Authorization: this.token
+    var config = {headers:{Authorization:this.token}};
+    let json; 
+
+    if(coord == null){
+      json = {
+        atividade: {
+          id: this.state.idAtividade
+        },
+        latitude: "",
+        longitude: ""
       }
-    };
-    var json = {
-      atividade: {
-        id: this.state.idAtividade
-      },
-      latitude: coord.latitude,
-      longitude: coord.longitude
+    } else {
+      json = {
+        atividade: {
+          id: this.state.idAtividade
+        },
+        latitude: coord.latitude,
+        longitude: coord.longitude
+      }
     }
 
-    console.log(id);
-
-    if (id==null) {
+    if(id==null){
       axios.post(`${URL}historico-trabalho/analista/registrar`, json, config)
         .then(resp => console.log(resp.data))
         .then(resp => this.atualizarHorarioTrabalho())
-    } else {
-      const pause = {id:id,atividade:{id:this.state.idAtividade}}
+    }
+    else{
+      const pause = {
+        id: id,
+        atividade: {
+          id: this.state.idAtividade
+        }
+      }
       axios.post(`${URL}historico-trabalho/analista/finalizar-trabalho`, pause, config)
-        .then(resp=> console.log(resp.data))
+        .then(resp => console.log(resp.data))
         .then(resp => this.atualizarHorarioTrabalho())
     }
   }
@@ -238,21 +251,18 @@ export default class DetalheAtividade extends Component {
         Authorization: this.token
       }
     };
-
     var json = { id: this.state.idAtividade }
     axios.post(`${URL}atividade/analista/finalizar`,json,config)
       .then(resp => this.setState(
           {
             ...this.state,
-            atividade:resp.data.response
+            atividade: resp.data.response
           }
         )
       )
       .then(resp => this.atualizarHorarioTrabalho())
-    this.closeModal('modal3')
+    this.closeModal('modal3');
   }
-
-
 
   enviarComentario(){
     var config = {
@@ -268,25 +278,8 @@ export default class DetalheAtividade extends Component {
       }
     }
     console.log(json);
-    axios.post(`${URL}comentario/analista/cadastrar`,json,config)
+    axios.post(`${URL}comentario/analista/cadastrar`, json, config)
       .then(resp => toast.success('Comentário realizado com sucesso!',
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        })
-      )
-      .then(resp => this.setState(
-          {
-            ...this.state,
-            comentario: ""
-          }
-        )
-      )
-      .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.', 
           {
             position: "top-right",
             autoClose: 3000,
@@ -297,11 +290,30 @@ export default class DetalheAtividade extends Component {
           }
         )
       )
-    this.closeModal('modal2')
+      .then(resp=> this.setState(
+          {
+            ...this.state,
+            comentario:""
+          }
+        )
+      )
+      .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.',
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+          }
+        )
+      );
+
+    this.closeModal('modal2');
   }
 
   render(){
-    if (this.usuario == null || this.usuario === "gestor") {
+    if(this.usuario == null || this.usuario === "gestor") {
       return (
         <Redirect to ="/"/>
       );
@@ -309,7 +321,7 @@ export default class DetalheAtividade extends Component {
 
     const buttonFinalizar = () => {
       {
-        if (this.state.atividade.status == 'finalizada') {
+        if(this.state.atividade.status == 'finalizada'){
           return(<span style={{"float": "right"}}>Atividade Finalizada</span>)
         } else {
           return(
@@ -331,19 +343,19 @@ export default class DetalheAtividade extends Component {
         <div className="row">
           <div className="col-md-12">
             <span style={{"font-size":"20px"}}>{this.state.atividade.nome}</span>
-            <div >
+            <div>
               <ReactStars
-              count={5}
-              value={this.state.atividade.complexidade}
-              size={22}
-              edit={false}
-              color2={'#ffd700'} />
+                count={5}
+                value={this.state.atividade.complexidade}
+                size={22}
+                edit={false}
+                color2={'#ffd700'} />
             </div>
             {buttonFinalizar()}
             <br/>
             <small className="text-muted">
-              <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
-              <strong> Entrega: </strong> {this.state.atividade.dataEntrega}
+            <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
+            <strong> Entrega: </strong> {this.state.atividade.dataEntrega}
             </small>
             <hr/>
           </div>
@@ -351,16 +363,8 @@ export default class DetalheAtividade extends Component {
           <div className="col-md-6">
             <label style={{"font-size":"12px"}}>Descrição</label>
             <div className="card-detail-atividade">
-
-              <span>
-                {this.state.atividade.descricao}
-                Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica
-                e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor
-                Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-                e vem sendo utilizado desde o século XVI, quando um impressor
-              </span>
+              <span>{this.state.atividade.descricao}</span>
             </div>
-
           </div>
 
           <div className="col-md-6">
@@ -369,48 +373,45 @@ export default class DetalheAtividade extends Component {
             </div>
             <div className="padding-bottons-atividade">
               <ButtonAtividade
-              button={this.changeStatus.bind(this)}
-              list={this.state.horarioTrabalho}
-              status={this.state.atividade.status}/>
+                button={this.changeStatus.bind(this)}
+                list={this.state.horarioTrabalho}
+                status={this.state.atividade.status}/>
             </div>
             <div>
               <HorarioTrabalho horarioTrabalho={this.state.horarioTrabalho} totalTrabalho={this.state.totalTrabalho}/>
             </div>
           </div>
-
         </div>
 
         <div className="row mt-3">
           <div className="col-xl-4 col-sm-6 mb-3">
-
             <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.showModal.bind(this, 'modal1')}>
-              <div className="card-body">
-                <div className="card-body-icon-activities">
-                  <i className="fas fa-paperclip anexo"></i>/<i className="fas fa-fw fa-image"></i>
-                </div>
+            <div className="card-body">
+              <div className="card-body-icon-activities">
+                <i className="fas fa-paperclip anexo"></i>/<i className="fas fa-fw fa-image"></i>
               </div>
-              <div className="card-footer text-white clearfix z-1">
-                <span className="float-left">Anexar</span>
-                <span className="float-right">
-                  <i className="fas fa-angle-right"></i>
-                </span>
-              </div>
+            </div>
+            <div className="card-footer text-white clearfix z-1">
+              <span className="float-left">Anexar</span>
+              <span className="float-right">
+                <i className="fas fa-angle-right"></i>
+              </span>
+            </div>
             </a>
-
           </div>
           <div className="col-xl-4 col-sm-6 mb-3">
             <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.visualizar.bind(this)}>
-              <div className="card-body">
-                <div className="card-body-icon-activities">
-                  <i className="fas fa-comment-alt detalhes"></i>
-                </div>
+            <div className="card-body">
+              <div className="card-body-icon-activities">
+                <i className="fas fa-comment-alt detalhes"></i>
               </div>
-              <div className="card-footer text-white clearfix z-1">
-                <span className="float-left">Visualizar comentários</span>
-                <span className="float-right">
-                  <i className="fas fa-angle-right"></i>
-                </span>
-              </div>
+            </div>
+            <div className="card-footer text-white clearfix z-1">
+              <span className="float-left">Visualizar comentários</span>
+              <span className="float-right">
+                <i className="fas fa-angle-right"></i>
+              </span>
+            </div>
             </a>
           </div>
           <div className="col-xl-4 col-sm-6 mb-3">
@@ -437,7 +438,6 @@ export default class DetalheAtividade extends Component {
             <Line percent={this.state.progressUpload} strokeWidth="4" strokeColor="#19c556" />
           </ModalBody>
           <ModalFooter>
-
             <Button color="primary" onClick={this.downloadAnexo}>Baixar</Button>
             <Button color="primary" onClick={this.closeModal.bind(this, 'modal1')}>Fechar</Button>
             <button onClick={this.fileUpload} className="btn btn-success">Salvar</button>
@@ -455,7 +455,6 @@ export default class DetalheAtividade extends Component {
         <Modal isOpen={this.state.modal3} toggle={this.closeModal.bind(this, 'modal3')} className={this.props.className}>
           <ModalHeader toggle={this.closeModal.bind(this, 'modal3')}>Deseja realmente finalizar atividade?</ModalHeader>
           <ModalBody>
-
             <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal3')}>Cancelar</Button>
             <Button color="btn btn-primary float-right mt-2" onClick={this.finalizarAtividade.bind(this)}>Finalizar</Button>
           </ModalBody>
@@ -470,10 +469,10 @@ export default class DetalheAtividade extends Component {
           rtl={false}
           pauseOnVisibilityChange
           draggable
-          pauseOnHover/>
+          pauseOnHover
+        />
         {/* Same as */}
         <ToastContainer />
-
       </div>
     );
   }

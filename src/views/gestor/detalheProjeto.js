@@ -22,7 +22,6 @@ export default class DetalheProjeto extends Component {
     super(props);
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-
     this.usuario = user;
     this.token = user.token.numero;
     this.projeto_id = 0;
@@ -41,7 +40,6 @@ export default class DetalheProjeto extends Component {
       cidade: "",
       uf: ""
     };
-
     this.toggle = this.toggle.bind(this);
     this.showModal = this.showModal.bind(this);
     this.atividade = this.atividade.bind(this);
@@ -179,6 +177,8 @@ export default class DetalheProjeto extends Component {
     );
   }
 
+  
+
   render(){
     if (this.usuario == null || this.usuario === "analista") {
       return (
@@ -200,20 +200,16 @@ export default class DetalheProjeto extends Component {
             Atividades
           </li>
         </ol>
-
-        <div className="container-fluid mb-3">
+        <div className="container mb-3">
           <h3 className="d-inline-block">{this.state.projeto.nome}</h3>
           <button className="btn btn-success float-right" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
           <div className="clearfix"/>
           <hr/>
-
-          <div className="mb-3">
-            <ListaAtividades
-              atividades={this.state.atividades}
-              showModal={this.showModal}
-              atividade={this.atividade}
-            />
-          </div>
+          <ListaAtividades 
+            atividades={this.state.atividades}
+            showModal={this.showModal}
+            atividade={this.atividade}
+          />
 
           <Modal isOpen={this.state.adicionar_atividade} toggle={this.closeModal.bind(this, 'adicionar_atividade')} className="modal-dialog modal-lg">
             <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'adicionar_atividade')}>Adicionar nova atividade</ModalHeader>
