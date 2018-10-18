@@ -21,7 +21,7 @@ export default props => {
         ))
       }
     return (
-    		<div className="detalhe-projeto table-wrapper-scroll-y">
+    		<div className="detalhe-projeto">
                 {comentarios()}
         </div>
   

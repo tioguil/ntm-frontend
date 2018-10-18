@@ -200,16 +200,20 @@ export default class DetalheProjeto extends Component {
             Atividades
           </li>
         </ol>
-        <div className="container mb-3">
+
+        <div className="container-fluid mb-3">
           <h3 className="d-inline-block">{this.state.projeto.nome}</h3>
           <button className="btn btn-success float-right" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
           <div className="clearfix"/>
           <hr/>
-          <ListaAtividades 
-            atividades={this.state.atividades}
-            showModal={this.showModal}
-            atividade={this.atividade}
-          />
+
+          <div className="mb-3">
+            <ListaAtividades
+              atividades={this.state.atividades}
+              showModal={this.showModal}
+              atividade={this.atividade}
+            />
+          </div>
 
           <Modal isOpen={this.state.adicionar_atividade} toggle={this.closeModal.bind(this, 'adicionar_atividade')} className="modal-dialog modal-lg">
             <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'adicionar_atividade')}>Adicionar nova atividade</ModalHeader>

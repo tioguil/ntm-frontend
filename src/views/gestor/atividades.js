@@ -176,136 +176,134 @@ export default class Atividades extends Component {
 
     return (
       <div>
-            <br/>
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to="/dashboardAdmin">Dashboard</Link>
-                    </li>
-                    <li className="breadcrumb-item active">
-                      <Link to="/listarProjetos">Listar Projetos</Link>
-                    </li>
-                    <li className="breadcrumb-item active">
-                      <Link to="/detalheProjeto">Atividades</Link>
-                    </li>
-                    <li className="breadcrumb-item active">Detalhar atividade</li>
-                  </ol>
+        <ol className="breadcrumb">
+          <li className="breadcrumb-item">
+            <Link to="/dashboardAdmin">Dashboard</Link>
+          </li>
+          <li className="breadcrumb-item active">
+            <Link to="/listarProjetos">Listar Projetos</Link>
+          </li>
+          <li className="breadcrumb-item active">
+            <Link to="/detalheProjeto">Atividades</Link>
+          </li>
+          <li className="breadcrumb-item active">Detalhar atividade</li>
+        </ol>
 
-                  <div className="container">
-                    <ul className="nav nav-tabs" id="myTab" role="tablist">
-                      <li className="nav-item">
-                        <a className="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="home" aria-selected="true">Detalhes</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="profile" aria-selected="false">Analistas</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" id="comentarios-tab" data-toggle="tab" href="#comentarios" role="tab" aria-controls="comentarios" aria-selected="false">Comentários</a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" id="anexos-tab" data-toggle="tab" href="#anexos" role="tab" aria-controls="anexos" aria-selected="false">Anexos</a>
-                      </li>
-                    </ul>
+        <div className="container-fluid">
+          <ul className="nav nav-tabs" id="myTab" role="tablist">
+            <li className="nav-item">
+              <a className="nav-link active" id="home-tab" data-toggle="tab" href="#detail" role="tab" aria-controls="home" aria-selected="true">Detalhes</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" id="members-tab" data-toggle="tab" href="#members" role="tab" aria-controls="profile" aria-selected="false">Analistas</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" id="comentarios-tab" data-toggle="tab" href="#comentarios" role="tab" aria-controls="comentarios" aria-selected="false">Comentários</a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" id="anexos-tab" data-toggle="tab" href="#anexos" role="tab" aria-controls="anexos" aria-selected="false">Anexos</a>
+            </li>
+          </ul>
 
-                    <div className="tab-content" id="myTabContent">
-                      <div className="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="home-tab">
-                        <div className="atividade-projeto">
-                            <h3 className="inline-projeto">{this.state.atividade.nome}</h3> 
-                              <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega} 
-                              </i> <i className="color-p-projeto">({this.state.atividade.status})</i>
-                              <div>
-                                <ReactStars
-                                  count={5}
-                                  value={this.state.atividade.complexidade}
-                                  size={22}
-                                  edit={false}
-                                  color2={'#ffd700'} />
-                              </div>
+          <div className="tab-content" id="myTabContent">
+            <div className="tab-pane fade show active" id="detail" role="tabpanel" aria-labelledby="home-tab">
+              <div className="atividade-projeto">
+                <h3 className="inline-projeto">{this.state.atividade.nome}</h3> 
+                <i className="inline-projeto color-p-projeto"> - {this.state.atividade.dataEntrega}</i> <i className="color-p-projeto">({this.state.atividade.status})</i>
+                <div>
+                  <ReactStars
+                    count={5}
+                    value={this.state.atividade.complexidade}
+                    size={22}
+                    edit={false}
+                    color2={'#ffd700'} />
+                </div>
+                <p className="descript">{this.state.atividade.descricao}</p>
+                <div className="location-margin">
+                  <li className="list-inline-item">
+                    <i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, {this.state.atividade.enderecoNumero}, {this.state.atividade.cidade}- 
+                    {this.state.atividade.uf} - {this.state.atividade.cep} </a>
+                  </li>
+                </div>  
+              </div>
+            </div>
+            <div className="tab-pane fade" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
+              <div className="atividade-projeto">
+                <ListaComentariosGestor comentarios={this.state.comentarios}/>
+                <div className="text-comentario p-4 row m-auto">
+                  <div className="col-10">
+                    <Input type="textarea" onChange={this.setComentarios} value={this.state.comentario} name="text" id="inputComentario" />
+                  </div>
+                  <div className="col-2">
+                    <Button className="btn btn-block btn-success" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                              <p className="descript">
-                                {this.state.atividade.descricao}
-                              </p>
-                            <div className="location-margin">
-                                <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, {this.state.atividade.enderecoNumero}, {this.state.atividade.cidade}- 
-                                {this.state.atividade.uf} - {this.state.atividade.cep} </a></li>
-                            </div>  
-                        </div>
+            <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
+              <div className="atividade-projeto">
+
+              </div>
+            </div>
+
+        
+            <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
+              <label className="label-buscar-analistas" htmlFor="inputNomeAtividade">Buscar Analista:</label>
+                <Select
+                  style={{width:'50%'}}
+                  onChange={this.onChange}
+                  onSelect={this.onSelect}
+                  notFoundContent="Não encontrado"
+                  allowClear
+                  placeholder="Pesquise por nome, cpf ou cnpj"
+                  value={this.state.value}
+                  combobox
+                  backfill
+                  filterOption={true}>
+                 {options} 
+                </Select>
+              <button type="button" onClick={this.adicionar} className="btn btn-primary btn-adicionar-analista">Adicionar</button>
+              <div className="row members-margin">  
+                {
+                  this.state.alocados.map(function(analista){
+                   return( 
+                   <div   className="card col-md-3 no-margin c-analista" >
+                       <div key={analista.id} className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.id)}>
+                          <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
+                            <p className="card-text">
+                              <li> {analista.usuario.celular} </li>
+                              <li> {analista.usuario.telefone} </li>
+                            </p>
                       </div>
 
-                      <div className="tab-pane fade" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
-                        <div className="atividade-projeto">
-                            <ListaComentariosGestor comentarios={this.state.comentarios}/>
-                            <div className="text-comentario row">
-                              <Input  className="input-comentario col-md-10" type="textarea" onChange={this.setComentarios} value={this.state.comentario} name="text" id="inputComentario" />
-                              <Button className="btn-comentario col-md-1" color="btn btn-success" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
-                           </div>
-                            
-                        </div>
+                      <div className="card-footer">
+                        <div className="text-muted">{analista.usuario.cidade}-{analista.usuario.uf}</div>
+
                       </div>
-
-                      <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
-                        <div className="atividade-projeto">
-           
-                        </div>
-                      </div>
-
-                  
-                    <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
-                      <label className="label-buscar-analistas" htmlFor="inputNomeAtividade">Buscar Analista:</label>
-                                    <Select
-                                        style={{width:'50%'}}
-                                        onChange={this.onChange}
-                                        onSelect={this.onSelect}
-                                        notFoundContent="Não encontrado"
-                                        allowClear
-                                        placeholder="Pesquise por nome, cpf ou cnpj"
-                                        value={this.state.value}
-                                        combobox
-                                        backfill
-                                        filterOption={true}>
-                                     {options} 
-                                    </Select>
-                        <button type="button" onClick={this.adicionar} className="btn btn-primary btn-adicionar-analista">Adicionar</button>
-                        <div className="row members-margin">  
-                              { 
-                                this.state.alocados.map(function(analista){
-                                 return( 
-                                 <div   className="card col-md-3 no-margin c-analista" >
-                                     <div key={analista.id} className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.id)}>
-                                        <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
-                                          <p className="card-text">
-                                            <li> {analista.usuario.celular} </li>
-                                            <li> {analista.usuario.telefone} </li>
-                                          </p>
-                                    </div>
-
-                                    <div className="card-footer">
-                                      <div className="text-muted">{analista.usuario.cidade}-{analista.usuario.uf}</div>
-
-                                    </div>
-                                </div>
-                                );
-                               }.bind(this))
-                              }
-                         </div>
-                       </div>
-                   </div>
-              </div>  
-
-
-              <ToastContainer
-                      position="top-right"
-                      autoClose={5000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      closeOnClick
-                      rtl={false}
-                      pauseOnVisibilityChange
-                      draggable
-                      pauseOnHover
-                      />
-                      {/* Same as */}
-                  <ToastContainer />
+                  </div>
+                  );
+                 }.bind(this))
+                }
+              </div>
+            </div>
+          </div>
         </div>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+          />
+          {/* Same as */}
+        <ToastContainer />
+      </div>
     );
   }
 }
