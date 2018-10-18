@@ -22,7 +22,8 @@ export default class DetalheAnalista extends Component {
   }
 
   componentDidMount(){
-    const idAnalsta = sessionStorage.getItem("idAnalista")
+    const idAnalista = sessionStorage.getItem("idAnalista")
+    console.log(idAnalista)
     
   }
 
