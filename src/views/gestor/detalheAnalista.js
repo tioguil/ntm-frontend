@@ -29,7 +29,6 @@ export default class DetalheAnalista extends Component {
   }
 
 
-
   toggle(){
     this.setState({
       modal: !this.state.modal

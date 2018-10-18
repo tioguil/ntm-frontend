@@ -377,3 +377,7 @@ div.calendario {
   -webkit-transform: rotate(10deg);
   transform: rotate(10deg);
 }
+
+.perfil-usuario {
+  text-transform: capitalize;
+}

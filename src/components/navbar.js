@@ -52,7 +52,7 @@ export default class Navbar extends Component {
           <i className="fas fa-bars"></i>
         </button>
 
-        <span className="text-white">{this.perfilAcesso}</span>
+        <span className="text-white perfil-usuario">{this.perfilAcesso}</span>
 
         <div className="d-none d-md-inline-block ml-auto mr-0 mr-md-3 my-2 my-md-0">
           <ul className="navbar-nav ml-auto ml-md-0">
