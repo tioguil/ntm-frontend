@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
+
 import Calendar from 'react-calendar';
 import {URL} from '../../global'
 
@@ -22,9 +23,11 @@ export default class DetalheAnalista extends Component {
   }
 
   componentDidMount(){
-    const idAnalsta = sessionStorage.getItem("idAnalista")
+    const idAnalista = sessionStorage.getItem("idAnalista")
+    console.log(idAnalista)
     
   }
+
 
   toggle(){
     this.setState({
@@ -32,9 +35,7 @@ export default class DetalheAnalista extends Component {
     });
   }
 
-  onChange = data => this.setState(
-    { data }
-    )
+  onChange = data => this.setState({data})
 
   atividade(){
 		 this.props.history.push("/atividades");
@@ -71,6 +72,7 @@ export default class DetalheAnalista extends Component {
                   className="calendar-properties"
                   onChange={this.onChange}
                   value={this.state.data}
+                  selectRange={true}
                   hu-HU="pt-BR"
                 />
             </div>

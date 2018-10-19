@@ -366,3 +366,18 @@ div.calendario {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.card-body-icon-activities {
+  position: absolute;
+  z-index: 0;
+  top: -1.25rem;
+  right: 0;
+  opacity: 0.4;
+  font-size: 6rem;
+  -webkit-transform: rotate(10deg);
+  transform: rotate(10deg);
+}
+
+.perfil-usuario {
+  text-transform: capitalize;
+}

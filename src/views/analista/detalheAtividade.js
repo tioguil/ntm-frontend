@@ -345,7 +345,7 @@ export default class DetalheAtividade extends Component {
     const buttonFinalizar = () => {
       {
         if(this.state.atividade.status == 'finalizada'){
-          return(<span style={{"float": "right"}}>Atividade Finalizada</span>)
+          return(<button onClick={this.showModal.bind(this, 'modal3')} className="btn btn-danger" style={{"float": "right"}} disabled>Finalizar atividade</button>)
         } else {
           return(
             <button onClick={this.showModal.bind(this, 'modal3')} className="btn btn-danger" style={{"float": "right"}}>Finalizar atividade</button>
@@ -362,10 +362,11 @@ export default class DetalheAtividade extends Component {
           </li>
           <li className="breadcrumb-item active">Atividade</li>
         </ol>
-
         <div className="row">
           <div className="col-md-12">
-            <span style={{"font-size":"20px"}}>{this.state.atividade.nome}</span>
+            <span style={{"font-size":"20px"}}>
+            {this.state.atividade.nome} <i> {(this.state.atividade.status ==='finalizada'? '(finalizada)':'')} </i>
+            </span>
             <div>
               <ReactStars
                 count={5}
