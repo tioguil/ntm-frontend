@@ -4,8 +4,7 @@ import { Input } from 'reactstrap';
 import axios from 'axios'
 import Select, { Option, OptGroup} from 'rc-select';
 import { Redirect, Link } from 'react-router-dom';
-
-const URL = `http://localhost:8080/`;
+import {URL} from '../global'
 
 export default class EditarPerfil extends Component {
   constructor(){
