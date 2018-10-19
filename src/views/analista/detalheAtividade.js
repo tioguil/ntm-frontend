@@ -37,7 +37,7 @@ export default class DetalheAtividade extends Component {
       comentario: "",
       horarioTrabalho: [],
       totalTrabalho: "",
-      anexo: null,
+      anexo: [],
       progressUpload: 0
     };
 
@@ -83,6 +83,13 @@ export default class DetalheAtividade extends Component {
           }
         )
       );
+      axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
+          {
+              ...this.state,
+              anexo: resp.data.response
+          }
+          )
+      )
   }
 
   atualizarHorarioTrabalho(){
@@ -164,7 +171,7 @@ export default class DetalheAtividade extends Component {
 
   downloadAnexo(){
     axios({
-      url: 'http://localhost:8080/anexo/analista/download/1',
+      url: 'http://localhost:8080/anexo/analista/download/date1539899028492_User1_Ativ1node-v8.12.0-x64.msi',
       method: 'GET',
       responseType: 'blob', // important
       headers: {
@@ -173,9 +180,10 @@ export default class DetalheAtividade extends Component {
     })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
+        console.log(response)
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'file.pdf');
+        link.setAttribute('download', 'date1539899028492_User1_Ativ1node-v8.12.0-x64.msi');
         document.body.appendChild(link);
         link.click();
       });
@@ -313,6 +321,21 @@ export default class DetalheAtividade extends Component {
   }
 
   render(){
+
+    const listaAnexo = () => {
+      let list = this.state.anexo
+        return list.map(anexo => (
+            <tr key={anexo.id}>
+                <td>{anexo.nomeAquivo}</td>
+                <td>{anexo.tamanho}</td>
+                <td>{anexo.usuario.nome}</td>
+                <td>button</td>
+            </tr>
+        ))
+
+    }
+
+    console.log(this.state.anexo)
     if(this.usuario == null || this.usuario === "gestor") {
       return (
         <Redirect to ="/"/>
@@ -437,6 +460,19 @@ export default class DetalheAtividade extends Component {
           <ModalBody>
             Selecione o anexo: <input type="file" onChange={this.fileSelected} />
             <Line percent={this.state.progressUpload} strokeWidth="4" strokeColor="#19c556" />
+              <table className="table">
+                  <thead>
+                  <tr>
+                      <th scope="col">Nome Arquivo</th>
+                      <th scope="col">Tamanho</th>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Opções</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {listaAnexo()}
+                  </tbody>
+              </table>
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.downloadAnexo}>Baixar</Button>
