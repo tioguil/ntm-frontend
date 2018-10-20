@@ -169,9 +169,10 @@ export default class DetalheAtividade extends Component {
       .then(resp => console.log(resp.data));
   }
 
-  downloadAnexo(){
+  downloadAnexo(localArmazenamento){
+      console.log(localArmazenamento)
     axios({
-      url: 'http://localhost:8080/anexo/analista/download/date1539899028492_User1_Ativ1node-v8.12.0-x64.msi',
+      url: URL+'anexo/analista/download/'+localArmazenamento,
       method: 'GET',
       responseType: 'blob', // important
       headers: {
@@ -183,7 +184,7 @@ export default class DetalheAtividade extends Component {
         console.log(response)
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'date1539899028492_User1_Ativ1node-v8.12.0-x64.msi');
+        link.setAttribute('download', localArmazenamento);
         document.body.appendChild(link);
         link.click();
       });
@@ -329,7 +330,7 @@ export default class DetalheAtividade extends Component {
                 <td>{anexo.nomeAquivo}</td>
                 <td>{anexo.tamanho}</td>
                 <td>{anexo.usuario.nome}</td>
-                <td>button</td>
+                <td><button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button></td>
             </tr>
         ))
 
