@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7f94728b-4478-4987-8a3e-66463e59490a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/global.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/analista/detalheAtividade.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/analista/detalheAtividade.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -154,8 +153,8 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.closed" value="1" />
-          <entry key="project.open.time.13" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.13" value="2" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -165,7 +164,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/analista/detalheAtividade.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
+            <state relative-caret-position="-644">
               <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -238,7 +237,7 @@
       <path value="$PROJECT_DIR$/public/vendor/fontawesome-free/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-1" />
     <option name="width" value="1368" />
     <option name="height" value="741" />
@@ -251,7 +250,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -268,6 +266,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -332,15 +331,15 @@
       <workItem from="1539499078264" duration="4620000" />
       <workItem from="1539545039070" duration="7083000" />
       <workItem from="1539985853145" duration="1107000" />
+      <workItem from="1540073282181" duration="378000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75960000" />
+    <option name="totallyTimeSpent" value="76338000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1320" height="784" extended-state="7" />
-    <editor active="true" />
+    <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19578783" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -477,7 +476,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/analista/detalheAtividade.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
+        <state relative-caret-position="-644">
           <caret line="170" lean-forward="true" selection-start-line="170" selection-end-line="170" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
