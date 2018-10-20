@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Helmet} from 'react-helmet';
 import axios from 'axios'
+import {URL} from '../global'
 
-const URL = `http://localhost:8080/`
 
 export default class Login extends Component {
   constructor(){

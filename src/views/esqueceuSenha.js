@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {Helmet} from 'react-helmet';
 import axios from 'axios'
-
-
-const URL = `http://localhost:8080/`
+import {URL} from '../global'
 
 export default class EsqueceuSenha extends Component {
     

@@ -36,7 +36,7 @@ export default class Navbar extends Component {
 
   render(){
     return (
-      <div className="navbar navbar-expand static-top navbar-dark">
+      <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
        <Modal isOpen={this.state.modal} toggle={this.toggle.bind(this)} className={this.props.className}>
           <ModalHeader toggle={this.toggle.bind(this)}>Deseja sair?</ModalHeader>
           <ModalBody>
@@ -48,52 +48,53 @@ export default class Navbar extends Component {
           </ModalFooter>
         </Modal>
 
-        <button className="btn btn-link btn-lg text-dark" id="sidebarToggle" href="#">
+        <button className="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
           <i className="fas fa-bars"></i>
         </button>
-        <span>{this.perfilAcesso}</span>
-        <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        </form>
-        <ul className="navbar-nav ml-auto ml-md-0">
-          <li className="nav-item dropdown no-arrow mx-1">
-            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="fas fa-bell fa-fw text-dark"></i>
-              <span className="badge badge-danger">9+</span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-              <a className="dropdown-item" href="#">Opção 1</a>
-              <a className="dropdown-item" href="#">Opção 2</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Opção 3</a>
-            </div>
-          </li>
-          <li className="nav-item dropdown no-arrow mx-1">
-            <a className="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="fas fa-envelope fa-fw text-dark"></i>
-              <span className="badge badge-danger">7</span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-              <a className="dropdown-item" href="#">Opção 1</a>
-              <a className="dropdown-item" href="#">Opção 2</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Opção 3</a>
-            </div>
-          </li>
-          <li className="nav-item dropdown no-arrow">
-            <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="fas fa-user-circle fa-fw text-dark"></i>
-              <span className="text-dark">{this.state.nome} <img src="img/icon_online.png" className="icon-size" alt="Online"/></span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-              <Link className="dropdown-item" to="/editarPerfil">Configurações</Link>
-              <a className="dropdown-item" href="#">Registro de Atividades</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" onClick={this.toggle.bind(this)} >Sair</a>
-            </div>
-          </li>
-        </ul>
 
-      </div>
+        <span className="text-white perfil-usuario">{this.perfilAcesso}</span>
+
+        <div className="d-none d-md-inline-block ml-auto mr-0 mr-md-3 my-2 my-md-0">
+          <ul className="navbar-nav ml-auto ml-md-0">
+            <li className="nav-item dropdown no-arrow mx-1">
+              <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i className="fas fa-bell fa-fw"></i>
+                <span className="badge badge-danger">9+</span>
+              </a>
+              <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                <a className="dropdown-item" href="#">Opção 1</a>
+                <a className="dropdown-item" href="#">Opção 2</a>
+                <div className="dropdown-divider"></div>
+                <a className="dropdown-item" href="#">Opção 3</a>
+              </div>
+            </li>
+            <li className="nav-item dropdown no-arrow mx-1">
+              <a className="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i className="fas fa-envelope fa-fw"></i>
+                <span className="badge badge-danger">7</span>
+              </a>
+              <div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                <a className="dropdown-item" href="#">Opção 1</a>
+                <a className="dropdown-item" href="#">Opção 2</a>
+                <div className="dropdown-divider"></div>
+                <a className="dropdown-item" href="#">Opção 3</a>
+              </div>
+            </li>
+            <li className="nav-item dropdown no-arrow">
+              <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i className="fas fa-user-circle fa-fw"></i>
+                <span className="ml-2">{this.state.nome} <img src="img/icon_online.png" className="icon-size" alt="Online"/></span>
+              </a>
+              <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <Link className="dropdown-item" to="/editarPerfil">Configurações</Link>
+                <a className="dropdown-item" href="#">Registro de Atividades</a>
+                <div className="dropdown-divider"></div>
+                <a className="dropdown-item" href="javascript:void(0)" onClick={this.toggle.bind(this)}>Sair</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
     );
   }
 }

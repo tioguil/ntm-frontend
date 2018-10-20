@@ -170,7 +170,7 @@ export default class CadastrarProjeto extends Component {
         </ol>
         <h3>Cadastrar Projeto</h3>
         <hr/>
-        <div className="container table-wrapper-scroll-y">
+        <div className="container-fluid mb-3">
           <form>
             <div className="form-row">
               <div className="form-group col-md-4">
@@ -214,7 +214,7 @@ export default class CadastrarProjeto extends Component {
                 <Input type="textarea" value={this.state.descricao} onChange={this.dadosProjeto.bind(this,'descricao')} rows="5" className="form-control" name="text" id="inputDescricao"/>
               </div>
             </div>
-            <button type="button" onClick={this.cadastrarProjeto} className="btn btn-success float-right mb-2">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
+            <button type="button" onClick={this.cadastrarProjeto} className="btn btn-success float-right mb-3">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
           </form>
         </div>
         <ToastContainer

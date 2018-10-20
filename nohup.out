@@ -1,0 +1,266 @@
+
+> pi-frontend@0.1.0 start /home/guil_stay/projeto/ntm-projectfrontend
+> react-scripts start
+
+Starting the development server...
+
+Compiled with warnings.
+
+./src/views/gestor/listaComentariosGestor.js
+  Line 11:  Expected '===' and instead saw '=='  eqeqeq
+  Line 12:  Expected '===' and instead saw '=='  eqeqeq
+  Line 13:  Expected '===' and instead saw '=='  eqeqeq
+  Line 15:  Expected '===' and instead saw '=='  eqeqeq
+
+./src/views/analista/listaComentarios.js
+  Line 13:  Expected '===' and instead saw '=='  eqeqeq
+  Line 14:  Expected '===' and instead saw '=='  eqeqeq
+  Line 15:  Expected '===' and instead saw '=='  eqeqeq
+  Line 17:  Expected '===' and instead saw '=='  eqeqeq
+
+./src/views/gestor/listaAtividades.js
+  Line 16:  Anchors must have content and the content must be accessible by a screen reader  jsx-a11y/anchor-has-content
+
+./src/views/gestor/detalheProjeto.js
+  Line 17:  'moment' is defined but never used                          no-unused-vars
+  Line 56:  'id' was used before it was defined                         no-use-before-define
+  Line 78:  Expected '===' and instead saw '=='                         eqeqeq
+  Line 87:  Unnecessarily computed property ['editar_atividade'] found  no-useless-computed-key
+
+./src/components/navbar.js
+  Line 2:   'Redirect' is defined but never used                                              no-unused-vars
+  Line 60:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 65:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 66:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 68:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 72:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 77:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 78:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 80:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 84:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 90:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 92:  Script URL is a form of eval                                                      no-script-url
+
+./src/views/editarPerfil.js
+  Line 2:  'Helmet' is defined but never used    no-unused-vars
+  Line 5:  'Select' is defined but never used    no-unused-vars
+  Line 5:  'Option' is defined but never used    no-unused-vars
+  Line 5:  'OptGroup' is defined but never used  no-unused-vars
+  Line 6:  'Redirect' is defined but never used  no-unused-vars
+
+./src/routes.js
+  Line 2:  'Redirect' is defined but never used     no-unused-vars
+  Line 2:  'hashHistory' is defined but never used  no-unused-vars
+
+./src/views/analista/detalheAtividade.js
+  Line 346:  Nested block is redundant                                                         no-lone-blocks
+  Line 347:  Expected '===' and instead saw '=='                                               eqeqeq
+  Line 412:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 427:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 442:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+
+./src/views/gestor/atividades.js
+  Line 3:    'OptGroup' is defined but never used             no-unused-vars
+  Line 55:   'id' was used before it was defined              no-use-before-define
+  Line 69:   Expected '===' and instead saw '=='              eqeqeq
+  Line 119:  Expected '===' and instead saw '=='              eqeqeq
+  Line 121:  Unnecessarily computed property ['modal'] found  no-useless-computed-key
+  Line 169:  Expected '!==' and instead saw '!='              eqeqeq
+  Line 205:  Unexpected use of comma operator                 no-sequences
+
+./src/components/sidebar.js
+  Line 3:   'Redirect' is defined but never used  no-unused-vars
+  Line 26:  Expected '===' and instead saw '=='   eqeqeq
+  Line 54:  Expected '===' and instead saw '=='   eqeqeq
+
+./src/views/gestor/cadastrarProjeto.js
+  Line 44:   Expected '!==' and instead saw '!='           eqeqeq
+  Line 46:   Do not mutate state directly. Use setState()  react/no-direct-mutation-state
+  Line 51:   Expected '!==' and instead saw '!='           eqeqeq
+  Line 53:   Do not mutate state directly. Use setState()  react/no-direct-mutation-state
+  Line 59:   Expected '!==' and instead saw '!='           eqeqeq
+  Line 88:   Expected '===' and instead saw '=='           eqeqeq
+  Line 157:  Unexpected use of comma operator              no-sequences
+
+./src/views/analista/calendario.js
+  Line 45:  Missing radix parameter  radix
+
+./src/views/gestor/cadastrarAnalista.js
+  Line 4:   'OptGroup' is defined but never used  no-unused-vars
+  Line 53:  Expected '!==' and instead saw '!='   eqeqeq
+  Line 62:  Expected '===' and instead saw '=='   eqeqeq
+
+./src/views/gestor/listarProjetos.js
+  Line 4:  '$' is defined but never used  no-unused-vars
+
+./src/index.js
+  Line 4:  'registerServiceWorker' is defined but never used  no-unused-vars
+  Line 5:  'Link' is defined but never used                   no-unused-vars
+
+./src/views/gestor/dashboardAdmin.js
+  Line 59:   Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 75:   Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 91:   Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 107:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+
+./src/views/gestor/detalheAnalista.js
+  Line 5:  'URL' is defined but never used  no-unused-vars
+
+./src/views/analista/buttonAtividade.js
+  Line 6:  'idLogado' is assigned a value but never used  no-unused-vars
+  Line 9:  Expected '!==' and instead saw '!='            eqeqeq
+
+./src/views/analista/visualizarComentarios.js
+  Line 9:   'Modal' is defined but never used        no-unused-vars
+  Line 10:  'ModalHeader' is defined but never used  no-unused-vars
+  Line 11:  'ModalBody' is defined but never used    no-unused-vars
+  Line 12:  'ModalFooter' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+Killed
+
+npm ERR! Linux 4.15.0-1021-gcp
+npm ERR! argv "/usr/bin/node" "/usr/bin/npm" "start"
+npm ERR! node v8.10.0
+npm ERR! npm  v3.5.2
+npm ERR! code ELIFECYCLE
+npm ERR! pi-frontend@0.1.0 start: `react-scripts start`
+npm ERR! Exit status 137
+npm ERR! 
+npm ERR! Failed at the pi-frontend@0.1.0 start script 'react-scripts start'.
+npm ERR! Make sure you have the latest version of node.js and npm installed.
+npm ERR! If you do, this is most likely a problem with the pi-frontend package,
+npm ERR! not with npm itself.
+npm ERR! Tell the author that this fails on your system:
+npm ERR!     react-scripts start
+npm ERR! You can get information on how to open an issue for this project with:
+npm ERR!     npm bugs pi-frontend
+npm ERR! Or if that isn't available, you can get their info via:
+npm ERR!     npm owner ls pi-frontend
+npm ERR! There is likely additional logging output above.
+
+npm ERR! Please include the following file with any support request:
+npm ERR!     /home/guil_stay/projeto/ntm-projectfrontend/npm-debug.log
+
+> pi-frontend@0.1.0 start /home/guil_stay/projeto/ntm-projectfrontend
+> react-scripts start
+
+Starting the development server...
+
+Compiled with warnings.
+
+./src/views/gestor/listaComentariosGestor.js
+  Line 11:  Expected '===' and instead saw '=='  eqeqeq
+  Line 12:  Expected '===' and instead saw '=='  eqeqeq
+  Line 13:  Expected '===' and instead saw '=='  eqeqeq
+  Line 15:  Expected '===' and instead saw '=='  eqeqeq
+
+./src/views/analista/listaComentarios.js
+  Line 13:  Expected '===' and instead saw '=='  eqeqeq
+  Line 14:  Expected '===' and instead saw '=='  eqeqeq
+  Line 15:  Expected '===' and instead saw '=='  eqeqeq
+  Line 17:  Expected '===' and instead saw '=='  eqeqeq
+
+./src/views/gestor/listaAtividades.js
+  Line 16:  Anchors must have content and the content must be accessible by a screen reader  jsx-a11y/anchor-has-content
+
+./src/views/gestor/detalheProjeto.js
+  Line 17:  'moment' is defined but never used                          no-unused-vars
+  Line 56:  'id' was used before it was defined                         no-use-before-define
+  Line 78:  Expected '===' and instead saw '=='                         eqeqeq
+  Line 87:  Unnecessarily computed property ['editar_atividade'] found  no-useless-computed-key
+
+./src/components/navbar.js
+  Line 2:   'Redirect' is defined but never used                                              no-unused-vars
+  Line 60:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 65:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 66:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 68:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 72:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 77:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 78:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 80:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 84:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 90:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 92:  Script URL is a form of eval                                                      no-script-url
+
+./src/views/editarPerfil.js
+  Line 2:  'Helmet' is defined but never used    no-unused-vars
+  Line 5:  'Select' is defined but never used    no-unused-vars
+  Line 5:  'Option' is defined but never used    no-unused-vars
+  Line 5:  'OptGroup' is defined but never used  no-unused-vars
+  Line 6:  'Redirect' is defined but never used  no-unused-vars
+
+./src/routes.js
+  Line 2:  'Redirect' is defined but never used     no-unused-vars
+  Line 2:  'hashHistory' is defined but never used  no-unused-vars
+
+./src/views/analista/detalheAtividade.js
+  Line 346:  Nested block is redundant                                                         no-lone-blocks
+  Line 347:  Expected '===' and instead saw '=='                                               eqeqeq
+  Line 412:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 427:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 442:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+
+./src/views/gestor/atividades.js
+  Line 3:    'OptGroup' is defined but never used             no-unused-vars
+  Line 55:   'id' was used before it was defined              no-use-before-define
+  Line 69:   Expected '===' and instead saw '=='              eqeqeq
+  Line 119:  Expected '===' and instead saw '=='              eqeqeq
+  Line 121:  Unnecessarily computed property ['modal'] found  no-useless-computed-key
+  Line 169:  Expected '!==' and instead saw '!='              eqeqeq
+  Line 205:  Unexpected use of comma operator                 no-sequences
+
+./src/components/sidebar.js
+  Line 3:   'Redirect' is defined but never used  no-unused-vars
+  Line 26:  Expected '===' and instead saw '=='   eqeqeq
+  Line 54:  Expected '===' and instead saw '=='   eqeqeq
+
+./src/views/gestor/cadastrarProjeto.js
+  Line 44:   Expected '!==' and instead saw '!='           eqeqeq
+  Line 46:   Do not mutate state directly. Use setState()  react/no-direct-mutation-state
+  Line 51:   Expected '!==' and instead saw '!='           eqeqeq
+  Line 53:   Do not mutate state directly. Use setState()  react/no-direct-mutation-state
+  Line 59:   Expected '!==' and instead saw '!='           eqeqeq
+  Line 88:   Expected '===' and instead saw '=='           eqeqeq
+  Line 157:  Unexpected use of comma operator              no-sequences
+
+./src/views/analista/calendario.js
+  Line 45:  Missing radix parameter  radix
+
+./src/views/gestor/cadastrarAnalista.js
+  Line 4:   'OptGroup' is defined but never used  no-unused-vars
+  Line 53:  Expected '!==' and instead saw '!='   eqeqeq
+  Line 62:  Expected '===' and instead saw '=='   eqeqeq
+
+./src/views/gestor/listarProjetos.js
+  Line 4:  '$' is defined but never used  no-unused-vars
+
+./src/index.js
+  Line 4:  'registerServiceWorker' is defined but never used  no-unused-vars
+  Line 5:  'Link' is defined but never used                   no-unused-vars
+
+./src/views/gestor/dashboardAdmin.js
+  Line 59:   Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 75:   Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 91:   Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+  Line 107:  Links must not point to "#". Use a more descriptive href or use a button instead  jsx-a11y/href-no-hash
+
+./src/views/gestor/detalheAnalista.js
+  Line 5:  'URL' is defined but never used  no-unused-vars
+
+./src/views/analista/buttonAtividade.js
+  Line 6:  'idLogado' is assigned a value but never used  no-unused-vars
+  Line 9:  Expected '!==' and instead saw '!='            eqeqeq
+
+./src/views/analista/visualizarComentarios.js
+  Line 9:   'Modal' is defined but never used        no-unused-vars
+  Line 10:  'ModalHeader' is defined but never used  no-unused-vars
+  Line 11:  'ModalBody' is defined but never used    no-unused-vars
+  Line 12:  'ModalFooter' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+

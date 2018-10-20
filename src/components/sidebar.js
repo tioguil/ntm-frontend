@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { Component } from 'react';
-import {Link,Redirect } from 'react-router-dom';
-
+import { Link, Redirect } from 'react-router-dom';
 
 export default class Sidebar extends Component {
     constructor(props){
@@ -61,7 +60,7 @@ export default class Sidebar extends Component {
     }
 
     return (
-      <div className="main-sidebar navbar-nav">
+      <ul className="sidebar navbar-nav">
         <div className="sidebar">
           <li className="nav-item active">
             <Link className="nav-link" to={dashboard}>
@@ -74,9 +73,8 @@ export default class Sidebar extends Component {
           <Link to="/listarProjetos" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: listarProjetos}} style={{display: {display}}}/>      
           <Link to="/cadastrarAnalista" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: cadastrarAnalistas}} style={{display: {display}}}/>
           <Link to="/listarAnalistas" className="nav-item active nounderline" dangerouslySetInnerHTML={{__html: listarAnalistas}} style={{display: {display}}}/>
-          
         </div>
-      </div>
+      </ul>
     );
   }
 }
