@@ -6,7 +6,7 @@ export default props => {
   const idLogado = user.id;
 
   const comentarios = () => {
-    const lista = props.comentarios;
+    const lista = props.comentarios || [];
 
     return lista.map(comentario => 
       (

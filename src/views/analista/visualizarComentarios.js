@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import ListaComentarios from './listaComentarios'
-import {URL} from '../../global'  
+import ListaComentarios from './listaComentarios';
+import {URL} from '../../global';
 import {
   Button,
   Modal,
@@ -18,9 +18,13 @@ export default class VisualizarComentarios extends Component {
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
-    this.usuario = user
-    this.token = user.token.numero
-    this.state = {comentarios:[],comentario:'',idAtividade:idAtividade}
+    this.usuario = user;
+    this.token = user.token.numero;
+    this.state = {
+      comentarios: [],
+      comentario: '',
+      idAtividade: idAtividade
+    }
     this.refresh = this.refresh.bind(this)
     if(usuario == null){
       this.usuario = null
@@ -75,16 +79,6 @@ export default class VisualizarComentarios extends Component {
 
     return (
       <div>
-        <ol className="breadcrumb">
-          <li className="breadcrumb-item">
-            <Link to="/Dashboard">Dashboard</Link>
-          </li>
-          <li className="breadcrumb-item">
-            <Link to="/detalheAtividade">Atividade</Link>
-          </li>
-          <li className="breadcrumb-item active">Comentários</li> 
-        </ol>
-
         <div className="text-center mb-3">
           <div className="container">
             <ListaComentarios comentarios={this.state.comentarios}/> 

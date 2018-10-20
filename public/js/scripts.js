@@ -2,12 +2,14 @@
   "use strict"; // Start of use strict
 
   // Toggle the side navigation
-  $("#sidebarToggle").click(function(e) {
+  $("#sidebarToggle").on('click',function(e) {
     e.preventDefault();
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
-    $(".content-wrapper").toggleClass("change-wrapper");
+  });
+
+  $('#input-anexo').change(function() {
+    $('#file-name').html(this.files[0].name);
   });
 
 })(jQuery); // End of use strict
-

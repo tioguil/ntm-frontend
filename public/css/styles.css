@@ -378,13 +378,10 @@ div.calendario {
   transform: rotate(10deg);
 }
 
-.perfil-usuario {
-  text-transform: capitalize;
-}
-
 .telefones-contato{
   margin-bottom: 0;
 }
+
 .button-properties{
   margin-top: 2%;
   margin-right: 5%;
@@ -394,4 +391,12 @@ div.calendario {
 
 .btn-round{
   border-radius:30px !important;
+
+input[type='file'] {
+  display: none;
+}
+
+.input-anexo-atividade label:hover {
+  background-color: #2980b9
+
 }
