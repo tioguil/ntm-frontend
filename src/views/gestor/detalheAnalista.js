@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
 import Calendar from 'react-calendar';
+import FiltroAtividade from './filtroAtividades'
 import {URL} from '../../global'
+
 
 export default class DetalheAnalista extends Component {
   constructor(){
@@ -11,8 +13,9 @@ export default class DetalheAnalista extends Component {
     const user = JSON.parse(usuario);
     this.usuario = user
     this.token = user.token.numero;
-    this.state = {data:new Date(),usuario:""}
-    this.toggle = this.toggle.bind(this);
+    this.state = {data:new Date(),
+      usuario:"",
+      atividades:[]}
     if(usuario == null){
       this.usuario = null
     }
@@ -33,17 +36,36 @@ export default class DetalheAnalista extends Component {
     
   }
 
-
-  toggle(){
-    this.setState({
-      modal: !this.state.modal
-    });
+  filtroAtividade(){
+    let inicio;
+    let fim;
+    let json;
+    console.log(this.state.data)
+    
+    if(this.state.data != undefined){
+      if (this.state.data.length > 1) {
+        for(let i = 0; i<this.state.data.length ;i++){ 
+          inicio=this.state.data[0].toISOString().split('T')[0]
+          fim=this.state.data[1].toISOString().split('T')[0]
+          axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`)
+            .then(resp=>console.log(resp.data.response))
+        }
+      }
+      else{
+        inicio = this.state.data.toISOString().split('T')[0]
+        fim = this.state.data.toISOString().split('T')[0]
+        axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`)
+          .then(resp=>console.log(resp.data.response))
+      }
+    }
   }
 
   onChange = data => this.setState({data})
 
-  atividade(){
+  atividade(id){
+    console.log(id)
 		 this.props.history.push("/atividades");
+
 	}
 
   render(){
@@ -71,46 +93,23 @@ export default class DetalheAnalista extends Component {
                 <h3>{this.state.usuario.nome} {this.state.usuario.sobreNome} </h3>
                 <a className="email-detalhe-atividade" href="mailto:rodrigo11_santos@hotmail.com"><em><i className="far fa-envelope fa-1x fa-email"></i> {this.state.usuario.email}</em></a>
                 <p className="telefones-contato"> <i className="fas fa-mobile-alt"></i> <em className="email-detalhe-atividade" > {this.state.usuario.celular} </em>
-                <i class="fas fa-phone"></i> <em className="email-detalhe-atividade" > {this.state.usuario.telefone} </em></p>
+                <i className="fas fa-phone"></i> <em className="email-detalhe-atividade" > {this.state.usuario.telefone} </em></p>
                 <i className="fa fa-location-arrow" aria-hidden="true"></i> {this.state.usuario.endereco}, {this.state.usuario.enderecoNumero} - {this.state.usuario.cidade}, {this.state.usuario.uf} - CEP: {this.state.usuario.cep}
               </div>
-              <Calendar
-                  className="calendar-properties"
-                  onChange={this.onChange}
-                  value={this.state.data}
-                  selectRange={true}
-                  hu-HU="pt-BR"
-                />
+              <div className="calendar-properties">
+                <Calendar
+                    onChange={this.onChange}
+                    value={this.state.data}
+                    selectRange={true}
+                    hu-HU="pt-BR"
+                  />
+                  <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary float-right button-properties">Filtrar</button>
+              </div>
             </div>
             <div className="col-md-5 row-detalhe-analista">
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade A</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade B</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade C</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade D</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
+                  <FiltroAtividade 
+                  atividades={this.state.atividades}
+                  visualizar = {this.atividade.bind(this)}/>
             </div>
           </div>
         </div>

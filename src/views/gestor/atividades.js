@@ -303,7 +303,7 @@ export default class Atividades extends Component {
                                         filterOption={true}>
                                      {options} 
                                     </Select>
-                        <button type="button" onClick={this.adicionar} className="btn btn-primary btn-adicionar-analista">Adicionar</button>
+                        <button type="button" onClick={this.adicionar} className="btn btn-primary btn-adicionar-analista btn-round">Adicionar</button>
                         <div className="row members-margin">  
                               { 
                                 this.state.alocados.map(function(analista){
