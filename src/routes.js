@@ -13,7 +13,6 @@ import DetalheProjeto from './views/gestor/detalheProjeto';
 import DashboardAdmin from "./views/gestor/dashboardAdmin";
 import Dashboard from "./views/analista/dashboard";
 import DetalheAtividade from "./views/analista/detalheAtividade";
-import VisualizarComentarios from "./views/analista/visualizarComentarios";
 import Atividades from './views/gestor/atividades';
 import Calendario from './views/analista/calendario';
 	
@@ -58,7 +57,6 @@ export default class Routes extends Component{
 									<Route path="/Dashboard" component={Dashboard}/>
 									<Route path="/calendario" component={Calendario}/>
 									<Route path="/DetalheAtividade" component={DetalheAtividade}/>
-									<Route path="/visualizarComentarios" component={VisualizarComentarios}/>
 								</Switch>
 							</App>
 						

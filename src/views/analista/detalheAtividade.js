@@ -14,6 +14,7 @@ import {
   ModalBody,
   ModalFooter,
   Input } from 'reactstrap';
+import VisualizarComentarios from './visualizarComentarios';
 
 
 export default class DetalheAtividade extends Component {
@@ -324,16 +325,15 @@ export default class DetalheAtividade extends Component {
   render(){
 
     const listaAnexo = () => {
-      let list = this.state.anexo
-        return list.map(anexo => (
-            <tr key={anexo.id}>
-                <td>{anexo.nomeAquivo}</td>
-                <td>{anexo.tamanho}</td>
-                <td>{anexo.usuario.nome}</td>
-                <td><button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button></td>
-            </tr>
-        ))
-
+      let list = this.state.anexo;
+      return list.map(anexo => (
+        <tr key={anexo.id}>
+          <td>{anexo.nomeAquivo}</td>
+          <td>{anexo.tamanho}</td>
+          <td>{anexo.usuario.nome}</td>
+          <td><button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button></td>
+        </tr>
+      ))
     }
 
     console.log(this.state.anexo)
@@ -363,140 +363,109 @@ export default class DetalheAtividade extends Component {
           </li>
           <li className="breadcrumb-item active">Atividade</li>
         </ol>
-        <div className="row">
-          <div className="col-md-12">
-            <span style={{"font-size":"20px"}}>
-            {this.state.atividade.nome} <i> {(this.state.atividade.status ==='finalizada'? '(finalizada)':'')} </i>
-            </span>
-            <div>
-              <ReactStars
-                count={5}
-                value={this.state.atividade.complexidade}
-                size={22}
-                edit={false}
-                color2={'#ffd700'} />
-            </div>
-            {buttonFinalizar()}
-            <br/>
-            <small className="text-muted">
-            <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
-            <strong> Entrega: </strong> {this.state.atividade.dataEntrega}
-            </small>
-            <hr/>
-          </div>
 
-          <div className="col-md-6">
-            <label style={{"font-size":"12px"}}>Descrição</label>
-            <div className="card-detail-atividade">
-              <span>{this.state.atividade.descricao}</span>
-            </div>
-          </div>
+        <ul className="nav nav-tabs" id="myTab" role="tablist">
+          <li className="nav-item">
+            <a className="nav-link active" id="dados-atividade-tab" data-toggle="tab" href="#dados-atividade" role="tab" aria-controls="dados-atividade" aria-selected="true">Dados</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" id="anexos-atividade-tab" data-toggle="tab" href="#anexos-atividade" role="tab" aria-controls="anexos-atividade" aria-selected="false">Anexos</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" id="comentarios-atividade-tab" data-toggle="tab" href="#comentarios-atividade" role="tab" aria-controls="comentarios-atividade" aria-selected="false">Comentários</a>
+          </li>
+        </ul>
 
-          <div className="col-md-6">
-            <div>
-              <h5>Hórario de trabalho</h5>
-            </div>
-            <div className="padding-bottons-atividade">
-              <ButtonAtividade
-                button={this.changeStatus.bind(this)}
-                list={this.state.horarioTrabalho}
-                status={this.state.atividade.status}/>
-            </div>
-            <div>
-              <HorarioTrabalho horarioTrabalho={this.state.horarioTrabalho} totalTrabalho={this.state.totalTrabalho}/>
-            </div>
-          </div>
-        </div>
-
-        <div className="row mt-3">
-          <div className="col-xl-4 col-sm-6 mb-3">
-            <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.showModal.bind(this, 'modal1')}>
-            <div className="card-body">
-              <div className="card-body-icon-activities">
-                <i className="fas fa-paperclip anexo"></i>/<i className="fas fa-fw fa-image"></i>
+        <div className="tab-content">
+          <div className="tab-pane fade show pt-3 active" id="dados-atividade" role="tabpanel" aria-labelledby="dados-atividade-tab">
+            <div className="row">
+              <div className="col-md-12">
+                <span style={{"font-size":"20px"}}>
+                  {this.state.atividade.nome} <i> {(this.state.atividade.status ==='finalizada'? '(finalizada)':'')} </i>
+                </span>
+                <div>
+                  <ReactStars
+                    count={5}
+                    value={this.state.atividade.complexidade}
+                    size={22}
+                    edit={false}
+                    color2={'#ffd700'} />
+                </div>
+                {buttonFinalizar()}
+                <br/>
+                <small className="text-muted">
+                <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
+                <strong> Entrega: </strong> {this.state.atividade.dataEntrega}
+                </small>
+                <hr/>
               </div>
-            </div>
-            <div className="card-footer text-white clearfix z-1">
-              <span className="float-left">Anexar</span>
-              <span className="float-right">
-                <i className="fas fa-angle-right"></i>
-              </span>
-            </div>
-            </a>
-          </div>
-          <div className="col-xl-4 col-sm-6 mb-3">
-            <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.visualizar.bind(this)}>
-            <div className="card-body">
-              <div className="card-body-icon-activities">
-                <i className="fas fa-comment-alt detalhes"></i>
-              </div>
-            </div>
-            <div className="card-footer text-white clearfix z-1">
-              <span className="float-left">Visualizar comentários</span>
-              <span className="float-right">
-                <i className="fas fa-angle-right"></i>
-              </span>
-            </div>
-            </a>
-          </div>
-          <div className="col-xl-4 col-sm-6 mb-3">
-            <a className="card text-white bg-secondary o-hidden h-100" href="#" onClick={this.showModal.bind(this, 'modal2')}>
-              <div className="card-body">
-                <div className="card-body-icon-activities">
-                  <i className="fas fa-plus-circle"></i>
+
+              <div className="col-md-6">
+                <label style={{"font-size":"12px"}}>Descrição</label>
+                <div className="card-detail-atividade">
+                  <span>{this.state.atividade.descricao}</span>
                 </div>
               </div>
-              <div className="card-footer text-white clearfix z-1">
-                <span className="float-left">Novo comentário</span>
-                <span className="float-right">
-                  <i className="fas fa-angle-right"></i>
-                </span>
-              </div>
-            </a>
-          </div>
-        </div>
 
-        <Modal isOpen={this.state.modal1} toggle={this.closeModal.bind(this, 'modal1')} className={this.props.className}>
-          <ModalHeader toggle={this.closeModal.bind(this, 'modal1')}>Anexar arquivo</ModalHeader>
-          <ModalBody>
-            Selecione o anexo: <input type="file" onChange={this.fileSelected} />
-            <Line percent={this.state.progressUpload} strokeWidth="4" strokeColor="#19c556" />
-              <table className="table">
+              <div className="col-md-6">
+                <div>
+                  <h5>Hórario de trabalho</h5>
+                </div>
+                <div className="padding-bottons-atividade">
+                  <ButtonAtividade
+                    button={this.changeStatus.bind(this)}
+                    list={this.state.horarioTrabalho}
+                    status={this.state.atividade.status}/>
+                </div>
+                <div>
+                  <HorarioTrabalho horarioTrabalho={this.state.horarioTrabalho} totalTrabalho={this.state.totalTrabalho}/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="tab-pane fade pt-3" id="anexos-atividade" role="tabpanel" aria-labelledby="anexos-atividade-tab">
+            <div className="row">
+              <div className="col-md-12">
+                <h4>Anexar arquivo</h4>
+
+                <div className="input-anexo-atividade">
+                  <label className="btn btn-primary" for="input-anexo">
+                    Selecione um arquivo
+                  </label>
+                  <input id="input-anexo" type="file" onChange={this.fileSelected}/>
+                  <span className="ml-2" id="file-name"></span>
+                  <div className="clearfix"/>
+                  <button className="btn btn-success" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                </div>
+                <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
+                <table className="table">
                   <thead>
-                  <tr>
+                    <tr>
                       <th scope="col">Nome Arquivo</th>
                       <th scope="col">Tamanho</th>
-                      <th scope="col">Nome</th>
+                      <th scope="col">Usuário</th>
                       <th scope="col">Opções</th>
-                  </tr>
+                    </tr>
                   </thead>
                   <tbody>
-                  {listaAnexo()}
+                    {listaAnexo()}
                   </tbody>
-              </table>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.downloadAnexo}>Baixar</Button>
-            <Button color="primary" onClick={this.closeModal.bind(this, 'modal1')}>Fechar</Button>
-            <button onClick={this.fileUpload} className="btn btn-success">Salvar</button>
-          </ModalFooter>
-        </Modal>
-
-        <Modal isOpen={this.state.modal2} toggle={this.closeModal.bind(this, 'modal2')} className={this.props.className}>
-          <ModalHeader toggle={this.closeModal.bind(this, 'modal2')}>Novo comentário</ModalHeader>
-          <ModalBody>
-            <Input type="textarea" onChange={this.setComentario.bind(this)} value={this.state.comentario} name="text" id="inputComentario" />
-            <Button color="btn btn-success float-right mt-2" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
-          </ModalBody>
-        </Modal>
-
-        <Modal isOpen={this.state.modal3} toggle={this.closeModal.bind(this, 'modal3')} className={this.props.className}>
-          <ModalHeader toggle={this.closeModal.bind(this, 'modal3')}>Deseja realmente finalizar atividade?</ModalHeader>
-          <ModalBody>
-            <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal3')}>Cancelar</Button>
-            <Button color="btn btn-primary float-right mt-2" onClick={this.finalizarAtividade.bind(this)}>Finalizar</Button>
-          </ModalBody>
-        </Modal>
+                </table>
+                <div className="col-md-12">
+                  <Button color="primary" onClick={this.downloadAnexo}>Baixar</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="tab-pane fade pt-3" id="comentarios-atividade" role="tabpanel" aria-labelledby="comentarios-atividade-tab">
+            <div className="row">
+              <div className="col-md-12">
+                <VisualizarComentarios/>              
+              </div>
+            </div>
+          </div>
+        </div>
 
         <ToastContainer
           position="top-right"
