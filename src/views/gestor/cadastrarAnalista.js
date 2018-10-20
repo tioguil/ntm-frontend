@@ -211,7 +211,7 @@ export default class CadastrarAnalista extends Component {
                 </select>
               </div>
             </div>
-            <button type="button" onClick={this.cadastrarAnalista} className="btn btn-success float-right mb-3">Cadastrar <i className="fas fa-sm fa-plus"></i></button>
+            <button type="button" onClick={this.cadastrarAnalista} className="btn btn-success float-right mb-3 btn-round">Cadastrar</button>
           </form>
         </div>
 

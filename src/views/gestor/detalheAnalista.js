@@ -40,31 +40,33 @@ export default class DetalheAnalista extends Component {
     let inicio;
     let fim;
     let json;
-    console.log(this.state.data)
-    
+    var config = {headers:{Authorization:this.token}};
     if(this.state.data != undefined){
       if (this.state.data.length > 1) {
         for(let i = 0; i<this.state.data.length ;i++){ 
           inicio=this.state.data[0].toISOString().split('T')[0]
           fim=this.state.data[1].toISOString().split('T')[0]
-          axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`)
-            .then(resp=>console.log(resp.data.response))
+
+          axios.get(`${URL}atividade/gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
+            .then(resp=> this.setState({atividades:resp.data.response}))
         }
       }
       else{
         inicio = this.state.data.toISOString().split('T')[0]
         fim = this.state.data.toISOString().split('T')[0]
-        axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`)
-          .then(resp=>console.log(resp.data.response))
+        axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
+          .then(resp=>this.setState({atividades:resp.data.response}))
       }
     }
   }
 
   onChange = data => this.setState({data})
 
-  atividade(id){
+  visualizarAtividade(id){
     console.log(id)
-		 this.props.history.push("/atividades");
+    sessionStorage.setItem('idAtividade', id);
+    this.props.history.push("/atividades");
+		
 
 	}
 
@@ -106,11 +108,11 @@ export default class DetalheAnalista extends Component {
                   <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary float-right button-properties">Filtrar</button>
               </div>
             </div>
-            <div className="col-md-5 row-detalhe-analista">
-                  <FiltroAtividade 
-                  atividades={this.state.atividades}
-                  visualizar = {this.atividade.bind(this)}/>
-            </div>
+              <div className="col-md-5 row-detalhe-analista">
+                    <FiltroAtividade 
+                    atividades={this.state.atividades}
+                    visualizarAtividade = {this.visualizarAtividade.bind(this)}/>
+              </div>
           </div>
         </div>
       </div>
