@@ -381,3 +381,8 @@ div.calendario {
 .perfil-usuario {
   text-transform: capitalize;
 }
+
+
+.telefones-contato{
+  margin-bottom: 0;
+}

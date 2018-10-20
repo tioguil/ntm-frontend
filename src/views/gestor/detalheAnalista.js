@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
-
+import axios from 'axios'
 import Calendar from 'react-calendar';
 import {URL} from '../../global'
 
@@ -10,7 +10,8 @@ export default class DetalheAnalista extends Component {
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
     this.usuario = user
-    this.state = {data:new Date()}
+    this.token = user.token.numero;
+    this.state = {data:new Date(),usuario:""}
     this.toggle = this.toggle.bind(this);
     if(usuario == null){
       this.usuario = null
@@ -23,8 +24,12 @@ export default class DetalheAnalista extends Component {
   }
 
   componentDidMount(){
+    var config = {headers:{Authorization:this.token}};
     const idAnalista = sessionStorage.getItem("idAnalista")
     console.log(idAnalista)
+    axios.get(`${URL}usuario/analista/buscar_usuario_by_id/${idAnalista}`,config)
+      .then(resp=> this.setState({usuario:resp.data.response}))
+      .then(resp=>console.log(this.state.usuario))
     
   }
 
@@ -63,10 +68,11 @@ export default class DetalheAnalista extends Component {
           <div className="row">
             <div className="col-md-7">
               <div className="container text-center">
-                <h3> Rodrigo Santos </h3>
-                <a className="email-detalhe-atividade" href="mailto:rodrigo11_santos@hotmail.com"><em><i className="far fa-envelope fa-1x fa-email"></i> rodrigo11_santos@hotmail.com</em></a>
-                <br/>
-                <em><i className="fa fa-location-arrow" aria-hidden="true"></i> Rua/Av.:Avenida Vital Brasil, 300 - São Paulo - CEP: 05471-010</em>
+                <h3>{this.state.usuario.nome} {this.state.usuario.sobreNome} </h3>
+                <a className="email-detalhe-atividade" href="mailto:rodrigo11_santos@hotmail.com"><em><i className="far fa-envelope fa-1x fa-email"></i> {this.state.usuario.email}</em></a>
+                <p className="telefones-contato"> <i className="fas fa-mobile-alt"></i> <em className="email-detalhe-atividade" > {this.state.usuario.celular} </em>
+                <i class="fas fa-phone"></i> <em className="email-detalhe-atividade" > {this.state.usuario.telefone} </em></p>
+                <i className="fa fa-location-arrow" aria-hidden="true"></i> {this.state.usuario.endereco}, {this.state.usuario.enderecoNumero} - {this.state.usuario.cidade}, {this.state.usuario.uf} - CEP: {this.state.usuario.cep}
               </div>
               <Calendar
                   className="calendar-properties"
