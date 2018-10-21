@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
 import Calendar from 'react-calendar';
+import FiltroAtividade from './filtroAtividades'
 import {URL} from '../../global'
+
 
 export default class DetalheAnalista extends Component {
   constructor(){
@@ -11,12 +13,12 @@ export default class DetalheAnalista extends Component {
     const user = JSON.parse(usuario);
     this.usuario = user
     this.token = user.token.numero;
-    this.state = {data:new Date(),usuario:""}
-    this.toggle = this.toggle.bind(this);
+    this.state = {data:new Date(),
+      usuario:"",
+      atividades:[]}
     if(usuario == null){
       this.usuario = null
     }
-
     else{
       this.usuario = user.perfilAcesso
     }
@@ -28,22 +30,41 @@ export default class DetalheAnalista extends Component {
     const idAnalista = sessionStorage.getItem("idAnalista")
     console.log(idAnalista)
     axios.get(`${URL}usuario/analista/buscar_usuario_by_id/${idAnalista}`,config)
-      .then(resp=> this.setState({usuario:resp.data.response}))
-      .then(resp=>console.log(this.state.usuario))
-    
+      .then(resp=> this.setState({usuario:resp.data.response}))    
   }
 
+  filtroAtividade(){
+    let inicio;
+    let fim;
+    let json;
+    var config = {headers:{Authorization:this.token}};
+    if(this.state.data != undefined){
+      if (this.state.data.length > 1) {
+        for(let i = 0; i<this.state.data.length ;i++){ 
+          inicio=this.state.data[0].toISOString().split('T')[0]
+          fim=this.state.data[1].toISOString().split('T')[0]
 
-  toggle(){
-    this.setState({
-      modal: !this.state.modal
-    });
+          axios.get(`${URL}atividade/gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
+            .then(resp=> this.setState({atividades:resp.data.response}))
+        }
+      }
+      else{
+        inicio = this.state.data.toISOString().split('T')[0]
+        fim = this.state.data.toISOString().split('T')[0]
+        axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
+          .then(resp=>this.setState({atividades:resp.data.response}))
+      }
+    }
   }
 
   onChange = data => this.setState({data})
 
-  atividade(){
-		 this.props.history.push("/atividades");
+  visualizarAtividade(id){
+    console.log(id)
+    sessionStorage.setItem('idAtividade', id);
+    this.props.history.push("/atividades");
+		
+
 	}
 
   render(){
@@ -71,47 +92,24 @@ export default class DetalheAnalista extends Component {
                 <h3>{this.state.usuario.nome} {this.state.usuario.sobreNome} </h3>
                 <a className="email-detalhe-atividade" href="mailto:rodrigo11_santos@hotmail.com"><em><i className="far fa-envelope fa-1x fa-email"></i> {this.state.usuario.email}</em></a>
                 <p className="telefones-contato"> <i className="fas fa-mobile-alt"></i> <em className="email-detalhe-atividade" > {this.state.usuario.celular} </em>
-                <i class="fas fa-phone"></i> <em className="email-detalhe-atividade" > {this.state.usuario.telefone} </em></p>
+                <i className="fas fa-phone"></i> <em className="email-detalhe-atividade" > {this.state.usuario.telefone} </em></p>
                 <i className="fa fa-location-arrow" aria-hidden="true"></i> {this.state.usuario.endereco}, {this.state.usuario.enderecoNumero} - {this.state.usuario.cidade}, {this.state.usuario.uf} - CEP: {this.state.usuario.cep}
               </div>
-              <Calendar
-                  className="calendar-properties"
-                  onChange={this.onChange}
-                  value={this.state.data}
-                  selectRange={true}
-                  hu-HU="pt-BR"
-                />
-            </div>
-            <div className="col-md-5 row-detalhe-analista">
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade A</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade B</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade C</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
-              </div>
-              <div className="card text-center card-detalhe-analista">
-                <div className="card-body">
-                  <h5 className="card-title">Atividade D</h5>
-                  <p className="card-text">Breve descrição da atividade...</p>
-                  <button className="btn btn-primary" onClick={this.atividade.bind(this)}>Visualizar</button>
-                </div>
+              <div className="calendar-properties">
+                <Calendar
+                    onChange={this.onChange}
+                    value={this.state.data}
+                    selectRange={true}
+                    hu-HU="pt-BR"
+                  />
+                  <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary float-right button-properties">Filtrar</button>
               </div>
             </div>
+              <div className="col-md-5 row-detalhe-analista">
+                    <FiltroAtividade 
+                    atividades={this.state.atividades}
+                    visualizarAtividade = {this.visualizarAtividade.bind(this)}/>
+              </div>
           </div>
         </div>
       </div>

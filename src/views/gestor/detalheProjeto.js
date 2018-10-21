@@ -202,7 +202,7 @@ export default class DetalheProjeto extends Component {
         </ol>
         <div className="container mb-3">
           <h3 className="d-inline-block">{this.state.projeto.nome}</h3>
-          <button className="btn btn-success float-right" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
+          <button className="btn btn-success float-right btn-round" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
           <div className="clearfix"/>
           <hr/>
           <ListaAtividades 
@@ -298,7 +298,7 @@ export default class DetalheProjeto extends Component {
               </form>
             </ModalBody>
             <ModalFooter className="card-header" >
-              <button onClick={this.cadastrarAtividade.bind(this)} className="btn btn-success float-right mt-2">Cadastrar</button>
+              <button onClick={this.cadastrarAtividade.bind(this)} className="btn btn-success float-right mt-2 btn-round">Cadastrar</button>
             </ModalFooter>
           </Modal>
 

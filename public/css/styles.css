@@ -382,10 +382,22 @@ div.calendario {
   margin-bottom: 0;
 }
 
+.button-properties{
+  margin-top: 2%;
+  margin-right: 5%;
+  border-radius: 30px !important;
+  width: 100px;
+}
+
+.btn-round {
+  border-radius:30px !important;
+}
+
 input[type='file'] {
   display: none;
 }
 
 .input-anexo-atividade label:hover {
   background-color: #2980b9
+
 }
