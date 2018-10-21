@@ -13,7 +13,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input } from 'reactstrap';
+    } from 'reactstrap';
 import VisualizarComentarios from './visualizarComentarios';
 
 
@@ -31,9 +31,10 @@ export default class DetalheAtividade extends Component {
         this.atualizarHorarioTrabalho = this.atualizarHorarioTrabalho.bind(this);
         this.downloadAnexo = this.downloadAnexo.bind(this);
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
+        this.deleteAnexo = this.deleteAnexo.bind(this)
 
         this.state = {
-            modal: false,
+            modalAnexo: false,
             atividade: {},
             idAtividade: 0,
             comentario: "",
@@ -167,7 +168,33 @@ export default class DetalheAtividade extends Component {
         );
     }
 
-
+    deleteAnexo(anexo){
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
+        anexo = {...anexo, atividade:{id: this.state.atividade.id}}
+        console.log(anexo)
+        axios.post(`${URL}anexo/analista/delete`, anexo, config)
+            .then(resp => this.atualizaListAnexo())
+            .then(resp => toast.success("Anexo deletado com sucesso!"), {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            })
+            .catch(resp => toast.warn("Falha ao deletar anexo",{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }))
+    }
 
 
     fileUpload(){
@@ -376,7 +403,7 @@ export default class DetalheAtividade extends Component {
                     <td>{anexo.usuario.nome}</td>
                     <td>
                         <button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button>
-                        <button style={{"margin-left":"12px"}} className="btn btn-outline-danger">Remover</button>
+                        <button style={{"margin-left":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
                     </td>
                 </tr>
             ))
@@ -509,6 +536,17 @@ export default class DetalheAtividade extends Component {
                         </div>
                     </div>
                 </div>
+
+                <Modal isOpen={this.state.modalAnexo} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalBody>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
 
                 <ToastContainer
                     position="top-right"

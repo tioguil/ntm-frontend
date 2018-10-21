@@ -3,10 +3,9 @@ import React from 'react'
 export default props => {
     var usuario = localStorage.getItem('user');
     const user = JSON.parse(usuario);
-    const idLogado = user.id
     let botao;
 
-    if(props.status != 'finalizada'){
+    if(props.status !== 'finalizada'){
     botao = (<i onClick={() =>props.button(null)} 
                 className='far fa-play-circle fa-2x play'>
           </i>)
