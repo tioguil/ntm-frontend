@@ -56,11 +56,14 @@ export default class Atividades extends Component {
     this.atividadeId = id
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
-      .then(resp => this.setState(...this.state,{atividade:resp.data.response,alocados:resp.data.response.historicoAlocacao,comentarios:resp.data.response.comentarios}))
+      .then(resp => this.setState(...this.state,{atividade:resp.data.response,
+        alocados:resp.data.response.historicoAlocacao,
+        comentarios:resp.data.response.comentarios}))
       .then(resp=> this.formataData(this.state.atividade.dataEntrega))
   }
 
   btn_detalheAnalista(id){
+    sessionStorage.setItem('idAnalista',id)
     this.props.history.push("/detalheAnalista");
   }
 
@@ -307,9 +310,10 @@ export default class Atividades extends Component {
                         <div className="row members-margin">  
                               { 
                                 this.state.alocados.map(function(analista){
+                                  console.log(analista.usuario.id)
                                  return( 
                                  <div   className="card col-md-3 no-margin c-analista" >
-                                     <div key={analista.id} className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.id)}>
+                                     <div key={analista.usuario.id} className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
                                         <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
                                           <p className="card-text">
                                             <li> {analista.usuario.celular} </li>

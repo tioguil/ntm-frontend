@@ -19,7 +19,6 @@ export default class DetalheAnalista extends Component {
     if(usuario == null){
       this.usuario = null
     }
-
     else{
       this.usuario = user.perfilAcesso
     }
@@ -31,9 +30,7 @@ export default class DetalheAnalista extends Component {
     const idAnalista = sessionStorage.getItem("idAnalista")
     console.log(idAnalista)
     axios.get(`${URL}usuario/analista/buscar_usuario_by_id/${idAnalista}`,config)
-      .then(resp=> this.setState({usuario:resp.data.response}))
-      .then(resp=>console.log(this.state.usuario))
-    
+      .then(resp=> this.setState({usuario:resp.data.response}))    
   }
 
   filtroAtividade(){
