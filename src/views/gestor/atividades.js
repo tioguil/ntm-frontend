@@ -320,7 +320,6 @@ export default class Atividades extends Component {
                                             <li> {analista.usuario.telefone} </li>
                                           </p>
                                     </div>
-
                                     <div className="card-footer">
                                       <div className="text-muted">{analista.usuario.cidade}-{analista.usuario.uf}</div>
 
