@@ -32,7 +32,6 @@ export default class DetalheAtividade extends Component {
         this.downloadAnexo = this.downloadAnexo.bind(this);
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
         this.deleteAnexo = this.deleteAnexo.bind(this)
-
         this.state = {
             modalAnexo: false,
             atividade: {},
@@ -288,7 +287,6 @@ export default class DetalheAtividade extends Component {
         var coord = JSON.parse(sessionStorage.getItem("location"))
         var config = {headers:{Authorization:this.token}};
         let json;
-
         if(coord == null){
             json = {
                 atividade: {
@@ -357,7 +355,6 @@ export default class DetalheAtividade extends Component {
                 id: this.state.idAtividade
             }
         }
-        console.log(json);
         axios.post(`${URL}comentario/analista/cadastrar`, json, config)
             .then(resp => toast.success('Comentário realizado com sucesso!',
                 {
@@ -398,18 +395,16 @@ export default class DetalheAtividade extends Component {
             let list = this.state.anexo;
             return list.map(anexo => (
                 <tr key={anexo.id}>
-                    <td>{anexo.nomeAquivo}</td>
-                    <td>{anexo.tamanho}</td>
-                    <td>{anexo.usuario.nome}</td>
+                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
+                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.tamanho}</td>
+                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.usuario.nome}</td>
                     <td>
-                        <button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button>
                         <button style={{"margin-left":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
                     </td>
                 </tr>
             ))
         }
 
-        console.log(this.state.anexo)
         if(this.usuario == null || this.usuario === "gestor") {
             return (
                 <Redirect to ="/"/>
@@ -503,7 +498,8 @@ export default class DetalheAtividade extends Component {
                                 <div className="input-anexo-atividade">
                                     <div className="col-md-12 col-sm-2 p-1">
                                         <input id="input-anexo" type="file" onChange={this.fileSelected}/>
-                                        <span className="p-2 col-sm-3" id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
+                                        <span className="p-2 col-sm-3" 
+                                        id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
 
                                         <label className="btn btn-primary btn-round" for="input-anexo">
                                             Selecionar arquivo
@@ -518,10 +514,9 @@ export default class DetalheAtividade extends Component {
                                         <th scope="col">Nome Arquivo</th>
                                         <th scope="col">Tamanho</th>
                                         <th scope="col">Usuário</th>
-                                        <th scope="col">Opções</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody className="curso-pointer">
                                     {listaAnexo()}
                                     </tbody>
                                 </table>
