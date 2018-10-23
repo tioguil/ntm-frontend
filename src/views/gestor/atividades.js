@@ -94,7 +94,6 @@ export default class Atividades extends Component {
     }
 
     verificaAnalista(dados){
-        console.log(dados)
         if(dados.statusCode ==='200'){
             toast.success('Usuario Vinculado sucesso!',{
                 position: "top-right",
@@ -158,8 +157,24 @@ export default class Atividades extends Component {
         var config = {headers:{Authorization:this.token}};
         const json = {comentario:this.state.comentario,atividade:{id:this.atividadeId}}
         axios.post(`${URL}comentario/analista/cadastrar`,json,config)
-            .then(resp=> console.log(resp.data))
-            .catch(error => console.log(error))
+            .then(resp=> this.refresh())
+            .then(resp=> this.setState({comentario:''}))
+            .then(resp=> toast.success('Mensagem enviada',{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }) )
+            .catch(error => toast.error('Mensagem não pode ser enviada!',{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }))
 
     }
 
@@ -207,11 +222,6 @@ export default class Atividades extends Component {
         options = analistas.map((a) => {
             return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
         })
-
-
-
-
-
         return (
             <div>
                 <br/>

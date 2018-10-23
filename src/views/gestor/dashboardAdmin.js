@@ -152,7 +152,7 @@ export default class DashboardAdmin extends Component {
                 </div>
                 <br/>
                 <div className= "row">
-                    <div className = "col-md-7">
+                    <div className = "col-md-6">
                         <h3>Atividade dos últimos 30 dias</h3>
                         <hr/>
 
