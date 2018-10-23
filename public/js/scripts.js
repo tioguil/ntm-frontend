@@ -8,8 +8,5 @@
     $(".sidebar").toggleClass("toggled");
   });
 
-  $('#input-anexo').change(function() {
-    $('#file-name').html(this.files[0].name);
-  });
 
 })(jQuery); // End of use strict

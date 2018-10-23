@@ -8,12 +8,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import HorarioTrabalho from './horarioTrabalho';
 import {URL} from '../../global'
 import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Input } from 'reactstrap';
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+} from 'reactstrap';
 import VisualizarComentarios from './visualizarComentarios';
 
 
@@ -30,15 +30,18 @@ export default class DetalheAtividade extends Component {
         this.fileUpload = this.fileUpload.bind(this);
         this.atualizarHorarioTrabalho = this.atualizarHorarioTrabalho.bind(this);
         this.downloadAnexo = this.downloadAnexo.bind(this);
+        this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
+        this.deleteAnexo = this.deleteAnexo.bind(this)
 
         this.state = {
-            modal: false,
+            modalAnexo: false,
             atividade: {},
             idAtividade: 0,
             comentario: "",
             horarioTrabalho: [],
             totalTrabalho: "",
             anexo: [],
+            anexoFile: null,
             progressUpload: 0
         };
 
@@ -52,7 +55,7 @@ export default class DetalheAtividade extends Component {
     componentDidMount(){
         this.getLocation()
         const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
-    
+
         this.setState(
             {
                 ...this.state,
@@ -72,7 +75,7 @@ export default class DetalheAtividade extends Component {
                     ...this.state,
                     atividade: resp.data.response
                 }
-            )
+                )
             );
 
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
@@ -82,14 +85,14 @@ export default class DetalheAtividade extends Component {
                     horarioTrabalho: resp.data.response,
                     totalTrabalho: resp.data.message
                 }
-            )
+                )
             );
         axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
             {
                 ...this.state,
                 anexo: resp.data.response
             }
-        )
+            )
         )
     }
 
@@ -99,7 +102,7 @@ export default class DetalheAtividade extends Component {
                 Authorization: this.token
             }
         };
-    
+
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${this.state.idAtividade}`,config)
             .then(resp => this.setState(
                 {
@@ -107,8 +110,25 @@ export default class DetalheAtividade extends Component {
                     horarioTrabalho: resp.data.response,
                     totalTrabalho: resp.data.message
                 }
-            )
+                )
             );
+    }
+
+    atualizaListAnexo(){
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
+        const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
+
+        axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
+            {
+                ...this.state,
+                anexo: resp.data.response
+            }
+            )
+        )
     }
 
     getLocation(){
@@ -143,31 +163,81 @@ export default class DetalheAtividade extends Component {
     fileSelected (event){
         this.setState(
             {
-                ...this.state,
-                anexo: event.target.files[0]
+                anexoFile: event.target.files[0]
             }
         );
     }
 
-    fileUpload(){
-        const formData = new FormData();
-        formData.append('anexo', this.state.anexo, this.state.anexo.name);
-        formData.append('idAtividade', this.state.atividade.id);
+    deleteAnexo(anexo){
         var config = {
             headers: {
                 Authorization: this.token
-            },
-            onUploadProgress: progressEvent => {
-                this.setState(
-                    {
-                        ...this.state,
-                        progressUpload: Math.round(progressEvent.loaded / progressEvent.total * 100)
-                    }
-                )
             }
         };
-        axios.post(`${URL}anexo/analista/upload`,formData,config)
-            .then(resp => console.log(resp.data));
+        anexo = {...anexo, atividade:{id: this.state.atividade.id}}
+        console.log(anexo)
+        axios.post(`${URL}anexo/analista/delete`, anexo, config)
+            .then(resp => this.atualizaListAnexo())
+            .then(resp => toast.success("Anexo deletado com sucesso!"), {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            })
+            .catch(resp => toast.warn("Falha ao deletar anexo",{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }))
+    }
+
+
+    fileUpload(){
+
+        if(this.state.anexoFile == null){
+            toast.warn("Nenhum arquivo selecionado", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true})
+            return;
+        }else {
+            const formData = new FormData();
+            formData.append('anexo', this.state.anexoFile, this.state.anexoFile.name);
+            formData.append('idAtividade', this.state.atividade.id);
+            var config = {
+                headers: {
+                    Authorization: this.token
+                },
+                onUploadProgress: progressEvent => {
+                    this.setState(
+                        {
+                            ...this.state,
+                            progressUpload: Math.round(progressEvent.loaded / progressEvent.total * 100)
+                        }
+                    )
+                }
+            };
+            axios.post(`${URL}anexo/analista/upload`,formData,config)
+                .then(resp => this.setState({anexoFile: null, progressUpload: 0}))
+                .then(resp => this.atualizaListAnexo())
+                .then(resp => toast.success('Anexo enviado com sucesso!',
+                    {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true
+                    }));
+        }
     }
 
     downloadAnexo(localArmazenamento){
@@ -268,7 +338,7 @@ export default class DetalheAtividade extends Component {
                     ...this.state,
                     atividade: resp.data.response
                 }
-            )
+                )
             )
             .then(resp => this.atualizarHorarioTrabalho())
         this.closeModal('modal3');
@@ -298,14 +368,14 @@ export default class DetalheAtividade extends Component {
                     pauseOnHover: true,
                     draggable: true
                 }
-            )
+                )
             )
             .then(resp=> this.setState(
                 {
                     ...this.state,
                     comentario:""
                 }
-            )
+                )
             )
             .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.',
                 {
@@ -316,7 +386,7 @@ export default class DetalheAtividade extends Component {
                     pauseOnHover: true,
                     draggable: true
                 }
-            )
+                )
             );
 
         this.closeModal('modal2');
@@ -331,7 +401,10 @@ export default class DetalheAtividade extends Component {
                     <td>{anexo.nomeAquivo}</td>
                     <td>{anexo.tamanho}</td>
                     <td>{anexo.usuario.nome}</td>
-                    <td><button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button></td>
+                    <td>
+                        <button className="btn btn-outline-dark" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}}>Baixar</button>
+                        <button style={{"margin-left":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
+                    </td>
                 </tr>
             ))
         }
@@ -427,16 +500,16 @@ export default class DetalheAtividade extends Component {
                     <div className="tab-pane fade pt-3" id="anexos-atividade" role="tabpanel" aria-labelledby="anexos-atividade-tab">
                         <div className="row">
                             <div className="col-md-12">
-                                <h4>Anexar arquivo</h4>
-
                                 <div className="input-anexo-atividade">
-                                    <label className="btn btn-primary" for="input-anexo">
-                                        Selecione um arquivo
-                                    </label>
-                                    <input id="input-anexo" type="file" onChange={this.fileSelected}/>
-                                    <span className="ml-2" id="file-name"></span>
-                                    <div className="clearfix"/>
-                                    <button className="btn btn-success" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                                    <div className="col-md-12 col-sm-2 p-1">
+                                        <input id="input-anexo" type="file" onChange={this.fileSelected}/>
+                                        <span className="p-2 col-sm-3" id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
+
+                                        <label className="btn btn-primary btn-round" for="input-anexo">
+                                            Selecionar arquivo
+                                        </label>
+                                    </div>
+                                    <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
                                 </div>
                                 <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
                                 <table className="table">
@@ -452,9 +525,6 @@ export default class DetalheAtividade extends Component {
                                     {listaAnexo()}
                                     </tbody>
                                 </table>
-                                <div className="col-md-12">
-                                    <Button color="primary" onClick={this.downloadAnexo}>Baixar</Button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -466,6 +536,17 @@ export default class DetalheAtividade extends Component {
                         </div>
                     </div>
                 </div>
+
+                <Modal isOpen={this.state.modalAnexo} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalBody>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
 
                 <ToastContainer
                     position="top-right"

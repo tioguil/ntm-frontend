@@ -8,11 +8,11 @@ export default props => {
 	const comentarios = ()=>{
         const lista = props.comentarios 
           return lista.map(comentario => ( 
-              <div className={comentario.usuario.id==idLogado? 'comentario' : 'comentario comentarios-eles' }>
-                <div className={comentario.usuario.id==idLogado? 'eu-comentario':'eles-comentario'}>
-                <span >{comentario.usuario.id==idLogado? 'Eu': comentario.usuario.nome}</span>
+              <div className={comentario.usuario.id===idLogado? 'comentario' : 'comentario comentarios-eles' }>
+                <div className={comentario.usuario.id===idLogado? 'eu-comentario':'eles-comentario'}>
+                <span >{comentario.usuario.id===idLogado? 'Eu': comentario.usuario.nome}</span>
                 </div>
-                <div className={comentario.usuario.id==idLogado? 'comentario-body' : 'comentario-body eles' }>
+                <div className={comentario.usuario.id===idLogado? 'comentario-body' : 'comentario-body eles' }>
                   <p>{comentario.comentario}</p>
                   <span className="time-right">{comentario.dataComentario}</span>
                 </div>
