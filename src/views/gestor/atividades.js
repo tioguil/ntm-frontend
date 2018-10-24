@@ -60,6 +60,7 @@ export default class Atividades extends Component {
         alocados:resp.data.response.historicoAlocacao,
         comentarios:resp.data.response.comentarios}))
       .then(resp=> this.formataData(this.state.atividade.dataEntrega))
+        .then(resp => console.log(this.state.atividade))
   }
 
   btn_detalheAnalista(id){
@@ -158,8 +159,17 @@ export default class Atividades extends Component {
       var config = {headers:{Authorization:this.token}};
       const json = {comentario:this.state.comentario,atividade:{id:this.atividadeId}}
       axios.post(`${URL}comentario/analista/cadastrar`,json,config)
-      .then(resp=> console.log(resp.data))
-      .catch(error => console.log(error))
+          .then(resp=> this.refresh())
+          .then(resp=> this.setState({comentario:""}))
+          .then(resp => toast.success('Comentario envido com sucesso!',{
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true
+          }))
+          .catch(error => console.log(error))
      
   }
 
@@ -205,7 +215,7 @@ export default class Atividades extends Component {
     const analistas = this.state.analistas;
       let options;
       options = analistas.map((a) => {
-        return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
+        return <Option key={a.id}> <i>{a.nome}</i></Option>;
       })
 
 
