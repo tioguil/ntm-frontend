@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import { Line } from 'rc-progress';
 import Select, { Option, OptGroup } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars'
@@ -33,12 +34,21 @@ export default class Atividades extends Component {
             },
             analistas: [],
             comentarios: [],
-            value: ""
+            value: "",
+            anexo: [],
+            anexoFile: null,
+            progressUpload: 0
         };
         this.adicionar = this.adicionar.bind(this);
         this.verificaAnalista = this.verificaAnalista.bind(this);
         this.refresh = this.refresh.bind(this);
         this.setComentarios =this.setComentarios.bind(this);
+        this.fileSelected = this.fileSelected.bind(this);
+        this.fileUpload = this.fileUpload.bind(this);
+        this.downloadAnexo = this.downloadAnexo.bind(this);
+        this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
+        this.deleteAnexo = this.deleteAnexo.bind(this);
+        this.desvincularAnalista = this.desvincularAnalista.bind(this);
 
         if(usuario == null){
             this.usuario = null;
@@ -51,8 +61,26 @@ export default class Atividades extends Component {
         this.refresh();
     }
 
+    atualizaListAnexo(){
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
+        const idAtividade = this.atividadeId;
+
+        axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
+            {
+                ...this.state,
+                anexo: resp.data.response
+            }
+            )
+        )
+    }
+
     refresh(){
         const id = sessionStorage.getItem('idAtividade', id);
+        const idAtividade = this.atividadeId;
         this.atividadeId = id
         var config = {headers:{Authorization:this.token}};
         axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
@@ -60,6 +88,8 @@ export default class Atividades extends Component {
                 alocados:resp.data.response.historicoAlocacao,
                 comentarios:resp.data.response.comentarios}))
             .then(resp=> this.formataData(this.state.atividade.dataEntrega))
+
+        this.atualizaListAnexo();
     }
 
     btn_detalheAnalista(id){
@@ -94,7 +124,6 @@ export default class Atividades extends Component {
     }
 
     verificaAnalista(dados){
-        console.log(dados)
         if(dados.statusCode ==='200'){
             toast.success('Usuario Vinculado sucesso!',{
                 position: "top-right",
@@ -159,8 +188,16 @@ export default class Atividades extends Component {
         const json = {comentario:this.state.comentario,atividade:{id:this.atividadeId}}
         axios.post(`${URL}comentario/analista/cadastrar`,json,config)
             .then(resp=> this.refresh())
-            .then(resp=> this.setState({comentario:""}))
-            .then(resp => toast.success('Comentario envido com sucesso!',{
+            .then(resp=> this.setState({comentario:''}))
+            .then(resp=> toast.success('Mensagem enviada',{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }) )
+            .catch(error => toast.error('Mensagem não pode ser enviada!',{
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -168,7 +205,6 @@ export default class Atividades extends Component {
                 pauseOnHover: true,
                 draggable: true
             }))
-            .catch(error => console.log(error))
 
     }
 
@@ -205,7 +241,148 @@ export default class Atividades extends Component {
             dataEntrega: novaData})
     }
 
+    fileSelected (event){
+        this.setState(
+            {
+                anexoFile: event.target.files[0]
+            }
+        );
+    }
+
+    deleteAnexo(anexo){
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
+        anexo = {...anexo, atividade:{id: this.atividadeId}}
+        console.log(anexo)
+        axios.post(`${URL}anexo/analista/delete`, anexo, config)
+            .then(resp => this.atualizaListAnexo())
+            .then(resp => toast.success("Anexo deletado com sucesso!"), {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            })
+            .catch(resp => toast.warn("Falha ao deletar anexo",{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }))
+    }
+
+    fileUpload(){
+
+        if(this.state.anexoFile == null){
+            toast.warn("Nenhum arquivo selecionado", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true})
+            return;
+        }else {
+            const formData = new FormData();
+            formData.append('anexo', this.state.anexoFile, this.state.anexoFile.name);
+            formData.append('idAtividade', this.atividadeId);
+            var config = {
+                headers: {
+                    Authorization: this.token
+                },
+                onUploadProgress: progressEvent => {
+                    this.setState(
+                        {
+                            ...this.state,
+                            progressUpload: Math.round(progressEvent.loaded / progressEvent.total * 100)
+                        }
+                    )
+                }
+            };
+            axios.post(`${URL}anexo/analista/upload`,formData,config)
+                .then(resp => this.setState({anexoFile: null, progressUpload: 0}))
+                .then(resp => this.atualizaListAnexo())
+                .then(resp => toast.success('Anexo enviado com sucesso!',
+                    {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true
+                    }));
+        }
+    }
+
+    desvincularAnalista(idUser){
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
+        let json = {
+            atividade:{id:this.state.atividade.id},
+            usuario:{id:idUser}
+        }
+
+        console.log(json)
+
+        axios.post(`${URL}historicoAlocacao/gestor/desvincular`,json,config)
+            .then(resp => this.refresh())
+            .then(resp => toast.success('Usuario removido com sucesso!',
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true
+                }));
+    }
+
+    downloadAnexo(localArmazenamento){
+        console.log(localArmazenamento)
+        axios({
+            url: URL+'anexo/analista/download/'+localArmazenamento,
+            method: 'GET',
+            responseType: 'blob', // important
+            headers: {
+                Authorization:this.token
+            }
+        })
+            .then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                console.log(response)
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', localArmazenamento);
+                document.body.appendChild(link);
+                link.click();
+            });
+    }
+
     render(){
+        const listaAnexo = () => {
+            let list = this.state.anexo;
+            console.log("listaAnexo", this.atividadeId);
+            return list.map(anexo => (
+                <tr key={anexo.id}>
+                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
+                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.tamanho}</td>
+                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.usuario.nome}</td>
+                    <td>
+                        <button style={{"margin-left":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
+                    </td>
+                </tr>
+            ))
+        }
+
         if(this.usuario == null || this.usuario === "analista"){
             return (
                 <Redirect to ="/"/>
@@ -216,11 +393,6 @@ export default class Atividades extends Component {
         options = analistas.map((a) => {
             return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
         })
-
-
-
-
-
         return (
             <div>
                 <br/>
@@ -331,10 +503,12 @@ export default class Atividades extends Component {
                             <div className="row members-margin">
                                 {
                                     this.state.alocados.map(function(analista){
-                                        console.log(analista.usuario.id)
                                         return(
-                                            <div   className="card col-md-3 no-margin c-analista" >
-                                                <div key={analista.usuario.id} className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
+                                            <div key={analista.usuario.id}  className="card col-md-3 no-margin c-analista" >
+                                                <button onClick={() => this.desvincularAnalista(analista.usuario.id)} type="button" className="close" aria-label="Close" style={{"outline":"none"}}>
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <div  className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
                                                     <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
                                                     <p className="card-text">
                                                         <li> {analista.usuario.celular} </li>
@@ -354,8 +528,34 @@ export default class Atividades extends Component {
                         </div>
 
                         <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
-                            <div className="atividade-projeto">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="input-anexo-atividade">
+                                        <div className="col-md-12 col-sm-2 p-1">
+                                            <input id="input-anexo" type="file" onChange={this.fileSelected}/>
+                                            <span className="p-2 col-sm-3"
+                                                  id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
 
+                                            <label className="btn btn-primary btn-round" for="input-anexo">
+                                                Selecionar arquivo
+                                            </label>
+                                        </div>
+                                        <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                                    </div>
+                                    <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
+                                    <table className="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Nome Arquivo</th>
+                                            <th scope="col">Tamanho</th>
+                                            <th scope="col">Usuário</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody className="curso-pointer">
+                                        {listaAnexo()}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
