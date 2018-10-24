@@ -34,17 +34,18 @@ export default class Calendario extends Component {
   }
 
   listarCalendario(){
-    console.log("listar")
-    for(let i =0; i<this.state.atividades.length;i++){ 
-      const [yearStart,monthStart,dayStart]=(this.state.atividades[i].dataCriacao).split("-")
-      const [yearFinal,monthFinal,dayFinal]=(this.state.atividades[i].dataEntrega).split("-")
-      console.log(new Date(yearFinal, monthFinal-1, dayFinal.substring(0,2), 10, 0, 0))
-      this.eventos.push({
-        'id':this.state.atividades[i].id,
-        'title':this.state.atividades[i].nome,
-        'start': new Date(yearStart, monthStart-1, parseInt(dayStart.substring(0,2)), 5, 0, 0),
-        'end': new Date(yearFinal, monthFinal-1, dayFinal, 22, 0, 0)
-      })
+    if(this.state.atividades != null) {
+        for (let i = 0; i < this.state.atividades.length; i++) {
+            const [yearStart, monthStart, dayStart] = (this.state.atividades[i].dataCriacao).split("-")
+            const [yearFinal, monthFinal, dayFinal] = (this.state.atividades[i].dataEntrega).split("-")
+            console.log(new Date(yearFinal, monthFinal - 1, dayFinal.substring(0, 2), 10, 0, 0))
+            this.eventos.push({
+                'id': this.state.atividades[i].id,
+                'title': this.state.atividades[i].nome,
+                'start': new Date(yearStart, monthStart - 1, parseInt(dayStart.substring(0, 2)), 5, 0, 0),
+                'end': new Date(yearFinal, monthFinal - 1, dayFinal, 22, 0, 0)
+            })
+        }
     }
   }
 

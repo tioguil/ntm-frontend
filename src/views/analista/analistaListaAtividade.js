@@ -10,34 +10,42 @@ export default props => {
     }
 
     const atividades = () => {
-        const lista = props.atividades;
-
-        return lista.map(atividade =>
-            (
-                <div key={atividade.id} className="container curso-pointer" onClick={()=> props.mostrarDetalhes(atividade.id)}>
-                    <div className="row row-striped">
-                        <div className="col-2 text-right">
-                            <p className="display-4">
-                                <span className="badge badge-secondary">{(atividade.dataEntrega).substring(8,10)}</span>
-                            </p>
-                            <h5>{ date(atividade.dataEntrega) }</h5>
+        const lista = props.atividades || [];
+        if (lista.length>0) {
+            return lista.map(atividade =>
+                (
+                    <div key={atividade.id} className="container curso-pointer"
+                         onClick={() => props.mostrarDetalhes(atividade.id)}>
+                        <div className="row row-striped">
+                            <div className="col-2 text-right">
+                                <p className="display-4">
+                                    <span
+                                        className="badge badge-secondary">{(atividade.dataEntrega).substring(8, 10)}</span>
+                                </p>
+                                <h5>{date(atividade.dataEntrega)}</h5>
+                            </div>
+                            <div className="col-sm-12 col-md-7">
+                                <h4 className="text-uppercase">
+                                    <strong>{atividade.nome} <p
+                                        className="inline status-atividade-analista">({atividade.status})</p></strong>
+                                </h4>
+                                <ul className="list-inline">
+                                    <li className="list-inline-item">
+                                        <i className="fa fa-location-arrow" aria-hidden="true"></i> <a
+                                        onClick={() => props.mapsSelector(atividade.endereco, atividade.enderecoNumero)}
+                                        className="atividade-localizacao"> {atividade.endereco}, {atividade.enderecoNumero}-{atividade.cidade} - {atividade.uf}</a>
+                                    </li>
+                                </ul>
+                                <p>{atividade.descricao}</p>
+                            </div>
                         </div>
-                        <div className="col-sm-12 col-md-7">
-                            <h4 className="text-uppercase">
-                                <strong>{atividade.nome} <p className="inline status-atividade-analista">({atividade.status})</p></strong>
-                            </h4>
-                            <ul className="list-inline">
-                                <li className="list-inline-item">
-                                    <i className="fa fa-location-arrow" aria-hidden="true"></i> <a onClick={()=>props.mapsSelector(atividade.endereco,atividade.enderecoNumero)} className="atividade-localizacao"> {atividade.endereco}, {atividade.enderecoNumero}-{atividade.cidade} - {atividade.uf}</a>
-                                </li>
-                            </ul>
-                            <p>{atividade.descricao}</p>
-                        </div>
+                        <hr/>
                     </div>
-                    <hr/>
-                </div>
-            )
-        );
+                )
+            );
+        }else{
+            return (<p> Não existem atividades</p>)
+        }
     }
 
     return (

@@ -34,6 +34,7 @@ export default class Atividades extends Component {
             },
             analistas: [],
             comentarios: [],
+            esforco: [],
             value: "",
             anexo: [],
             anexoFile: null,
@@ -87,9 +88,9 @@ export default class Atividades extends Component {
         axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
             .then(resp => this.setState(...this.state,{atividade:resp.data.response,
                 alocados:resp.data.response.historicoAlocacao,
-                comentarios:resp.data.response.comentarios}))
+                comentarios:resp.data.response.comentarios, esforco: resp.data.response.horarioTrabalho}))
             .then(resp=> this.formataData(this.state.atividade.dataEntrega))
-        this.atualizaListAnexo();
+            .then(resp => this.atualizaListAnexo())
     }
 
     btn_detalheAnalista(id){
@@ -99,7 +100,7 @@ export default class Atividades extends Component {
 
     onSelect = (v) => {
         for (let i=0; i<this.state.analistas.length; i++){
-            if( v ==this.state.analistas[i].nome){
+            if( v === this.state.analistas[i].nome){
                 this.setState({usuario:{id:this.state.analistas[i].id}})
             }
         }
@@ -218,6 +219,7 @@ export default class Atividades extends Component {
             var config = {headers:{Authorization:this.token}};
             axios.get(`${URL}usuario/gestor/pesquisar/${this.state.value}`,config)
                 .then(resp=> this.setState({analistas:resp.data.response}))
+                .then(resp => console.log(this.state.analistas))
         }
     }
 
@@ -369,6 +371,18 @@ export default class Atividades extends Component {
     }
 
     render(){
+
+        const trabalho = ()=>{
+            return this.state.esforco.map(trabalho => (
+                <tr key={trabalho.id}>
+                    <td>{trabalho.dataInicio}</td>
+                    <td>{trabalho.dataFim === null ? "Em andamento": trabalho.dataFim}</td>
+                    <td>{trabalho.totalHoras}</td>
+                </tr>
+
+            ))
+        }
+
         const listaAnexo = () => {
             let list = this.state.anexo;
             console.log("listaAnexo", this.atividadeId);
@@ -392,7 +406,7 @@ export default class Atividades extends Component {
         const analistas = this.state.analistas;
         let options;
         options = analistas.map((a) => {
-            return <Option key={a.id}> <i>{a.nome}</i></Option>;
+            return <Option key={a.id,a.nome}> <i>{a.nome} - {a.email}</i></Option>;
         })
         return (
             <div>
@@ -423,6 +437,9 @@ export default class Atividades extends Component {
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" id="anexos-tab" data-toggle="tab" href="#anexos" role="tab" aria-controls="anexos" aria-selected="false">Anexos</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" id="esforco-tab" data-toggle="tab" href="#esforco" role="tab" aria-controls="esforco" aria-selected="false">Esforço</a>
                         </li>
                     </ul>
 
@@ -557,6 +574,28 @@ export default class Atividades extends Component {
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="tab-pane fade" id="esforco" role="tabpanel" aria-labelledby="esforco-tab">
+                        <h3>Esforço</h3>
+                        <div>
+                            <table className="table table-striped" style={{"fontSize": "10px", "marginTop": "10px"}}>
+                                <thead>
+                                <tr>
+                                    <th scope="col">Inicio</th>
+                                    <th scope="col">Fim</th>
+                                    <th scope="col">Horas</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {trabalho()}
+                                <tr>
+                                    <td colSpan="2">Total</td>
+                                    <td> horas</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
