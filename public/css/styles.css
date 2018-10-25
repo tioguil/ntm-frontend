@@ -29,17 +29,12 @@
 
 .btn-red {
   background-color: #eb2324 !important;
-  border-color: #9d1718 !important;
-  border-radius: 19px !important;
+  border-color: #eb2324 !important;
 }
 
 .btn-red:hover {
   background-color: #ac1a1a !important;
-  border-color: #841414 !important;
-}
-
-.card-center {
-  padding-top: 8%;
+  border-color: #ac1a1a !important;
 }
 
 .login_info {
