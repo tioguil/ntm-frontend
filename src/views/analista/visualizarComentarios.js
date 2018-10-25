@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import ListaComentarios from './listaComentarios'
 import {URL} from '../../global'
+import $ from 'jquery'
 import {
     Button,
     Modal,
@@ -21,7 +22,8 @@ export default class VisualizarComentarios extends Component {
         this.usuario = user
         this.token = user.token.numero
         this.state = {comentarios:[],comentario:'',idAtividade:idAtividade}
-        this.refresh = this.refresh.bind(this)
+        this.refresh = this.refresh.bind(this);
+        this.keyHandler = this.keyHandler.bind(this);
         if(usuario == null){
             this.usuario = null
         }
@@ -67,6 +69,13 @@ export default class VisualizarComentarios extends Component {
             }))
     }
 
+    keyHandler(e) {
+        const { add, clear, search, description } = this.props
+        if (e.key === 'Enter') {
+            this.enviarComentario()
+        }
+    }
+
 
     render() {
         if (this.usuario == null || this.usuario === "gestor") {
@@ -77,7 +86,7 @@ export default class VisualizarComentarios extends Component {
             <div>
                 <div className="row">
                     <div className="text-center mb-3 col-md-8 ">
-                        <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
+                        <div className="scrollbar scrollbar-primary" style={{'width':'100%'}} id="scrollComentario">
                             <div className="container">
                                 <ListaComentarios 
                                     comentarios={this.state.comentarios}/>
@@ -86,7 +95,7 @@ export default class VisualizarComentarios extends Component {
 
                         <div className="text-comentario p-2 row m-auto">
                             <div className="col-md-9 col-sm-9">
-                                <Input type="textarea"  onChange={this.setComentario.bind(this)} value={this.state.comentario} name="text" id="inputComentario" />
+                                <Input type="textarea"  onChange={this.setComentario.bind(this)} value={this.state.comentario} onKeyUp={this.keyHandler} name="text" id="inputComentario" />
                             </div>
                             <div className="col-md-3 p-3 col-sm-3">
                                 <Button className="btn btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Enviar</Button>

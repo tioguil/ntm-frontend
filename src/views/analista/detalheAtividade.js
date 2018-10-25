@@ -31,7 +31,8 @@ export default class DetalheAtividade extends Component {
         this.atualizarHorarioTrabalho = this.atualizarHorarioTrabalho.bind(this);
         this.downloadAnexo = this.downloadAnexo.bind(this);
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
-        this.deleteAnexo = this.deleteAnexo.bind(this)
+        this.deleteAnexo = this.deleteAnexo.bind(this);
+
         this.state = {
             modalAnexo: false,
             atividade: {},
@@ -390,6 +391,7 @@ export default class DetalheAtividade extends Component {
 
         this.closeModal('modal2');
     }
+
 
     render(){
         const listaAnexo = () => {

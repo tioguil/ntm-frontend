@@ -51,6 +51,7 @@ export default class Atividades extends Component {
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.desvincularAnalista = this.desvincularAnalista.bind(this);
         this.mapsSelector2 = this.mapsSelector2.bind(this);
+        this.keyHandler = this.keyHandler.bind(this)
 
 
         if(usuario == null){
@@ -381,6 +382,12 @@ export default class Atividades extends Component {
         }
     }
 
+    keyHandler(e) {
+        if (e.key === 'Enter') {
+            this.enviarComentario()
+        }
+    }
+
     render(){
 
         const trabalho = ()=>{
@@ -505,7 +512,7 @@ export default class Atividades extends Component {
 
                                         <div className="text-comentario p-2 row m-auto">
                                             <div className="col-md-9 col-sm-8">
-                                                <Input type="textarea" onChange={this.setComentarios} value={this.state.comentario} name="text" id="inputComentario" />
+                                                <Input type="textarea" onChange={this.setComentarios} value={this.state.comentario} onKeyUp={this.keyHandler} name="text" id="inputComentario" />
                                             </div>
                                             <div className="col-md-3 p-3 col-sm-4">
                                                 <Button className="btn btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Enviar</Button>

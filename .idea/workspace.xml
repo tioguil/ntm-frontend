@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7f94728b-4478-4987-8a3e-66463e59490a" name="Default Changelist" comment="FOdase">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/analista/horarioTrabalho.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/analista/horarioTrabalho.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/analista/detalheAtividade.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/analista/detalheAtividade.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/analista/visualizarComentarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/analista/visualizarComentarios.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/gestor/atividades.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/gestor/atividades.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -128,7 +129,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="Dockerfile" value="1" />
-          <entry key="js" value="17" />
+          <entry key="js" value="19" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
@@ -136,44 +137,55 @@
         <counts>
           <entry key="Dockerfile" value="1" />
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="17" />
+          <entry key="JavaScript" value="19" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Dockerfile" value="106" />
-          <entry key="js" value="2782" />
+          <entry key="js" value="2884" />
           <entry key="txt" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Dockerfile" value="106" />
-          <entry key="JavaScript" value="2782" />
+          <entry key="JavaScript" value="2884" />
           <entry key="PLAIN_TEXT" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.21" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.open.time.74" value="1" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/gestor/atividades.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="392" column="44" selection-start-line="392" selection-start-column="44" selection-end-line="392" selection-end-column="44" />
+            <state relative-caret-position="130">
+              <caret line="514" column="157" selection-start-line="514" selection-start-column="132" selection-end-line="514" selection-end-column="157" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/analista/detalheAtividade.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="113">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -181,29 +193,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/analista/analistaListaAtividade.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/views/analista/visualizarComentarios.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/analista/dashboard.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="54" column="5" lean-forward="true" selection-start-line="46" selection-start-column="4" selection-end-line="54" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/analista/horarioTrabalho.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="14" selection-start-line="32" selection-start-column="14" selection-end-line="32" selection-end-column="14" />
+            <state relative-caret-position="82">
+              <caret line="59" column="34" lean-forward="true" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -219,8 +216,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>img</find>
-      <find>&lt;!--</find>
       <find>style</find>
       <find>status</find>
       <find>content-wrapper</find>
@@ -247,7 +242,10 @@
       <find>analistas</find>
       <find>totalTrabalho</find>
       <find>for</find>
+      <find>set</find>
+      <find>setco</find>
       <find>key</find>
+      <find>keyHandler</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -273,11 +271,12 @@
         <option value="$PROJECT_DIR$/src/views/analista/buttonAtividade.js" />
         <option value="$PROJECT_DIR$/src/views/gestor/listaComentariosGestor.js" />
         <option value="$PROJECT_DIR$/src/views/analista/listaComentarios.js" />
-        <option value="$PROJECT_DIR$/src/views/analista/detalheAtividade.js" />
         <option value="$PROJECT_DIR$/src/views/analista/calendario.js" />
         <option value="$PROJECT_DIR$/src/views/analista/analistaListaAtividade.js" />
         <option value="$PROJECT_DIR$/src/views/analista/horarioTrabalho.js" />
         <option value="$PROJECT_DIR$/src/views/gestor/atividades.js" />
+        <option value="$PROJECT_DIR$/src/views/analista/detalheAtividade.js" />
+        <option value="$PROJECT_DIR$/src/views/analista/visualizarComentarios.js" />
       </list>
     </option>
   </component>
@@ -311,6 +310,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -352,7 +352,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -422,18 +421,20 @@
       <workItem from="1540276989009" duration="1497000" />
       <workItem from="1540340204226" duration="6269000" />
       <workItem from="1540360860385" duration="2774000" />
-      <workItem from="1540427469491" duration="12925000" />
+      <workItem from="1540427469491" duration="13347000" />
+      <workItem from="1540436987561" duration="2978000" />
+      <workItem from="1540479326215" duration="4770000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115333000" />
+    <option name="totallyTimeSpent" value="123503000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19578783" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19578783" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -447,7 +448,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2753846" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2753846" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -577,23 +578,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/analista/detalheAtividade.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="487" column="49" selection-start-line="487" selection-start-column="49" selection-end-line="487" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/analista/calendario.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="48" column="5" lean-forward="true" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -604,24 +592,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/analista/dashboard.js">
+    <entry file="file://$PROJECT_DIR$/src/views/analista/analistaListaAtividade.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="54" column="5" lean-forward="true" selection-start-line="46" selection-start-column="4" selection-end-line="54" selection-end-column="5" />
+        <state relative-caret-position="-36">
+          <caret line="27" column="54" selection-start-line="27" selection-start-column="54" selection-end-line="27" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/analista/analistaListaAtividade.js">
+    <entry file="file://$PROJECT_DIR$/src/views/analista/dashboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+        <state relative-caret-position="-61">
+          <caret line="49" column="31" lean-forward="true" selection-start-line="49" selection-start-column="31" selection-end-line="49" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/analista/detalheAtividade.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/gestor/atividades.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="392" column="44" selection-start-line="392" selection-start-column="44" selection-end-line="392" selection-end-column="44" />
+        <state relative-caret-position="130">
+          <caret line="514" column="157" selection-start-line="514" selection-start-column="132" selection-end-line="514" selection-end-column="157" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/analista/visualizarComentarios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="59" column="34" lean-forward="true" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
