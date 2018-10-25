@@ -1,9 +1,16 @@
 import React from 'react'
+import moment from 'moment'
 
 export default props => {
   var usuario = localStorage.getItem('user');
   const user = JSON.parse(usuario);
   const idLogado = user.id;
+
+   const formataData = (data) => {
+      let dataFormatada = moment.utc(data).format('DD/MM/YYYY HH:mm:ss')
+      return dataFormatada
+    }
+
 
   const comentarios = () => {
     const lista = props.comentarios || [];
@@ -15,8 +22,8 @@ export default props => {
             <span >{comentario.usuario.id===idLogado? 'Eu': comentario.usuario.nome}</span>
           </div>
           <div className={comentario.usuario.id===idLogado? 'comentario-body' : 'comentario-body eles' }>
-            <p>{comentario.comentario}</p>
-            <span className="time-right">{comentario.dataComentario}</span>
+            <p className="comentarios-p">{comentario.comentario}</p>
+            <span className="time-right comentarios-p">{formataData(comentario.dataComentario)}</span>
           </div>
         </div>
       )

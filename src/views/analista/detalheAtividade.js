@@ -39,6 +39,7 @@ export default class DetalheAtividade extends Component {
             comentario: "",
             horarioTrabalho: [],
             totalTrabalho: "",
+            alocados: [],
             anexo: [],
             anexoFile: null,
             progressUpload: 0
@@ -75,8 +76,9 @@ export default class DetalheAtividade extends Component {
                     atividade: resp.data.response
                 }
                 )
-            );
-
+            )
+            .then(resp=> console.log(this.state.atividade.historicoAlocacao))
+            .then(resp=> this.setState({alocados:this.state.atividade.historicoAlocacao}))
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
             .then(resp => this.setState(
                 {
@@ -421,7 +423,7 @@ export default class DetalheAtividade extends Component {
                 }
             }
         }
-
+        console.log(this.state.alocados)
         return (
             <div>
                 <ol className="breadcrumb">
@@ -485,7 +487,9 @@ export default class DetalheAtividade extends Component {
                                         status={this.state.atividade.status}/>
                                 </div>
                                 <div>
-                                    <HorarioTrabalho horarioTrabalho={this.state.horarioTrabalho} totalTrabalho={this.state.totalTrabalho}/>
+                                    <HorarioTrabalho 
+                                    horarioTrabalho={this.state.horarioTrabalho} 
+                                    totalTrabalho={this.state.totalTrabalho}/>
                                 </div>
                             </div>
                         </div>
@@ -526,7 +530,8 @@ export default class DetalheAtividade extends Component {
                     <div className="tab-pane fade pt-3" id="comentarios-atividade" role="tabpanel" aria-labelledby="comentarios-atividade-tab">
                         <div className="row">
                             <div className="col-md-12">
-                                <VisualizarComentarios/>
+                                <VisualizarComentarios 
+                                   props={this.props} />
                             </div>
                         </div>
                     </div>

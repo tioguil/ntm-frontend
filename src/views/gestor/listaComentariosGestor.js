@@ -1,21 +1,27 @@
 import React from 'react'
-
+import moment from 'moment/moment'
 export default props => {
-    var usuario = localStorage.getItem('user');
-    const user = JSON.parse(usuario);
-    const idLogado = user.id
+  var usuario = localStorage.getItem('user');
+  const user = JSON.parse(usuario);
+  const idLogado = user.id
+
+  const formataData = (data) => {
+    console.log(data)
+    let dataFormatada = moment.utc(data).format('DD/MM/YYYY HH:mm:ss')
+    return dataFormatada
+  }
 
 	const comentarios = ()=>{
         const lista = props.comentarios 
           return lista.map(comentario => ( 
-              <div className={comentario.usuario.id===idLogado? 'comentario' : 'comentario comentarios-eles' }>
+              <div key={comentario.id} className={comentario.usuario.id===idLogado? 'comentario' : 'comentario comentarios-eles' }>
                 <div className={comentario.usuario.id===idLogado? 'eu-comentario':'eles-comentario'}>
                 <span >{comentario.usuario.id===idLogado? 'Eu': comentario.usuario.nome}</span>
                 </div>
-                <div className={comentario.usuario.id===idLogado? 'comentario-body' : 'comentario-body eles' }>
-                  <p>{comentario.comentario}</p>
-                  <span className="time-right">{comentario.dataComentario}</span>
+                <div key={comentario.id}className={comentario.usuario.id===idLogado? 'comentario-body' : 'comentario-body eles' }>
+                  <p className="comentarios-p">{comentario.comentario}</p>
                 </div>
+                <span className="comentarios-data">{formataData(comentario.dataComentario)}</span>
               </div>
 
         ))

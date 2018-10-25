@@ -56,14 +56,9 @@ export default class DetalheProjeto extends Component {
     const id = sessionStorage.getItem('idProjeto', id);
     this.projeto_id = id;
     axios.get(`${URL}projeto/gestor/buscaid/${id}`,config)
-      .then(resp => this.setState(
-        {
-          ...this.state,
-          projeto: resp.data.response,
-          atividades: resp.data.response.atividades
-        }
-      )
-    );
+      .then(resp => this.setState({...this.state,projeto: resp.data.response,atividades: resp.data.response.atividades}))
+      .then(resp=> this.setState({...this.state,endereco:this.state.projeto.nome}))
+      .then(resp=> console.log(this.state.projeto))
   }
 
   closeModal(tabId) {
@@ -177,6 +172,9 @@ export default class DetalheProjeto extends Component {
     );
   }
 
+  finalizaProjeto(){
+
+  }
   
 
   render(){
@@ -201,16 +199,17 @@ export default class DetalheProjeto extends Component {
           </li>
         </ol>
         <div className="container mb-3">
-          <h3 className="d-inline-block">{this.state.projeto.nome}</h3>
+          <h3 className="d-inline-block">{this.state.projeto.nome} {this.state.projeto.status ==='finalizado'? <i><em>({this.state.projeto.status})</em></i>: <button className="btn btn-danger btn-round" onClick={this.finalizaProjeto.bind(this)}>Finalizar Projeto</button>}</h3>
           <button className="btn btn-success float-right btn-round" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
           <div className="clearfix"/>
           <hr/>
+
           <ListaAtividades 
             atividades={this.state.atividades}
             showModal={this.showModal}
             atividade={this.atividade}
           />
-
+          
           <Modal isOpen={this.state.adicionar_atividade} toggle={this.closeModal.bind(this, 'adicionar_atividade')} className="modal-dialog modal-lg">
             <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'adicionar_atividade')}>Adicionar nova atividade</ModalHeader>
             <ModalBody className="card-header">
@@ -218,7 +217,7 @@ export default class DetalheProjeto extends Component {
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputNomeAtividade">Nome da atividade:</label>
-                    <Input type="text" className="form-control" id="inputNomeAtividade" value={this.state.nome} onChange={this.dadosAtividade.bind(this,'nome')} placeholder="Nome da atividade"/>
+                    <Input  requtype="text" className="form-control" id="inputNomeAtividade" value={this.state.nome} onChange={this.dadosAtividade.bind(this,'nome')} placeholder="Nome da atividade"/>
                   </div>
                   <div className="form-group col-md-3">
                     <label htmlFor="inputDate">Data de inicio:</label>

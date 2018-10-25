@@ -13,8 +13,8 @@ import {
     Input } from 'reactstrap';
 
 export default class VisualizarComentarios extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         var usuario = localStorage.getItem('user');
         const user = JSON.parse(usuario);
         const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
@@ -77,9 +77,10 @@ export default class VisualizarComentarios extends Component {
             <div>
                 <div className="row">
                     <div className="text-center mb-3 col-md-8 ">
-                        <div className="scrollbar scrollbar-primary">
+                        <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
                             <div className="container">
-                                <ListaComentarios comentarios={this.state.comentarios}/>
+                                <ListaComentarios 
+                                    comentarios={this.state.comentarios}/>
                             </div>
                         </div>
 
@@ -88,7 +89,7 @@ export default class VisualizarComentarios extends Component {
                                 <Input type="textarea"  onChange={this.setComentario.bind(this)} value={this.state.comentario} name="text" id="inputComentario" />
                             </div>
                             <div className="col-md-3 p-3 col-sm-3">
-                                <Button className="btn btn-block btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
+                                <Button className="btn btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Enviar</Button>
                             </div>
                         </div>
                     </div>
@@ -98,8 +99,7 @@ export default class VisualizarComentarios extends Component {
                     <div className="col-md-3 p-3">
                         <h5>Colaboradores</h5>
                         <div className="col-md-12">
-                            <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
-                            <span className="ml-2">Renan Goveia</span>
+                           
                         </div>
                     </div>
                 </div>

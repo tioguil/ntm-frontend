@@ -7,7 +7,6 @@ import ReactStars from 'react-stars'
 import axios from 'axios'
 import {URL} from '../../global'
 import ListaComentariosGestor from './listaComentariosGestor'
-import moment from 'moment/moment'
 import {
     Button,
     Modal,
@@ -51,7 +50,7 @@ export default class Atividades extends Component {
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.desvincularAnalista = this.desvincularAnalista.bind(this);
-        this.mapsSelector = this.mapsSelector.bind(this);
+        this.mapsSelector2 = this.mapsSelector2.bind(this);
 
 
         if(usuario == null){
@@ -372,7 +371,7 @@ export default class Atividades extends Component {
             });
     }
 
-    mapsSelector(latitude,longitude) {
+    mapsSelector2(latitude,longitude) {
         if ((navigator.platform.indexOf("iPhone") !== -1) ||
             (navigator.platform.indexOf("iPod") !== -1) ||
             (navigator.platform.indexOf("iPad") !== -1)) {
@@ -390,7 +389,7 @@ export default class Atividades extends Component {
 
                 return (<tr key={trabalho.id}>
                     <td>{trabalho.usuario.nome} {trabalho.usuario.sobreNome}</td>
-                    <td onClick={() => this.mapsSelector(trabalho.latitude, trabalho.longitude)}>Local</td>
+                    <td onClick={() => this.mapsSelector2(trabalho.latitude, trabalho.longitude)}>Local</td>
                     <td>{trabalho.dataInicio}</td>
                     <td>{trabalho.dataFim === null ? "Em andamento" : trabalho.dataFim}</td>
                     <td>{trabalho.totalHoras}</td>
@@ -477,10 +476,18 @@ export default class Atividades extends Component {
                                 <p className="descript">
                                     {this.state.atividade.descricao}
                                 </p>
-                                <div className="location-margin">
-                                    <li className="list-inline-item"><i className="fa fa-location-arrow" aria-hidden="true"></i> <a className="atividade-localizacao" onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, {this.state.atividade.enderecoNumero}, {this.state.atividade.cidade}-
-                                        {this.state.atividade.uf} - {this.state.atividade.cep} </a></li>
-                                </div>
+                                {this.state.atividade.endereco != ''? 
+                                    <div className="location-margin">
+                                        <li className="list-inline-item">
+                                        <i className="fa fa-location-arrow" aria-hidden="true"></i> 
+                                            <a className="atividade-localizacao" 
+                                            onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, 
+                                            {this.state.atividade.enderecoNumero}, 
+                                            {this.state.atividade.cidade}-
+                                            {this.state.atividade.uf} - {this.state.atividade.cep} 
+                                            </a>
+                                        </li>
+                                    </div> : ""}
                             </div>
                         </div>
 
@@ -489,7 +496,8 @@ export default class Atividades extends Component {
                                 <hr/>
                                 <div className="row">
                                     <div className="text-center mb-3 col-md-8 ">
-                                        <div className="scrollbar scrollbar-primary">
+                                        
+                                        <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
                                             <div className="container">
                                                 <ListaComentariosGestor comentarios={this.state.comentarios}/>
                                             </div>
@@ -500,16 +508,29 @@ export default class Atividades extends Component {
                                                 <Input type="textarea" onChange={this.setComentarios} value={this.state.comentario} name="text" id="inputComentario" />
                                             </div>
                                             <div className="col-md-3 p-3 col-sm-4">
-                                                <Button className="btn btn-block btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Adicionar</Button>
+                                                <Button className="btn btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Enviar</Button>
                                             </div>
                                         </div>
+
+
+
                                     </div>
                                     <div className="d-none d-md-inline-block vl"></div>
+                                    
                                     <div className="col-md-3 p-3">
-                                        <h5>Colaboradores</h5>
+                                        <h5 style={{'margin-left':'10px'}}>Colaboradores</h5>
                                         <div className="col-md-12">
-                                            <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
-                                            <span className="ml-2">Renan Goveia</span>
+                                            {
+                                                this.state.alocados.map(function(analista){
+                                                    return(
+                                                        <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
+                                                            <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
+                                                            <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
+                                                        </div>
+                                                    );
+                                                }.bind(this))
+                                            }
+                                            
                                         </div>
 
                                     </div>
@@ -519,14 +540,13 @@ export default class Atividades extends Component {
                     
 
                         <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
-                            <label className="label-buscar-analistas" htmlFor="inputNomeAtividade">Buscar Analista:</label>
                             <Select
-                                style={{width:'50%'}}
+                                style={{width:'50%','marginTop':'10px'}}
                                 onChange={this.onChange}
                                 onSelect={this.onSelect}
                                 notFoundContent="Não encontrado"
                                 allowClear
-                                placeholder="Pesquise por nome, cpf ou cnpj"
+                                placeholder="Buscar Analista por nome, cpf ou cnpj"
                                 value={this.state.value}
                                 combobox
                                 backfill
@@ -539,10 +559,10 @@ export default class Atividades extends Component {
                                     this.state.alocados.map(function(analista){
                                         return(
                                             <div key={analista.usuario.id}  className="card col-md-3 no-margin c-analista" >
-                                                <button onClick={() => this.desvincularAnalista(analista.usuario.id)} type="button" className="close" aria-label="Close" style={{"outline":"none"}}>
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <div  className="card-body" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
+                                                <div className="float-right">
+                                                    <span className="close desvincularAnalista" onClick={() => this.desvincularAnalista(analista.usuario.id)} aria-hidden="true">&times;</span>
+                                                </div>
+                                                <div  className="card-body card-properties" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
                                                     <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
                                                     <p className="card-text">
                                                         <li> {analista.usuario.celular} </li>
@@ -577,6 +597,7 @@ export default class Atividades extends Component {
                                         <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
                                     </div>
                                     <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
+                                    <div className="table-responsive-md">
                                     <table className="table">
                                         <thead>
                                         <tr>
@@ -589,6 +610,7 @@ export default class Atividades extends Component {
                                         {listaAnexo()}
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -640,7 +662,6 @@ export default class Atividades extends Component {
                         draggable
                         pauseOnHover
                     />
-                    {/* Same as */}
                     <ToastContainer />
                 </div>
             </div>
