@@ -50,6 +50,7 @@ export default class Atividades extends Component {
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.desvincularAnalista = this.desvincularAnalista.bind(this);
 
+
         if(usuario == null){
             this.usuario = null;
         } else {
@@ -88,7 +89,6 @@ export default class Atividades extends Component {
                 alocados:resp.data.response.historicoAlocacao,
                 comentarios:resp.data.response.comentarios}))
             .then(resp=> this.formataData(this.state.atividade.dataEntrega))
-
         this.atualizaListAnexo();
     }
 
@@ -346,6 +346,7 @@ export default class Atividades extends Component {
                 }));
     }
 
+
     downloadAnexo(localArmazenamento){
         console.log(localArmazenamento)
         axios({
@@ -391,7 +392,7 @@ export default class Atividades extends Component {
         const analistas = this.state.analistas;
         let options;
         options = analistas.map((a) => {
-            return <Option key={a.id,a.nome}> <i>{a.nome}</i></Option>;
+            return <Option key={a.id}> <i>{a.nome}</i></Option>;
         })
         return (
             <div>
@@ -471,20 +472,20 @@ export default class Atividades extends Component {
                                         </div>
                                     </div>
                                     <div className="d-none d-md-inline-block vl"></div>
-                                    <div className="col-md-3 p-3">
-                                        <h5>Colaboradores</h5>
-                                        <div className="col-md-12">
+                                        <div className="col-md-3 p-3">
+                                            <h5>Colaboradores</h5>
+                                            <div className="col-md-12">
                                             <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
                                             <span className="ml-2">Renan Goveia</span>
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>
+                            </div>                       
                         </div>
+                    
 
-
-                        <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
+                    <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
                             <label className="label-buscar-analistas" htmlFor="inputNomeAtividade">Buscar Analista:</label>
                             <Select
                                 style={{width:'50%'}}
@@ -524,66 +525,66 @@ export default class Atividades extends Component {
                                         );
                                     }.bind(this))
                                 }
-                            </div>
-                        </div>
-
-                        <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <div className="input-anexo-atividade">
-                                        <div className="col-md-12 col-sm-2 p-1">
-                                            <input id="input-anexo" type="file" onChange={this.fileSelected}/>
-                                            <span className="p-2 col-sm-3"
-                                                  id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
-
-                                            <label className="btn btn-primary btn-round" for="input-anexo">
-                                                Selecionar arquivo
-                                            </label>
-                                        </div>
-                                        <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
-                                    </div>
-                                    <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Nome Arquivo</th>
-                                            <th scope="col">Tamanho</th>
-                                            <th scope="col">Usuário</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody className="curso-pointer">
-                                        {listaAnexo()}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
-                    <Modal isOpen={this.state.modal} toggle={this.closeModal.bind(this, 'modal')} className={this.props.className}>
-                        <ModalHeader toggle={this.closeModal.bind(this, 'modal')}>Usuário já possui atividade nesse período</ModalHeader>
-                        <ModalBody>
-                            Deseja adicionar mesmo assim ?
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal')}>Cancelar</Button>
-                            <Button color="btn btn-primary float-right mt-2" onClick={this.adicionarDepoisDeVeirificar.bind(this)}>Adicionar</Button>
-                        </ModalFooter>
-                    </Modal>
+                    <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="input-anexo-atividade">
+                                    <div className="col-md-12 col-sm-2 p-1">
+                                        <input id="input-anexo" type="file" onChange={this.fileSelected}/>
+                                        <span className="p-2 col-sm-3" 
+                                        id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
 
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={5000}
-                        hideProgressBar={false}
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        pauseOnVisibilityChange
-                        draggable
-                        pauseOnHover
-                    />
-                    {/* Same as */}
-                    <ToastContainer />
+                                        <label className="btn btn-primary btn-round" for="input-anexo">
+                                            Selecionar arquivo
+                                        </label>
+                                    </div>
+                                    <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                                </div>
+                                <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
+                                <table className="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nome Arquivo</th>
+                                        <th scope="col">Tamanho</th>
+                                        <th scope="col">Usuário</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody className="curso-pointer">
+                                    {listaAnexo()}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <Modal isOpen={this.state.modal} toggle={this.closeModal.bind(this, 'modal')} className={this.props.className}>
+                    <ModalHeader toggle={this.closeModal.bind(this, 'modal')}>Usuário já possui atividade nesse período</ModalHeader>
+                    <ModalBody>
+                        Deseja adicionar mesmo assim ?
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal')}>Cancelar</Button>
+                        <Button color="btn btn-primary float-right mt-2" onClick={this.adicionarDepoisDeVeirificar.bind(this)}>Adicionar</Button>
+                    </ModalFooter>
+                </Modal>
+
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnVisibilityChange
+                    draggable
+                    pauseOnHover
+                />
+                {/* Same as */}
+                <ToastContainer />
                 </div>
             </div>
         );

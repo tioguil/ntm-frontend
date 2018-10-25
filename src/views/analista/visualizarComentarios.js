@@ -75,17 +75,6 @@ export default class VisualizarComentarios extends Component {
 
         return (
             <div>
-                <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                        <Link to="/Dashboard">Dashboard</Link>
-                    </li>
-                    <li className="breadcrumb-item">
-                        <Link to="/detalheAtividade">Atividade</Link>
-                    </li>
-                    <li className="breadcrumb-item active">Comentários</li>
-
-                </ol>
-                <hr/>
                 <div className="row">
                     <div className="text-center mb-3 col-md-8 ">
                         <div className="scrollbar scrollbar-primary">
