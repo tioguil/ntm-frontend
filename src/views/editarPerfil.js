@@ -10,7 +10,7 @@ import Photo from "../components/Photo";
 export default class EditarPerfil extends Component {
     constructor(){
         super();
-
+        let img = localStorage.getItem('imgPerfil');
         let usuario = JSON.parse(localStorage.getItem('user'));
         this.state = {
             nome:usuario.nome,
@@ -25,6 +25,7 @@ export default class EditarPerfil extends Component {
             email: usuario.email,
             cidade:usuario.cidade,
             uf:usuario.uf,
+            imagePerfil: img,
             token:{ numero: usuario.token.numero}
         }
         this.editar= this.editar.bind(this);
@@ -68,7 +69,7 @@ export default class EditarPerfil extends Component {
                 <div className="row">
                     <div className="col-md-4 col-sm-12">
                         <div className="App">
-                            <Photo {...imageData} />
+                            <Photo {...imageData} srcImage={this.state.imagePerfil} />
                         </div>
                     </div>
                     <div className="col-md-8">

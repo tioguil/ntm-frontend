@@ -52,6 +52,15 @@ export default class Login extends Component {
 
   verify_user(){
       localStorage.setItem("user", JSON.stringify(this.state.usuario));
+      var config = {
+          headers: {
+              Authorization: this.state.usuario.token.numero
+          }
+      };
+      axios.get(`${URL}usuario/analista/getimage/${this.state.usuario.imagePath}`,config)
+          .then(resp => localStorage.setItem("imgPerfil", resp.data.response))
+
+
       let perfilAcesso = this.state.usuario.perfilAcesso;
       console.log(perfilAcesso)
       if (perfilAcesso === "gestor"){
