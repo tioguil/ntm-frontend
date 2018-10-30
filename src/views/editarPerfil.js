@@ -6,6 +6,7 @@ import Select, { Option, OptGroup} from 'rc-select';
 import { Redirect, Link } from 'react-router-dom';
 import {URL} from '../global'
 import Photo from "../components/Photo";
+import {toast, ToastContainer} from "react-toastify";
 
 export default class EditarPerfil extends Component {
     constructor(){
@@ -26,10 +27,15 @@ export default class EditarPerfil extends Component {
             cidade:usuario.cidade,
             uf:usuario.uf,
             imagePerfil: img,
-            token:{ numero: usuario.token.numero}
+            token:{ numero: usuario.token.numero},
+            imageFile:null
         }
         this.editar= this.editar.bind(this);
-        this.atualizaLocalStorage = this.atualizaLocalStorage.bind(this)
+        this.atualizaLocalStorage = this.atualizaLocalStorage.bind(this);
+        this.imageSelect = this.imageSelect.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
+        this.getImage = this.getImage.bind(this);
+
     }
 
     dadosUsuario(nomeInput,evento){
@@ -47,6 +53,57 @@ export default class EditarPerfil extends Component {
         let user = response.response
         user.token.numero = this.state.token.numero;
         localStorage.setItem("user", JSON.stringify(user));
+    }
+
+    uploadImage(){
+        if(this.state.imageFile == null){
+            toast.warn("Nenhuma imagem selecionada", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true})
+            return;
+        }else {
+            const formData = new FormData();
+            formData.append('image', this.state.imageFile, this.state.imageFile.name);
+            var config = {
+                headers: {
+                    Authorization: this.state.token.numero
+                }
+            };
+            axios.post(`${URL}usuario/analista/uploadimage`,formData,config)
+                .then(resp => this.getImage(resp.data.response.diretorio))
+                .then(resp => toast.success('Imagem savada com sucesso!',
+                    {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true
+                    }));
+        }
+    }
+
+    getImage(nameFile){
+        console.log("name file", nameFile)
+        var config = {
+            headers: {
+                Authorization: this.state.token.numero
+            }
+        };
+        axios.get(`${URL}usuario/analista/getimage/${nameFile}`,config)
+            .then(resp => {
+                this.setState({imagePerfil: resp.data.response})
+                localStorage.setItem("imgPerfil", resp.data.response)
+            })
+            .then(resp => this.setState({imageFile: null}))
+    }
+
+    imageSelect(event){
+        this.setState({imageFile: event.target.files[0]});
     }
 
     render(){
@@ -70,6 +127,16 @@ export default class EditarPerfil extends Component {
                     <div className="col-md-4 col-sm-12">
                         <div className="App">
                             <Photo {...imageData} srcImage={this.state.imagePerfil} />
+                            <div className="text-center">
+                                <label htmlFor="imagePerfil" className="btn btn-secondary" >Selecionar foto</label>
+                                <input type="file" id="imagePerfil" onChange={this.imageSelect}/>
+                                <div>
+                                    <label>{(this.state.imageFile == null)? 'Nenhuma imagem selecionada' : this.state.imageFile.name}</label>
+                                </div>
+                                <div>
+                                    <button className="btn btn-success" onClick={this.uploadImage}>Salvar foto</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="col-md-8">
@@ -175,6 +242,18 @@ export default class EditarPerfil extends Component {
                             </form>
                         </div>
                     </div>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnVisibilityChange
+                        draggable
+                        pauseOnHover
+                    />
+                    <ToastContainer />
                 </div>
             </div>
         );

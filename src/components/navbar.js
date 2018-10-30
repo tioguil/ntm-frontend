@@ -13,7 +13,8 @@ export default class Navbar extends Component {
         super(props);
         var usuario = localStorage.getItem('user');
         const user = JSON.parse(usuario);
-        this.state = {nome:user.nome,modal:false}
+        this.image = localStorage.getItem('imgPerfil');
+        this.state = {nome:user.nome,modal:false, imagePerfil: null}
         this.perfilAcesso = user.perfilAcesso
 
     }
@@ -22,6 +23,7 @@ export default class Navbar extends Component {
         script.src = "./js/scripts.js";
         script.async = true;
         document.body.appendChild(script);
+        this.setState({imagePerfil: this.image})
     }
 
     toggle() {
@@ -90,7 +92,7 @@ export default class Navbar extends Component {
                             <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                                 <span>
-                                    <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
+                                    <img src={this.state.imagePerfil === null || this.state.imagePerfil === "sem" ? "photo/default.jpg" : "data:image/jpeg;charset=utf-8;base64, " +this.state.imagePerfil} className="icon-size" alt="photo-perfil"/>
                                     {this.state.nome}
                                 </span>
                             </a>
