@@ -394,6 +394,20 @@ export default class DetalheAtividade extends Component {
 
 
     render(){
+        const formataDataCriacao = (data) => {
+            let dataFormatada = String(data);
+            dataFormatada = dataFormatada.split("-");
+            let diaFormatado = String(dataFormatada[2]);
+            diaFormatado = diaFormatado.split("T")[0];
+            return diaFormatado+"/"+dataFormatada[1]+"/"+dataFormatada[0];
+        }
+
+        const formataDataEntrega = (data) => {
+            let dataFormatada = String(data);
+            dataFormatada = dataFormatada.split("-");
+            return dataFormatada[2]+"/"+dataFormatada[1]+"/"+dataFormatada[0];
+        }
+
         const listaAnexo = () => {
             let list = this.state.anexo;
             return list.map(anexo => (
@@ -465,8 +479,8 @@ export default class DetalheAtividade extends Component {
                                 {buttonFinalizar()}
                                 <br/>
                                 <small className="text-muted">
-                                    <strong>Criação: </strong>{this.state.atividade.dataCriacao} -
-                                    <strong> Entrega: </strong> {this.state.atividade.dataEntrega}
+                                    <strong>Criação: </strong>{formataDataCriacao(this.state.atividade.dataCriacao)} -
+                                    <strong> Entrega: </strong> {formataDataEntrega(this.state.atividade.dataEntrega)}
                                 </small>
                                 <hr/>
                             </div>
