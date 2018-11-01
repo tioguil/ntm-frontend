@@ -271,9 +271,14 @@ export default class DashboardAdmin extends Component {
                 <br/>
                 <div className= "row">
 
-                    <div className = "col-md-6">
-                        <h3>Projetos dos últimos 30 dias</h3>
+                    <div className = "col-md-6 col-sm-12 p-2">
+                        <h3>Projeto dos últimos
 
+                            <input className="numberDashboard" onChange={this.chartAtividadeDias} value={this.state.diasAtividade} type="number"  min="30" max="120"/>
+
+                            dias
+                        </h3>
+                        Total de projeto: {this.state.totalAtividade}
                         <hr/>
 
                         <Bar
@@ -281,10 +286,10 @@ export default class DashboardAdmin extends Component {
                         />
                     </div>
 
-                    <div className = "col-md-6">
+                    <div className = "col-md-6 col-sm-12 p-2">
                         <h3>Atividade dos últimos
 
-                            <input onChange={this.chartAtividadeDias} value={this.state.diasAtividade} type="number"  min="30" max="120"/>
+                            <input className="numberDashboard" onChange={this.chartAtividadeDias} value={this.state.diasAtividade} type="number"  min="30" max="120"/>
 
                             dias
                         </h3>
