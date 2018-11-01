@@ -3,10 +3,10 @@ import { Redirect, Link } from 'react-router-dom';
 import { Line } from 'rc-progress';
 import Select, { Option, OptGroup } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
-import ReactStars from 'react-stars'
-import axios from 'axios'
-import {URL} from '../../global'
-import ListaComentariosGestor from './listaComentariosGestor'
+import ReactStars from 'react-stars';
+import axios from 'axios';
+import {URL} from '../../global';
+import ListaComentariosGestor from './listaComentariosGestor';
 import {
     Button,
     Modal,
@@ -14,6 +14,7 @@ import {
     ModalBody,
     ModalFooter,
     Input } from 'reactstrap';
+import Photo from "../../components/Photo";
 
 export default class Atividades extends Component {
     constructor(props){
@@ -40,6 +41,7 @@ export default class Atividades extends Component {
             anexoFile: null,
             progressUpload: 0
         };
+        this.analistaImagem = "";
         this.adicionar = this.adicionar.bind(this);
         this.verificaAnalista = this.verificaAnalista.bind(this);
         this.refresh = this.refresh.bind(this);
@@ -221,7 +223,6 @@ export default class Atividades extends Component {
             var config = {headers:{Authorization:this.token}};
             axios.get(`${URL}usuario/gestor/pesquisar/${this.state.value}`,config)
                 .then(resp=> this.setState({analistas:resp.data.response}))
-                .then(resp => console.log(this.state.analistas))
         }
     }
 
@@ -260,7 +261,6 @@ export default class Atividades extends Component {
             }
         };
         anexo = {...anexo, atividade:{id: this.atividadeId}}
-        console.log(anexo)
         axios.post(`${URL}anexo/analista/delete`, anexo, config)
             .then(resp => this.atualizaListAnexo())
             .then(resp => toast.success("Anexo deletado com sucesso!"), {
@@ -335,8 +335,6 @@ export default class Atividades extends Component {
             usuario:{id:idUser}
         }
 
-        console.log(json)
-
         axios.post(`${URL}historicoAlocacao/gestor/desvincular`,json,config)
             .then(resp => this.refresh())
             .then(resp => toast.success('Usuario removido com sucesso!',
@@ -352,7 +350,6 @@ export default class Atividades extends Component {
 
 
     downloadAnexo(localArmazenamento){
-        console.log(localArmazenamento)
         axios({
             url: URL+'anexo/analista/download/'+localArmazenamento,
             method: 'GET',
@@ -363,7 +360,6 @@ export default class Atividades extends Component {
         })
             .then((response) => {
                 const url = window.URL.createObjectURL(new Blob([response.data]));
-                console.log(response)
                 const link = document.createElement('a');
                 link.href = url;
                 link.setAttribute('download', localArmazenamento);
@@ -388,6 +384,18 @@ export default class Atividades extends Component {
         }
     }
 
+    getImage(nameFile) {
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
+
+        fetch(`${URL}usuario/analista/getimage/${nameFile}`, config)
+            .then(resp => resp.json())
+            .then(resp => this.analistaImagem = resp.response)
+    }
+
     render(){
 
         const trabalho = ()=>{
@@ -407,7 +415,6 @@ export default class Atividades extends Component {
 
         const listaAnexo = () => {
             let list = this.state.anexo;
-            console.log("listaAnexo", this.atividadeId);
             return list.map(anexo => (
                 <tr key={anexo.id}>
                     <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
@@ -430,6 +437,7 @@ export default class Atividades extends Component {
         options = analistas.map((a) => {
             return <Option key={a.id,a.nome}> <i>{a.nome} - {a.email}</i></Option>;
         })
+
         return (
             <div>
                 <br/>
@@ -531,7 +539,10 @@ export default class Atividades extends Component {
                                                 this.state.alocados.map(function(analista){
                                                     return(
                                                         <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
-                                                            <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
+                                                        {this.getImage(analista.usuario.imagePath)}
+                                                            {console.log("map", analista.usuario.nome, this.analistaImagem)}
+                                                            <img src={analista.usuario.imagePath === null || analista.usuario.imagePath === "sem" ? "photo/default.jpg" : "data:image/jpeg;charset=utf-8;base64, " + this.analistaImagem} className="icon-size" alt="photo-perfil"/>
+
                                                             <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
                                                         </div>
                                                     );
