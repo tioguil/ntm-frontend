@@ -141,29 +141,30 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="Dockerfile" value="106" />
-          <entry key="js" value="5046" />
+          <entry key="js" value="5683" />
           <entry key="txt" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Dockerfile" value="106" />
-          <entry key="JavaScript" value="5046" />
+          <entry key="JavaScript" value="5683" />
           <entry key="PLAIN_TEXT" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.15" value="1" />
+          <entry key="project.open.time.16" value="1" />
           <entry key="project.open.time.17" value="2" />
           <entry key="project.open.time.18" value="2" />
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.74" value="1" />
-          <entry key="project.opened" value="11" />
+          <entry key="project.opened" value="12" />
         </counts>
       </usages-collector>
     </session>
@@ -173,8 +174,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/gestor/dashboardAdmin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="234" column="48" lean-forward="true" selection-start-line="234" selection-start-column="48" selection-end-line="234" selection-end-column="48" />
+            <state relative-caret-position="79">
+              <caret line="373" column="60" lean-forward="true" selection-start-line="373" selection-start-column="60" selection-end-line="373" selection-end-column="60" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -185,7 +186,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/gestor/detalheAnalista.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
+            <state relative-caret-position="459">
               <caret line="32" column="63" selection-start-line="28" selection-start-column="3" selection-end-line="32" selection-end-column="63" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -205,7 +206,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>showModal</find>
       <find>modal</find>
       <find>closeModal</find>
       <find>atualizarHorarioTrabalho</find>
@@ -235,7 +235,11 @@
       <find>ane</find>
       <find>fileSelected</find>
       <find>fileUpload</find>
+      <find>response</find>
     </findStrings>
+    <replaceStrings>
+      <replace>responseProjeto</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -303,7 +307,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -346,6 +349,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -419,12 +423,13 @@
       <workItem from="1540436987561" duration="2978000" />
       <workItem from="1540479326215" duration="9923000" />
       <workItem from="1540855042644" duration="5799000" />
-      <workItem from="1541021492710" duration="6286000" />
+      <workItem from="1541021492710" duration="6725000" />
+      <workItem from="1541086378326" duration="4900000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="140741000" />
+    <option name="totallyTimeSpent" value="146080000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
@@ -587,9 +592,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -611,9 +613,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="58" column="8" selection-start-line="58" selection-start-column="8" selection-end-line="58" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -633,11 +632,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/gestor/cadastrarAnalista.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1224">
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-1224" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/gestor/cadastrarProjeto.js">
@@ -645,20 +640,20 @@
         <state relative-caret-position="-1887" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/gestor/detalheAnalista.js">
+    <entry file="file://$PROJECT_DIR$/src/views/gestor/dashboardAdmin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="32" column="63" selection-start-line="28" selection-start-column="3" selection-end-line="32" selection-end-column="63" />
+        <state relative-caret-position="79">
+          <caret line="373" column="60" lean-forward="true" selection-start-line="373" selection-start-column="60" selection-end-line="373" selection-end-column="60" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/gestor/dashboardAdmin.js">
+    <entry file="file://$PROJECT_DIR$/src/views/gestor/detalheAnalista.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="234" column="48" lean-forward="true" selection-start-line="234" selection-start-column="48" selection-end-line="234" selection-end-column="48" />
+        <state relative-caret-position="459">
+          <caret line="32" column="63" selection-start-line="28" selection-start-column="3" selection-end-line="32" selection-end-column="63" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

@@ -20,7 +20,9 @@ export default class DashboardAdmin extends Component {
             this.state = {
                 user:user.perfilAcesso,
                 diasAtividade:90,
+                diasProjeto: 90,
                 totalAtividade:0,
+                totalProjeto:0,
                 iniciada:0,
                 pendente:0,
                 pausada:0,
@@ -52,6 +54,20 @@ export default class DashboardAdmin extends Component {
                         ]
                     }]
 
+                },
+                chartProjeto:{
+                    labels: ['iniciado', 'em andamento', 'finalizado', 'cancelado'],
+                    datasets: [
+                        {
+                            label: 'Quantidade',
+                            backgroundColor: 'rgba(255,99,132,0.2)',
+                            borderColor: 'rgba(255,99,132,1)',
+                            borderWidth: 1,
+                            hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                            hoverBorderColor: 'rgba(255,99,132,1)',
+                            data: [65, 59, 80, 81]
+                        }
+                    ]
                 }
             }
         }
@@ -59,6 +75,12 @@ export default class DashboardAdmin extends Component {
         this.seteChartAtividade = this.seteChartAtividade.bind(this);
         this.chartAtividadeDias = this.chartAtividadeDias.bind(this);
         this.atualizaGraficoAtividade =this.atualizaGraficoAtividade.bind(this);
+
+
+
+        this.atualzaGraficoProjeto = this.atualzaGraficoProjeto.bind(this);
+        this.seteChartProjeto = this.seteChartProjeto.bind(this);
+        this.changeDiasProjeto = this.changeDiasProjeto.bind(this);
 
     }
 
@@ -68,17 +90,91 @@ export default class DashboardAdmin extends Component {
     }
 
     componentDidMount() {
-        this.atualizaGraficoAtividade(this.state.diasAtividade);
+
+        var config = {headers:{Authorization:this.token}};
+
+        axios.get(`${URL}atividade/gestor/listar/dash/${this.state.diasAtividade}`,config)
+            .then(resp=> this.seteChartAtividade(resp.data.response))
+            .then(resp =>{
+                axios.get(`${URL}projeto/gestor/listarProject/dash/${this.state.diasProjeto}`,config)
+                    .then(respProjeto=> this.seteChartProjeto(respProjeto.data.response))
+            })
+
     }
 
 
+    changeDiasProjeto(ev){
+        this.setState({diasProjeto: ev.target.value});
+        this.atualzaGraficoProjeto(ev.target.value);
+    }
+
+    atualzaGraficoProjeto(dias){
+        console.log("Projeto")
+        var config = {headers:{Authorization:this.token}};
+
+        axios.get(`${URL}projeto/gestor/listarProject/dash/${dias}`,config)
+            .then(resp=> this.seteChartProjeto(resp.data.response))
+    }
+
 
     atualizaGraficoAtividade(dias){
+        console.log("Atividade")
         var config = {headers:{Authorization:this.token}};
 
         axios.get(`${URL}atividade/gestor/listar/dash/${dias}`,config)
             .then(resp=> this.seteChartAtividade(resp.data.response))
     }
+
+    seteChartProjeto(responseProjeto){
+        this.setState({
+            iniciadoP:0,
+            emAndamentoP:0,
+            finalizadoP:0,
+            canceladoP:0,
+            totalProjeto:0
+        })
+        console.log("SetProjeto",responseProjeto)
+        for (let i = 0; i < responseProjeto.length; i++){
+
+            switch (responseProjeto[i].status) {
+
+                case 'iniciado':
+                    this.setState({iniciadoP:responseProjeto[i].quantidade});
+                    this.setState({totalProjeto: this.state.totalProjeto + responseProjeto[i].quantidade});
+                    break;
+                case 'em andamento':
+                    this.setState({emAndamentoP:responseProjeto[i].quantidade});
+                    this.setState({totalProjeto: this.state.totalProjeto + responseProjeto[i].quantidade});
+                    break;
+                case 'finalizado':
+                    this.setState({finalizadoP:responseProjeto[i].quantidade});
+                    this.setState({totalProjeto: this.state.totalProjeto + responseProjeto[i].quantidade});
+                    break;
+                case 'cancelado':
+                    this.setState({canceladoP:responseProjeto[i].quantidade});
+                    this.setState({totalProjeto: this.state.totalProjeto + responseProjeto[i].quantidade});
+                    break;
+            }
+
+        }
+
+        this.setState({chartProjeto: {
+                labels: ['iniciado', 'em andamento', 'finalizado', 'cancelado'],
+                datasets: [
+                    {
+                        label: 'Quantidade',
+                        backgroundColor: 'rgba(255,99,132,0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        borderWidth: 1,
+                        hoverBackgroundColor: 'rgba(255,99,132,0.4)',
+                        hoverBorderColor: 'rgba(255,99,132,1)',
+                        data: [this.state.iniciadoP, this.state.emAndamentoP, this.state.finalizadoP, this.state.canceladoP]
+                    }
+                ]
+            }})
+
+    }
+
 
     seteChartAtividade(response){
         this.setState({
@@ -89,6 +185,7 @@ export default class DashboardAdmin extends Component {
             finalizada:0,
             totalAtividade: 0
         })
+        console.log("setAtividade")
         for (let i = 0; i < response.length; i++){
 
             switch (response[i].status) {
@@ -274,7 +371,7 @@ export default class DashboardAdmin extends Component {
                     <div className = "col-md-6 col-sm-12 p-2">
                         <h3>Projeto dos últimos
 
-                            <input className="numberDashboard" onChange={this.chartAtividadeDias} value={this.state.diasAtividade} type="number"  min="30" max="120"/>
+                            <input className="numberDashboard" onChange={this.changeDiasProjeto} value={this.state.diasProjeto} type="number"  min="30" max="120"/>
 
                             dias
                         </h3>
@@ -282,7 +379,7 @@ export default class DashboardAdmin extends Component {
                         <hr/>
 
                         <Bar
-                            data={data}
+                            data={this.state.chartProjeto}
                         />
                     </div>
 
