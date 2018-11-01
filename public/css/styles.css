@@ -491,3 +491,18 @@ input[type='file'] {
   right: 0;
   margin-left: 45%;
 }
+
+
+.dashboardAnalista{
+  margin-left:2% !important;
+  margin-bottom: 2% !important;
+}
+
+.statusAnalista{
+  margin-right: 1%;
+}
+
+
+.filterAtividade{
+  width: 10%;
+}

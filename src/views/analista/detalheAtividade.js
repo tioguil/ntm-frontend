@@ -6,15 +6,16 @@ import axios from 'axios';
 import ButtonAtividade from './buttonAtividade';
 import { ToastContainer, toast } from 'react-toastify';
 import HorarioTrabalho from './horarioTrabalho';
+import ListarComentariosAnalista from './listarComentariosAnalista'
 import {URL} from '../../global'
 import {
     Button,
     Modal,
     ModalHeader,
     ModalBody,
+    Input,
     ModalFooter,
 } from 'reactstrap';
-import VisualizarComentarios from './visualizarComentarios';
 
 
 export default class DetalheAtividade extends Component {
@@ -32,7 +33,7 @@ export default class DetalheAtividade extends Component {
         this.downloadAnexo = this.downloadAnexo.bind(this);
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
         this.deleteAnexo = this.deleteAnexo.bind(this);
-
+        this.keyHandler = this.keyHandler.bind(this);
         this.state = {
             modalAnexo: false,
             atividade: {},
@@ -45,7 +46,7 @@ export default class DetalheAtividade extends Component {
             anexoFile: null,
             progressUpload: 0
         };
-
+        this.refresh()
         if(usuario == null){
             this.usuario = null;
         } else {
@@ -53,10 +54,9 @@ export default class DetalheAtividade extends Component {
         }
     }
 
-    componentDidMount(){
+    refresh(){
         this.getLocation()
         const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
-
         this.setState(
             {
                 ...this.state,
@@ -75,10 +75,11 @@ export default class DetalheAtividade extends Component {
                 {
                     ...this.state,
                     atividade: resp.data.response
-                }
-                )
-            )
+                }))
+            .then(resp=>console.log(this.state.atividade.comentarios))
             .then(resp=> console.log(this.state.atividade.historicoAlocacao))
+
+
             .then(resp=> this.setState({alocados:this.state.atividade.historicoAlocacao}))
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
             .then(resp => this.setState(
@@ -263,6 +264,11 @@ export default class DetalheAtividade extends Component {
             });
     }
 
+    setComentario(event){
+        console.log(event.target.value)
+        this.setState({comentario:event.target.value})
+    }
+
     showModal(modal){
         this.setState({
             [modal]: true
@@ -279,11 +285,34 @@ export default class DetalheAtividade extends Component {
         this.props.history.push("/visualizarComentarios");
     }
 
-    setComentario(event){
-        console.log(event.target.value);
-        this.setState({
-            comentario:event.target.value
-        });
+    enviarComentario(){
+        var config = {headers:{Authorization:this.token}};
+        const json = {comentario:this.state.comentario,atividade:{id:this.state.atividade.id}}
+        axios.post(`${URL}comentario/analista/cadastrar`,json,config)
+            .then(resp => toast.success('Comentário realizado com sucesso!',
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true
+                })).then(resp=> this.setState({...this.state,comentario:""})).then(resp=>this.refresh())
+            .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.',{
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            }))
+    }
+
+    keyHandler(e) {
+        const { add, clear, search, description } = this.props
+        if (e.key === 'Enter') {
+            this.enviarComentario()
+        }
     }
 
     changeStatus(id){
@@ -345,54 +374,6 @@ export default class DetalheAtividade extends Component {
         this.closeModal('modal3');
     }
 
-    enviarComentario(){
-        var config = {
-            headers: {
-                Authorization: this.token
-            }
-        };
-
-        const json = {
-            comentario: this.state.comentario,
-            atividade: {
-                id: this.state.idAtividade
-            }
-        }
-        axios.post(`${URL}comentario/analista/cadastrar`, json, config)
-            .then(resp => toast.success('Comentário realizado com sucesso!',
-                {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true
-                }
-                )
-            )
-            .then(resp=> this.setState(
-                {
-                    ...this.state,
-                    comentario:""
-                }
-                )
-            )
-            .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.',
-                {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true
-                }
-                )
-            );
-
-        this.closeModal('modal2');
-    }
-
-
     render(){
         const listaAnexo = () => {
             let list = this.state.anexo;
@@ -443,7 +424,7 @@ export default class DetalheAtividade extends Component {
                         <a className="nav-link" id="anexos-atividade-tab" data-toggle="tab" href="#anexos-atividade" role="tab" aria-controls="anexos-atividade" aria-selected="false">Anexos</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" id="comentarios-atividade-tab" data-toggle="tab" href="#comentarios-atividade" role="tab" aria-controls="comentarios-atividade" aria-selected="false">Comentários</a>
+                        <a className="nav-link" id="comentarios-atividade-tab" data-toggle="tab" href="#comentarios-atividade1" role="tab" aria-controls="comentarios-atividade" aria-selected="false">Comentários</a>
                     </li>
                 </ul>
 
@@ -529,13 +510,46 @@ export default class DetalheAtividade extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="tab-pane fade pt-3" id="comentarios-atividade" role="tabpanel" aria-labelledby="comentarios-atividade-tab">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <VisualizarComentarios 
-                                   props={this.props} />
+
+                    <div className="tab-pane fade pt-3" id="comentarios-atividade1" role="tabpanel" aria-labelledby="comentarios-atividade-tab2">
+                        
+                            <div className="row">
+                                
+                                <div className="col-md-8 row">
+                                        <div className="col-md-12">
+                                            <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
+                                            <ListarComentariosAnalista 
+                                                comentarios={this.state.atividade.comentarios}/>
+                                            </div>
+                                                <div className="text-comentario p-2 row">
+                                                    <div className="col-md-9 col-sm-9">
+                                                        <Input type="textarea"  onChange={this.setComentario.bind(this)} value={this.state.comentario} 
+                                                        onKeyUp={this.keyHandler} name="text" id="inputComentario" />
+                                                    </div>
+                                                    <div className="col-md-3 p-3 col-sm-3 m-auto">
+                                                        <Button className="btn btn-success btn-round" onClick={this.enviarComentario.bind(this)}>Enviar</Button>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                    <div className="d-none d-md-inline-block vl"></div>
+                                    <div className="col-md-3 p-3">
+                                        <h5>Colaboradores</h5>
+                                            <div className="col-md-12">
+                                            {
+                                                this.state.alocados.map(function(analista){
+                                                    return(
+                                                        <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
+                                                            <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
+                                                            <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
+                                                        </div>
+                                                    );
+                                                }.bind(this))
+                                            }
+                                            
+                                        </div>
+                                    </div>
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -545,17 +559,6 @@ export default class DetalheAtividade extends Component {
                         <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal3')}>Cancelar</Button>
                         <Button color="btn btn-primary float-right mt-2" onClick={this.finalizarAtividade.bind(this)}>Finalizar</Button>
                     </ModalBody>
-                </Modal>
-
-                <Modal isOpen={this.state.modalAnexo} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-                    <ModalBody>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
                 </Modal>
 
                 <ToastContainer
