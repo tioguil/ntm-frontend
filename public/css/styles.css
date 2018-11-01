@@ -527,3 +527,22 @@ input[type='file'] {
     outline: 0px auto -webkit-focus-ring-color;
     outline-offset: 0px;
 }
+.fa-camera{
+  color: #fff;
+  border-radius: 50%;
+}
+.btn-custom {
+  padding: 1px 15px 3px 2px;
+  border-radius: 50px;
+}
+
+.btn-icon {
+  padding: 12px;
+  background: #55aa55;
+  position: absolute;
+  z-index: 2;
+  margin-left: 59px;
+  margin-top: 225px;
+  width: 40px;
+  height: 40px;
+}

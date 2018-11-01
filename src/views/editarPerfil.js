@@ -57,13 +57,6 @@ export default class EditarPerfil extends Component {
 
     uploadImage(){
         if(this.state.imageFile == null){
-            toast.warn("Nenhuma imagem selecionada", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true})
             return;
         }else {
             const formData = new FormData();
@@ -123,18 +116,18 @@ export default class EditarPerfil extends Component {
 
                 <h3>Editar Perfil</h3>
                 <hr/>
+
                 <div className="row">
                     <div className="col-md-4 col-sm-12">
                         <div className="App">
-                            <Photo {...imageData} srcImage={this.state.imagePerfil} />
                             <div className="text-center">
-                                <label htmlFor="imagePerfil" className="btn btn-secondary" >Selecionar foto</label>
+                                <label htmlFor="imagePerfil" className="btn-custom">
+                                    <span className="fas fa-camera btn-icon curso-pointer" title="Selecionar foto"></span>
+                                </label>
+                                <Photo {...imageData} srcImage={this.state.imagePerfil} />
                                 <input type="file" id="imagePerfil" onChange={this.imageSelect}/>
                                 <div>
-                                    <label>{(this.state.imageFile == null)? 'Nenhuma imagem selecionada' : this.state.imageFile.name}</label>
-                                </div>
-                                <div>
-                                    <button className="btn btn-success" onClick={this.uploadImage}>Salvar foto</button>
+                                    <label>{(this.state.imageFile == null)? '' : 'Alterar foto de perfil para: ' + this.state.imageFile.name}</label>
                                 </div>
                             </div>
                         </div>

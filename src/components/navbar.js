@@ -64,30 +64,7 @@ export default class Navbar extends Component {
 
                 <div className="d-md-inline-block ml-auto mr-0 mr-md-3 my-2 my-md-0">
                     <ul className="navbar-nav ml-auto ml-md-0">
-                        <li className="nav-item dropdown no-arrow mx-1">
-                            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i className="fas fa-bell fa-fw"></i>
-                                <span className="badge badge-danger">9+</span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                                <a className="dropdown-item" href="#">Opção 1</a>
-                                <a className="dropdown-item" href="#">Opção 2</a>
-                                <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" href="#">Opção 3</a>
-                            </div>
-                        </li>
-                        <li className="nav-item dropdown no-arrow mx-1">
-                            <a className="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i className="fas fa-envelope fa-fw"></i>
-                                <span className="badge badge-danger">7</span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                                <a className="dropdown-item" href="#">Opção 1</a>
-                                <a className="dropdown-item" href="#">Opção 2</a>
-                                <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" href="#">Opção 3</a>
-                            </div>
-                        </li>
+                        
                         <li className="nav-item dropdown no-arrow">
                             <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
