@@ -12,11 +12,10 @@ export default class Dashboard extends Component {
         const user = JSON.parse(usuario);
 
         this.usuario = user;
-        this.state = { atividades: [],data_criacao:'',data_entrega:''}
+        this.state = { atividades: [],data_criacao:'',data_entrega:'',status:'todos'}
         this.token = user.token.numero;
         this.refresh = this.refresh.bind(this);
         this.mostrarDetalhes = this.mostrarDetalhes.bind(this);
-
         if (usuario == null) {
             this.usuario = null;
         } else {
@@ -63,30 +62,26 @@ export default class Dashboard extends Component {
         this.setState({data_criacao:evento.target.value}) 
     }
 
+    choiceStatus(evento){
+        this.setState({status:evento.target.value})
+    }
+
 
     filtroAtividade(){
-    // let inicio;
-    // let fim;
-    // let json;
-    // var config = {headers:{Authorization:this.token}};
-    // if(this.state.data != undefined){
-    //   if (this.state.data.length > 1) {
-    //     for(let i = 0; i<this.state.data.length ;i++){ 
-    //       inicio=this.state.data[0].toISOString().split('T')[0]
-    //       fim=this.state.data[1].toISOString().split('T')[0]
+        var config = {
+            headers: {
+                Authorization: this.token
+            }
+        };
 
-    //       axios.get(`${URL}atividade/gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
-    //         .then(resp=> this.setState({atividades:resp.data.response}))
-    //     }
-    //   }
-    //   else{
-    //     inicio = this.state.data.toISOString().split('T')[0]
-    //     fim = this.state.data.toISOString().split('T')[0]
-    //     axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
-    //       .then(resp=>this.setState({atividades:resp.data.response}))
-    //   }
-    // }
-  }
+        axios.get(`${URL}atividade/analista/search/${this.state.status}/${this.state.data_criacao}/${this.state.data_entrega}`, config)
+            .then(resp => this.setState(...this.state, {
+                    atividades: resp.data.response
+                }
+                )
+            );
+
+    }
 
     render(){
         if(this.usuario == null || this.usuario === "gestor"){
@@ -107,8 +102,8 @@ export default class Dashboard extends Component {
                 <h3>Visão geral</h3>
                 <hr/>
                 <div className="row dashboardAnalista">
-                    <select id="status" value="" onChange=""className="col-md-2 form-control statusAnalista">
-                        <option selected>todos</option>
+                    <select id="status" value={this.state.status} onChange={this.choiceStatus.bind(this)} className="col-md-2 form-control statusAnalista">
+                        <option selected>{this.state.status}</option>
                         <option>finalizada</option>
                         <option>iniciada</option>
                         <option>pendente</option>
@@ -116,7 +111,7 @@ export default class Dashboard extends Component {
                     </select>
        
                     <Input type="date" className="col-md-2 statusAnalista" onChange={this.formataDataCriacao.bind(this)} 
-                    value={this.state.data_entrega} />
+                    value={this.state.data_criacao} />
 
                     <Input type="date" className="col-md-2 statusAnalista" onChange={this.formataDataEntrega.bind(this)} 
                     value={this.state.data_entrega} />

@@ -124,7 +124,8 @@ export default class EditarPerfil extends Component {
                                 <label htmlFor="imagePerfil" className="btn-custom">
                                     <span className="fas fa-camera btn-icon curso-pointer" title="Selecionar foto"></span>
                                 </label>
-                                <Photo {...imageData} srcImage={this.state.imagePerfil} />
+                                <Photo {...imageData} 
+                                    srcImage={this.state.imagePerfil} />
                                 <input type="file" id="imagePerfil" onChange={this.imageSelect}/>
                                 <div>
                                     <label>{(this.state.imageFile == null)? '' : 'Alterar foto de perfil para: ' + this.state.imageFile.name}</label>

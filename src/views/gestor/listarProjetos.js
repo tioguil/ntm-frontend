@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import axios from 'axios'
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Input,
+  ModalFooter } from 'reactstrap';
 import $ from 'jquery';
 import {URL} from '../../global'
 
@@ -11,12 +17,22 @@ export default class ListarProjetos extends Component {
         const user = JSON.parse(usuario);
         this.usuario = user
         this.token = user.token.numero
-        this.state= {projetos:[]}
+        this.search = this.search.bind(this)
+        this.toggle = this.toggle.bind(this);
+        this.state= {projetos:[],chave:"",modal: false}
         if(usuario == null){
             this.usuario = null
         }else{
             this.usuario = user.perfilAcesso
         }
+    }
+
+
+    search(event){
+        this.setState({chave:event.target.value})
+        var config = {headers:{Authorization:this.token}};
+        axios.get(`${URL}usuario/gestor/pesquisar/${this.state.chave}`,config)
+            .then(resp=> this.setState({}))
     }
 
     componentDidMount(){
@@ -30,6 +46,33 @@ export default class ListarProjetos extends Component {
         this.props.history.push('/detalheProjeto')
 
     }
+
+    editar_projeto(){
+        console.log("enviar para o backend")
+    }
+
+    showModal(modal) {
+        this.setState({
+          [modal]: true
+        });
+    }
+
+    toggle() {
+        this.setState(
+          {
+            modal: !this.state.modal
+          }
+        );
+    }
+
+    closeModal(tabId) {
+        this.setState(
+            {
+            [tabId]: false
+            }
+        );
+    }
+
     render(){
         if(this.usuario == null || this.usuario === "analista"){
             return (
@@ -37,8 +80,6 @@ export default class ListarProjetos extends Component {
             );
         }
         return (
-
-
             <div>
                 <br/>
                 <ol className="breadcrumb">
@@ -47,7 +88,12 @@ export default class ListarProjetos extends Component {
                     </li>
                     <li className="breadcrumb-item active">Listar Projetos</li>
                 </ol>
-                <h3>Listar Projetos</h3>
+
+                <div className="form-group col-md-8">
+                    <h3>Listar Projetos</h3>
+                    <Input type="text" onChange={this.search} value={this.state.chave} className="form-control" id="inputProjetoListar" placeholder="Pesquisar por id, status, cidade.."/>
+                </div>
+                
                 <hr/>
                 <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellSpacing="0" width="100%">
                     <thead>
@@ -64,11 +110,13 @@ export default class ListarProjetos extends Component {
 
                         this.state.projetos.map(function(projeto){
                             return(
-                                <tr  key={projeto.id}onClick={this.projeto_detalhe.bind(this,projeto.id)}>
-                                    <td>{projeto.numeroProjeto}</td>
-                                    <td>{projeto.nome}</td>
-                                    <td>{projeto.status}</td>
-                                    <td>São Paulo</td>
+                                <tr  key={projeto.id} >
+                                    <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.numeroProjeto}</td>
+                                    <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.nome}</td>
+                                    <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.status}</td>
+                                    <td>São Paulo <i className="far fa-edit" style={{'float':'right'}} onClick={this.showModal.bind(this,'editar_projeto')}>
+                                        </i>
+                                    </td>
 
                                 </tr>
                             );
@@ -76,6 +124,18 @@ export default class ListarProjetos extends Component {
                     }
                     </tbody>
                 </table>
+
+                    <Modal isOpen={this.state.editar_projeto} toggle={this.closeModal.bind(this, 'editar_projeto')} className="modal-dialog modal-lg">
+                        <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'editar_projeto')}>Editar Projeto</ModalHeader>
+                        <ModalBody className="card-header">
+                          <form>
+                            
+                          </form>
+                        </ModalBody>
+                        <ModalFooter className="card-header" >
+                          <button onClick={this.editar_projeto.bind(this)} className="btn btn-success float-right mt-2 btn-round">Atualizar</button>
+                        </ModalFooter>
+                    </Modal>
             </div>
         );
     }

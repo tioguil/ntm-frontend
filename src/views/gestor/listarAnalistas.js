@@ -68,7 +68,7 @@ export default class ListarAnalistas extends Component {
                                     <td> {analista.email} </td>
                                     <td>{analista.nome}</td>
                                     <td> {analista.cargo.cargo}</td>
-                                    <td></td>
+                                    <td>{analista.uf}TESTE</td>
                                 </tr>
                             );
 
