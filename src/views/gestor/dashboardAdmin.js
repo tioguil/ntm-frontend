@@ -19,8 +19,8 @@ export default class DashboardAdmin extends Component {
         else{
             this.state = {
                 user:user.perfilAcesso,
-                diasAtividade:90,
-                diasProjeto: 90,
+                diasAtividade:30,
+                diasProjeto: 30,
                 totalAtividade:0,
                 totalProjeto:0,
                 iniciada:0,
@@ -86,7 +86,10 @@ export default class DashboardAdmin extends Component {
 
     chartAtividadeDias(event){
         this.setState({diasAtividade:event.target.value})
-        this.atualizaGraficoAtividade(event.target.value)
+        if(event.target.value >= 1 && event.target.value <= 120){
+            this.atualizaGraficoAtividade(event.target.value)
+
+        }
     }
 
     componentDidMount() {
@@ -105,7 +108,11 @@ export default class DashboardAdmin extends Component {
 
     changeDiasProjeto(ev){
         this.setState({diasProjeto: ev.target.value});
-        this.atualzaGraficoProjeto(ev.target.value);
+
+        if(ev.target.value >= 1 && ev.target.value <= 120){
+            this.atualzaGraficoProjeto(ev.target.value);
+        }
+
     }
 
     atualzaGraficoProjeto(dias){
@@ -375,7 +382,7 @@ export default class DashboardAdmin extends Component {
 
                             dias
                         </h3>
-                        Total de projeto: {this.state.totalAtividade}
+                        Total de projeto: {this.state.totalProjeto}
                         <hr/>
 
                         <Bar
