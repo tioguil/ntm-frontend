@@ -546,3 +546,7 @@ input[type='file'] {
   width: 40px;
   height: 40px;
 }
+
+.rc-select-dropdown {
+  z-index: 10000 !important;
+}

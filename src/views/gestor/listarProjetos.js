@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
+import Select, { Option } from 'rc-select';
 import axios from 'axios'
 import {
   Modal,
@@ -19,7 +20,8 @@ export default class ListarProjetos extends Component {
         this.token = user.token.numero
         this.search = this.search.bind(this)
         this.toggle = this.toggle.bind(this);
-        this.state= {projetos:[],chave:"",modal: false}
+        this.state= {clientes:[],projetos:[],chave:"",modal:false, nome:'',descricao:'',status:'',numeroProjeto:'',inicio:'',fim:''}
+        this.cliente = {}
         if(usuario == null){
             this.usuario = null
         }else{
@@ -51,10 +53,18 @@ export default class ListarProjetos extends Component {
         console.log("enviar para o backend")
     }
 
-    showModal(modal) {
+    showModal(projeto) {
+        console.log(projeto)
         this.setState({
-          [modal]: true
+          ['editar_projeto']: true
         });
+        this.setState({nome:projeto.nome,
+            numeroProjeto:projeto.numeroProjeto,
+            descricao:projeto.descricao,
+            status:projeto.status,
+            inicio:projeto.inicio,
+            fim:projeto.fim,
+            cliente:projeto.cliente.nome})   
     }
 
     toggle() {
@@ -73,12 +83,55 @@ export default class ListarProjetos extends Component {
         );
     }
 
+    onChange = (cliente) => {
+      this.setState({cliente});
+      if (cliente != " ") {
+        var config = {headers:{Authorization:this.token}};
+        axios.get(`${URL}cliente/gestor/listarclientes/${this.state.cliente}`, config)
+          .then(resp => this.setState(...this.state, 
+            {
+              clientes: resp.data.response
+            }
+          ) 
+        ).then(resp=> console.log(this.state.clientes))
+      }
+  }
+
+    editarNome(event){
+        this.setState({nome:event.target.value})
+    }
+
+    editarNumero(event){
+        this.setState({numeroProjeto:event.target.value})
+    }
+
+    editarStatus(event){
+        this.setState({status:event.target.value})
+    }
+    editarDescricao(event){
+        this.setState({descricao:event.target.value})
+    }
+
+    editarDataInicio(event){
+        this.setState({inicio:event.target.value})
+    }
+
+    editarDataFim(event){
+        this.setState({fim:event.target.value})
+    }
+
     render(){
         if(this.usuario == null || this.usuario === "analista"){
             return (
                 <Redirect to ="/"/>
             );
         }
+
+        const clientes = this.state.clientes
+        let options;
+        options = clientes.map((c) => {
+          return <Option key={c.id,c.nome}> <i>{c.nome}</i></Option>;
+        });
         return (
             <div>
                 <br/>
@@ -114,7 +167,7 @@ export default class ListarProjetos extends Component {
                                     <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.numeroProjeto}</td>
                                     <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.nome}</td>
                                     <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.status}</td>
-                                    <td>São Paulo <i className="far fa-edit" style={{'float':'right'}} onClick={this.showModal.bind(this,'editar_projeto')}>
+                                    <td>São Paulo <i className="far fa-edit" style={{'float':'right'}} onClick={this.showModal.bind(this,projeto)}>
                                         </i>
                                     </td>
 
@@ -129,7 +182,56 @@ export default class ListarProjetos extends Component {
                         <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'editar_projeto')}>Editar Projeto</ModalHeader>
                         <ModalBody className="card-header">
                           <form>
-                            
+                            <div className="form-row">
+                              <div className="form-group col-md-8">
+                                <label htmlFor="inputNomeProjeto">Nome do Projeto:</label>
+                                <Input  requtype="text" className="form-control" id="inputNomeProjeto" value={this.state.nome} onChange={this.editarNome.bind(this)} placeholder="Nome do projeto"/>
+                              </div>
+                              <div className="form-group col-md-4">
+                                <label htmlFor="inputNumeroProjeto">Número do Projeto:</label>
+                                <Input  requtype="text" className="form-control" id="inputNumeroProjeto" value={this.state.numeroProjeto} onChange={this.editarNumero.bind(this)} placeholder="Número do projeto"/>
+                              </div>
+
+                              <div className="form-group col-md-6">
+                                <label htmlFor="inputStatus" className="required">Status do Projeto</label>
+                                <select id="inputStatus" value={this.state.status} onChange={this.editarStatus.bind(this)} className="form-control">
+                                  <option selected> {this.state.status} </option>
+                                  {(this.state.status != 'iniciado'? <option>iniciado</option> : '')}
+                                  {(this.state.status != 'em andamento'? <option>em andamento</option> : '')}
+                                  {(this.state.status != 'finalizado'? <option>finalizado</option> : '')}
+                                  {(this.state.status != 'cancelado'? <option>cancelado</option> : '')}
+                                </select>
+                              </div>
+
+                              <div className="form-group col-md-3">
+                                <label htmlFor="inputDataInicio">Data de inicio:</label>
+                                <Input type="date"  id="inputDataInicio" onChange={this.editarDataInicio.bind(this)} value={this.state.inicio} />
+                              </div>
+                              <div className="form-group col-md-3">
+                                <label htmlFor="inputDataFim">Data de entrega:</label>
+                                <Input type="date" onChange={this.editarDataFim.bind(this)} id="inputDataFim" value={this.state.fim}/>
+                              </div>
+                              <div className="form-group col-md-12">
+                                <label htmlFor="inputCliente">Cliente</label>
+                                <Select
+                                      style={{width:'100%'}}
+                                      onChange={this.onChange}
+                                      onSelect={this.onSelect}
+                                      notFoundContent="Não encontrado"
+                                      allowClear
+                                      placeholder="Pesquise por nome, cpf ou cnpj"
+                                      value={this.state.cliente}
+                                      combobox
+                                      backfill
+                                      filterOption={false}>
+                                      {options}
+                                    </Select>
+                              </div>
+                              <div className="form-group col-md-12">
+                                <label htmlFor="inputDescricaoProjeto">Descrição:</label>
+                                <Input type="textarea" value={this.state.descricao} onChange={this.editarDescricao.bind(this)} className="form-control" name="text" id="inputDescricaoProjeto" placeholder="Descrição"/>
+                              </div>
+                            </div>
                           </form>
                         </ModalBody>
                         <ModalFooter className="card-header" >
