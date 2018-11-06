@@ -74,12 +74,22 @@ export default class Dashboard extends Component {
             }
         };
 
-        axios.get(`${URL}atividade/analista/search/${this.state.status}/${this.state.data_criacao}/${this.state.data_entrega}`, config)
-            .then(resp => this.setState(...this.state, {
-                    atividades: resp.data.response
-                }
-                )
-            );
+        if(this.state.data_criacao === '' && this.state.data_entrega === ''){
+            axios.get(`${URL}atividade/analista/search/${this.state.status}`, config)
+                .then(resp => this.setState(...this.state, {
+                        atividades: resp.data.response
+                    }
+                    )
+                );
+        }else {
+            axios.get(`${URL}atividade/analista/search/${this.state.status}/${this.state.data_criacao}/${this.state.data_entrega}`, config)
+                .then(resp => this.setState(...this.state, {
+                        atividades: resp.data.response
+                    }
+                    )
+                );
+        }
+
 
     }
 
@@ -104,6 +114,7 @@ export default class Dashboard extends Component {
                 <div className="row dashboardAnalista">
                     <select id="status" value={this.state.status} onChange={this.choiceStatus.bind(this)} className="col-md-2 form-control statusAnalista">
                         <option selected>{this.state.status}</option>
+                        <option>todos</option>
                         <option>finalizada</option>
                         <option>iniciada</option>
                         <option>pendente</option>
