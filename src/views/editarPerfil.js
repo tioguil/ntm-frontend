@@ -46,7 +46,24 @@ export default class EditarPerfil extends Component {
 
     editar(){
         var config = {headers:{Authorization:this.state.token.numero}};
-        axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data) )
+        axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
+        then(res => {
+            if(this.state.imageFile != null){
+                this.uploadImage()
+            }else {
+                toast.success('Dados salvos com sucesso!',
+                    {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true
+                    })
+            }
+
+
+        })
     }
 
     atualizaLocalStorage(response){
@@ -56,6 +73,7 @@ export default class EditarPerfil extends Component {
     }
 
     uploadImage(){
+        console.log("upload", this.state.imageFile)
         if(this.state.imageFile == null){
             return;
         }else {
@@ -68,7 +86,7 @@ export default class EditarPerfil extends Component {
             };
             axios.post(`${URL}usuario/analista/uploadimage`,formData,config)
                 .then(resp => this.getImage(resp.data.response.diretorio))
-                .then(resp => toast.success('Imagem savada com sucesso!',
+                .then(resp => toast.success('Dados salvos com sucesso!',
                     {
                         position: "top-right",
                         autoClose: 2000,
@@ -96,7 +114,9 @@ export default class EditarPerfil extends Component {
     }
 
     imageSelect(event){
+        console.log(event)
         this.setState({imageFile: event.target.files[0]});
+
     }
 
     render(){
@@ -109,7 +129,7 @@ export default class EditarPerfil extends Component {
             <div>
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
-                        <Link to="/dashboardAdmin">Dashboard</Link>
+                        <Link to={this.state.perfilAcesso === "gestor" ? "/dashboardAdmin" : "/dashboard"}>Dashboard</Link>
                     </li>
                     <li className="breadcrumb-item active">Editar Perfil</li>
                 </ol>
@@ -128,7 +148,7 @@ export default class EditarPerfil extends Component {
                                     srcImage={this.state.imagePerfil} />
                                 <input type="file" id="imagePerfil" onChange={this.imageSelect}/>
                                 <div>
-                                    <label>{(this.state.imageFile == null)? '' : 'Alterar foto de perfil para: ' + this.state.imageFile.name}</label>
+                                    <label>{(this.state.imageFile == null)? '' : 'Foto selecionada: ' + this.state.imageFile.name}</label>
                                 </div>
                             </div>
                         </div>
