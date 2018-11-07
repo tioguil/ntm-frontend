@@ -3,9 +3,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'rc-select/assets/index.css';
 import Select, {Option, OptGroup} from 'rc-select';
 import { Input } from 'reactstrap';
-import axios from 'axios'
+import axios from 'axios';
 import {Redirect,Link} from 'react-router-dom';
-import {URL} from '../../global'
+import {URL} from '../../global';
+import $ from 'jquery';
+import 'jquery-mask-plugin';
 
 
 export default class CadastrarAnalista extends Component {
@@ -25,6 +27,14 @@ export default class CadastrarAnalista extends Component {
     else{
       this.usuario = user.perfilAcesso
     }
+  }
+
+  componentDidMount(){
+    $('#cpf').mask('000.000.000-00');
+    $('#rg').mask('00.000.000-0');
+    $('#telefone').mask('(00) 0000-0000');
+    $('#celular').mask('(00) 00000-0000');
+    $('#inputCep').mask('00000-000');
   }
 
   dadosUsuario(nomeInput,evento){
@@ -112,7 +122,7 @@ export default class CadastrarAnalista extends Component {
 
               <div className="form-group col-md-3">
                 <label htmlFor="inputRG" className="required">RG:</label>
-                <Input type="text"  value={this.state.rg} onChange={this.dadosUsuario.bind(this,'rg')} className="form-control" id="cpf" placeholder="xx.xxx.xxx-x"/>
+                <Input type="text"  value={this.state.rg} onChange={this.dadosUsuario.bind(this,'rg')} className="form-control" id="rg" placeholder="xx.xxx.xxx-x"/>
               </div>
 
               <div className="form-group col-md-6">
@@ -141,12 +151,12 @@ export default class CadastrarAnalista extends Component {
 
                 <div className="form-group col-md-2">
                   <label htmlFor="inputTelefone">Telefone:</label>
-                  <Input type="text" className="form-control" value={this.state.telefone} onChange={this.dadosUsuario.bind(this,'telefone')} id="telefone" placeholder="(11)xxxx-xxxx"/>
+                  <Input type="text" className="form-control" value={this.state.telefone} onChange={this.dadosUsuario.bind(this,'telefone')} id="telefone" placeholder="(11) xxxx-xxxx"/>
                 </div>
 
                 <div className="form-group col-md-2">
                   <label htmlFor="inputCelular" className="required">Celular</label>
-                  <Input type="text" className="form-control" value={this.state.celular} onChange={this.dadosUsuario.bind(this,'celular')} id="celular" placeholder="(11)9xxxx-xxxx"/>
+                  <Input type="text" className="form-control" value={this.state.celular} onChange={this.dadosUsuario.bind(this,'celular')} id="celular" placeholder="(11) 9xxxx-xxxx"/>
                 </div>
             </div>
 
@@ -168,7 +178,7 @@ export default class CadastrarAnalista extends Component {
 
               <div className="form-group col-md-2">
                 <label htmlFor="inputCep" >CEP:</label>
-                <Input type="text" className="form-control" value={this.state.cep} onChange={this.dadosUsuario.bind(this,'cep')}id="inputCep" placeholder="00000-000"/>
+                <Input type="text" className="form-control" value={this.state.cep} onChange={this.dadosUsuario.bind(this,'cep')} id="inputCep" placeholder="00000-000"/>
               </div>
             </div>
 

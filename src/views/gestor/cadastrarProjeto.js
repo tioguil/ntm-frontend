@@ -8,7 +8,9 @@ import axios from 'axios';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
-import {URL} from '../../global'
+import {URL} from '../../global';
+import $ from 'jquery';
+import 'jquery-mask-plugin';
 
 
 export default class CadastrarProjeto extends Component {
@@ -40,23 +42,28 @@ export default class CadastrarProjeto extends Component {
     this.usuario = usuario == null ? null : user.perfilAcesso;
   }
 
+  componentDidMount() {
+    $('#projetoDataInicio').mask('00/00/0000');
+    $('#projetoDataFim').mask('00/00/0000');
+  }
+
   formataDataInicio(data) {
-    if (data!=undefined){
+    if (data !== undefined){
       var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-      this.state.inicio = dataFormatada;
+      this.setState({inicio: dataFormatada});
     }
   }
 
   formataDataFim(data) {
-    if (data!=undefined){
+    if (data !== undefined){
       var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-      this.state.fim = dataFormatada;
+      this.setState({fim: dataFormatada});
     }
   }
 
   onChange = (value) => {
     this.setState({value});
-    if (value != " ") {
+    if (value !== " ") {
       var config = {headers:{Authorization:this.token}};
       axios.get(`${URL}cliente/gestor/listarclientes/${this.state.value}`, config)
         .then(resp => this.setState(
@@ -85,7 +92,7 @@ export default class CadastrarProjeto extends Component {
 
   onSelect = (v) => {
     for (let i=0; i<this.state.clientes.length; i++) {
-      if (v == this.state.clientes[i].nome)
+      if (v === this.state.clientes[i].nome)
         this.setState({cliente:{id:this.state.clientes[i].id}});
     }
   }
@@ -183,11 +190,11 @@ export default class CadastrarProjeto extends Component {
               </div>
               <div className="form-group col-md-2">
                 <label htmlFor="inputDataInicio" className="required">Data inicial:</label>
-                <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataInicio.bind(this)} value={this.state.inicio} inputProps={{className: 'form-control'}} />
+                <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataInicio.bind(this)} value={this.state.inicio} inputProps={{className: 'form-control', id: 'projetoDataInicio'}} />
               </div>
               <div className="form-group col-md-2">
                 <label htmlFor="inputDataFim" className="required">Data final:</label>
-                <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataFim.bind(this)} inputProps={{className: 'form-control'}} />
+                <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataFim.bind(this)} inputProps={{className: 'form-control', id: 'projetoDataFim'}} />
               </div>
               <div className="form-group col-md-2">
                 <label htmlFor="inputEsforco" className="required">Estimativa de esforço:</label>
