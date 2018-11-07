@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import Select, { Option } from 'rc-select';
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import {
   Modal,
@@ -20,8 +21,9 @@ export default class ListarProjetos extends Component {
         this.token = user.token.numero
         this.search = this.search.bind(this)
         this.toggle = this.toggle.bind(this);
-        this.state= {clientes:[],projetos:[],chave:"",modal:false, nome:'',descricao:'',status:'',numeroProjeto:'',inicio:'',fim:''}
+        this.state= {clientes:[],cliente:{id:0} ,id:0,projetos:[],chave:"",modal:false, nome:'',descricao:'',status:'',numeroProjeto:'',inicio:'',fim:''}
         this.cliente = {}
+        this.idCliente = 0
         if(usuario == null){
             this.usuario = null
         }else{
@@ -50,7 +52,59 @@ export default class ListarProjetos extends Component {
     }
 
     editar_projeto(){
-        console.log("enviar para o backend")
+        //console.log("enviar para o backend")
+        const json = {
+            cliente: {
+                id: this.idCliente
+              },
+            id: this.state.id,
+            numeroProjeto: this.state.numeroProjeto,
+            nome: this.state.nome,
+            descricao: this.state.descricao,
+            estimativaEsforco: this.state.estimativaEsforco,
+            inicio: this.state.inicio,
+            fim: this.state.fim,
+            status: "iniciado"
+        }
+        console.log(json);
+        var config = {
+            headers:{
+                Authorization:this.token
+            }
+        };
+        axios.post(`${URL}projeto/gestor/editarProjeto` ,json, config)
+        .then(resp => toast.success('Projeto atualizado com sucesso !', 
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })
+      )
+      .catch(err => toast.error('Não foi possível atualizar o projeto, tente novamente.',
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })
+      )
+      this.setState(...this.state, 
+        {
+          numeroProjeto: "",
+          nome: "",
+          descricao: "",
+          estimativaEsforco: "",
+          inicio: "",
+          fim: "",
+          status: "iniciado",
+          value: ""
+        }
+      );
     }
 
     showModal(projeto) {
@@ -58,7 +112,7 @@ export default class ListarProjetos extends Component {
         this.setState({
           ['editar_projeto']: true
         });
-        this.setState({nome:projeto.nome,
+        this.setState({id:projeto.id,nome:projeto.nome,
             numeroProjeto:projeto.numeroProjeto,
             descricao:projeto.descricao,
             status:projeto.status,
@@ -95,6 +149,16 @@ export default class ListarProjetos extends Component {
           ) 
         ).then(resp=> console.log(this.state.clientes))
       }
+  }
+
+  onSelect = (v) => {
+    for (let i=0; i<this.state.clientes.length; i++) {
+      if (v == this.state.clientes[i].nome)
+        //this.setState({cliente:{id:this.state.clientes[i].id}});
+        this.idCliente = this.state.clientes[i].id; 
+    }
+    
+    console.log(this.idCliente);
   }
 
     editarNome(event){
