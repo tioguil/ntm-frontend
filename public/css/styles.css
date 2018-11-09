@@ -550,3 +550,7 @@ input[type='file'] {
 .rc-select-dropdown {
   z-index: 10000 !important;
 }
+
+.pjDetalhe{
+  color: grey;
+}

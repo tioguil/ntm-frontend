@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars';
+import moment from 'moment/moment'
 import 'react-toastify/dist/ReactToastify.css';
 import ListaAtividades from './listaAtividades';
 import axios from 'axios';
@@ -14,7 +15,6 @@ import {
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
-import moment from "moment";
 import {URL} from '../../global'
 
 export default class DetalheProjeto extends Component {
@@ -38,7 +38,8 @@ export default class DetalheProjeto extends Component {
       endereco: "",
       numero_endereco: "",
       cidade: "",
-      uf: ""
+      uf: "",
+      cliente:{}
     };
     this.toggle = this.toggle.bind(this);
     this.showModal = this.showModal.bind(this);
@@ -58,7 +59,8 @@ export default class DetalheProjeto extends Component {
     axios.get(`${URL}projeto/gestor/buscaid/${id}`,config)
       .then(resp => this.setState({...this.state,projeto: resp.data.response,atividades: resp.data.response.atividades}))
       .then(resp=> this.setState({...this.state,endereco:this.state.projeto.nome}))
-      .then(resp=> console.log(this.state.projeto))
+      .then(resp=> this.setState({...this.state,cliente:this.state.projeto.cliente}))
+      .then(resp=> console.log(this.state.cliente))
   }
 
   closeModal(tabId) {
@@ -172,11 +174,6 @@ export default class DetalheProjeto extends Component {
     );
   }
 
-  finalizaProjeto(){
-
-  }
-  
-
   render(){
     if (this.usuario == null || this.usuario === "analista") {
       return (
@@ -199,9 +196,16 @@ export default class DetalheProjeto extends Component {
           </li>
         </ol>
         <div className="container mb-3">
-          <h3 className="d-inline-block">{this.state.projeto.nome} {this.state.projeto.status ==='finalizado'? <i><em>({this.state.projeto.status})</em></i>: <button className="btn btn-danger btn-round" onClick={this.finalizaProjeto.bind(this)}>Finalizar Projeto</button>}</h3>
+          <h3 className="d-inline-block">({this.state.projeto.numeroProjeto}){this.state.projeto.nome}</h3>
           <button className="btn btn-success float-right btn-round" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
           <div className="clearfix"/>
+          <div style={{'width':'100%'}}>
+          {this.state.projeto.status != undefined ? <p style={{'margin':'0'}} ><strong> Status:</strong> <em className="pjDetalhe"> {this.state.projeto.status}</em></p>:''}
+          {this.state.projeto.fim != null ? <p style={{'margin':'0'}} ><strong> Entrega:</strong> <em className="pjDetalhe"> {moment.utc(this.state.projeto.fim).format('DD/MM/YYYY')}</em></p>:''}
+          {this.state.cliente.nome!= undefined? <p style={{'margin':'0'}}><strong> Cliente:</strong> <em className="pjDetalhe"> {this.state.cliente.nome}</em></p>:''}
+          {this.state.projeto.descricao != ''? <p style={{'overflow':'hidden','word-wrap': 'break-word'}}><strong>Descrição:</strong> <i className="pjDetalhe">{this.state.projeto.descricao}</i></p> :''}
+          
+          </div>
           <hr/>
 
           <ListaAtividades 

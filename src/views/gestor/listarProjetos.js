@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import Select, { Option } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
+import moment from 'moment/moment'
 import axios from 'axios'
 import {
   Modal,
@@ -22,7 +23,6 @@ export default class ListarProjetos extends Component {
         this.search = this.search.bind(this)
         this.toggle = this.toggle.bind(this);
         this.state= {clientes:[],cliente:{id:0} ,id:0,projetos:[],chave:"",modal:false, nome:'',descricao:'',status:'',numeroProjeto:'',inicio:'',fim:''}
-        this.cliente = {}
         this.idCliente = 0
         if(usuario == null){
             this.usuario = null
@@ -52,7 +52,6 @@ export default class ListarProjetos extends Component {
     }
 
     editar_projeto(){
-        //console.log("enviar para o backend")
         const json = {
             cliente: {
                 id: this.idCliente
@@ -64,9 +63,8 @@ export default class ListarProjetos extends Component {
             estimativaEsforco: this.state.estimativaEsforco,
             inicio: this.state.inicio,
             fim: this.state.fim,
-            status: "iniciado"
+            status: this.state.status
         }
-        console.log(json);
         var config = {
             headers:{
                 Authorization:this.token
@@ -74,41 +72,29 @@ export default class ListarProjetos extends Component {
         };
         axios.post(`${URL}projeto/gestor/editarProjeto` ,json, config)
         .then(resp => toast.success('Projeto atualizado com sucesso !', 
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        })
-      )
-      .catch(err => toast.error('Não foi possível atualizar o projeto, tente novamente.',
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true
-        })
-      )
-      this.setState(...this.state, 
-        {
-          numeroProjeto: "",
-          nome: "",
-          descricao: "",
-          estimativaEsforco: "",
-          inicio: "",
-          fim: "",
-          status: "iniciado",
-          value: ""
-        }
-      );
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+          })
+        )
+        .catch(err => toast.error('Não foi possível atualizar o projeto, tente novamente.',
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+          })
+        )
+        this.closeModal()
     }
 
     showModal(projeto) {
-        console.log(projeto)
         this.setState({
           ['editar_projeto']: true
         });
@@ -116,9 +102,10 @@ export default class ListarProjetos extends Component {
             numeroProjeto:projeto.numeroProjeto,
             descricao:projeto.descricao,
             status:projeto.status,
-            inicio:projeto.inicio,
-            fim:projeto.fim,
-            cliente:projeto.cliente.nome})   
+            inicio:moment.utc(projeto.inicio).format('YYYY-MM-DD'),
+            fim:moment.utc(projeto.fim).format('YYYY-MM-DD'),
+            cliente:projeto.cliente.nome}) 
+            this.idCliente = projeto.cliente.id  
     }
 
     toggle() {
@@ -129,10 +116,10 @@ export default class ListarProjetos extends Component {
         );
     }
 
-    closeModal(tabId) {
+    closeModal() {
         this.setState(
             {
-            [tabId]: false
+            ['editar_projeto']: false
             }
         );
     }
@@ -148,18 +135,15 @@ export default class ListarProjetos extends Component {
             }
           ) 
         ).then(resp=> console.log(this.state.clientes))
-      }
-  }
-
-  onSelect = (v) => {
-    for (let i=0; i<this.state.clientes.length; i++) {
-      if (v == this.state.clientes[i].nome)
-        //this.setState({cliente:{id:this.state.clientes[i].id}});
-        this.idCliente = this.state.clientes[i].id; 
+        }
     }
-    
-    console.log(this.idCliente);
-  }
+
+    onSelect = (v) => {
+      for (let i=0; i<this.state.clientes.length; i++) {
+        if (v == this.state.clientes[i].nome)
+          this.idCliente = this.state.clientes[i].id; 
+      }
+    }
 
     editarNome(event){
         this.setState({nome:event.target.value})
@@ -302,6 +286,18 @@ export default class ListarProjetos extends Component {
                           <button onClick={this.editar_projeto.bind(this)} className="btn btn-success float-right mt-2 btn-round">Atualizar</button>
                         </ModalFooter>
                     </Modal>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnVisibilityChange
+                        draggable
+                        pauseOnHover
+                      />
+                    <ToastContainer/>
             </div>
         );
     }
