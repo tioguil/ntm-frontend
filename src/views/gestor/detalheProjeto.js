@@ -44,7 +44,6 @@ export default class DetalheProjeto extends Component {
     this.toggle = this.toggle.bind(this);
     this.showModal = this.showModal.bind(this);
     this.atividade = this.atividade.bind(this);
-    this.activity = {}
     this.usuario = usuario == null ? null : user.perfilAcesso;
   }
 
@@ -60,7 +59,6 @@ export default class DetalheProjeto extends Component {
       .then(resp => this.setState({...this.state,projeto: resp.data.response,atividades: resp.data.response.atividades}))
       .then(resp=> this.setState({...this.state,endereco:this.state.projeto.nome}))
       .then(resp=> this.setState({...this.state,cliente:this.state.projeto.cliente}))
-      .then(resp=> console.log(this.state.cliente))
   }
 
   closeModal(tabId) {
@@ -85,6 +83,21 @@ export default class DetalheProjeto extends Component {
         }
       );
       this.activity = modal
+      this.setState({
+        nome: modal.nome,
+        status:modal.status,
+        descricao: modal.descricao,
+        complemento: modal.complemento,
+        complexidade: modal.complexidade,
+        data_entrega: moment.utc(modal.data_entrega).format('YYYY-MM-DD'),
+        data_criacao:modal.dataCriacao,
+        cep: modal.cep,
+        endereco: modal.endereco,
+        numero_endereco: modal.numero_endereco,
+        cidade: modal.cidade,
+        uf: modal.uf,
+      })
+
     }
   }
 
@@ -174,13 +187,108 @@ export default class DetalheProjeto extends Component {
     );
   }
 
+  setNomeAtividade(event){
+    this.setState({nome:event.target.value})
+  }
+
+  setDataEntregaAtividade(event){
+    this.setState({data_entrega:event.target.value})
+  }
+
+  setComplexidadeAtividade(event){
+    this.setState({complexidade:event})
+  }
+
+  setDescricaoAtividade(event){
+    this.setState({descricao:event.target.value})
+  }
+
+  setEnderecoAtividade(event){
+    this.setState({endereco:event.target.value})
+  }
+
+  setNumeroEnderecoAtividade(event){
+    this.setState({numero_endereco:event.target.value})
+  }
+
+  setComplementoAtividade(event){
+    this.setState({complemento:event.target.value})
+  }
+
+  setCepAtividade(event){
+    this.setState({cep:event.target.value})
+  }
+
+  setCidadeAtividade(event){
+    this.setState({cidade:event.target.value})
+  }
+
+  setUfAtividade(event){
+    this.setState({uf:event.target.value})
+  }
+
+  setStatusAtividae(event){
+    this.setState({status:event.target.value})
+  }
+
+  editarAtividade(){
+    const json = {
+      nome: this.state.nome,
+      dataEntrega: this.state.data_entrega,
+      status:this.state.status,
+      dataCriacao:this.state.data_criacao,
+      complexidade: this.state.complexidade,
+      descricao: this.state.descricao,
+      endereco: this.state.endereco,
+      enderecoNumero: this.state.numero_endereco,
+      complemento: this.state.complemento,
+      cidade: this.state.cidade,
+      cep: this.state.cep,
+      uf: this.state.uf,
+      projeto: {
+        id: this.projeto_id
+      }
+    }
+    console.log(json)
+    var config = {
+      headers: {
+        Authorization: this.token
+      }
+    };
+    axios.post(`${URL}`, json, config)
+      .then(resp => toast.success(
+        'Atividade editada com sucesso!',
+        {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })
+      )
+      .then(this.closeModal.bind(this, 'adicionar_atividade'))
+      .catch(resp => toast.error(
+        'Falha ao editar Atividade!',
+        {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })
+      )
+      .then(resp => this.refresh())
+      .then(resp=> this.closeModal('editar_atividade'))
+  }
+
   render(){
     if (this.usuario == null || this.usuario === "analista") {
       return (
         <Redirect to ="/"/>
       );
     }
-
     return (
       <div>
         <br/>
@@ -312,49 +420,60 @@ export default class DetalheProjeto extends Component {
                 <div className="form-row">
                   <div className="form-group col-md-6">
                     <label htmlFor="inputNomeAtividade">Nome da atividade:</label>
-                    <Input type="text" className="form-control" id="inputNomeAtividade" value={this.activity.nome} onChange=""/>
+                    <Input type="text" className="form-control" id="inputNomeAtividade" value={this.state.nome} onChange={this.setNomeAtividade.bind(this)}/>
                   </div>
-                  <div className="form-group col-md-6">
+                  <div className="form-group col-md-3">
                     <label htmlFor="inputDate">Data de entrega:</label>
-                    <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataEntrega.bind(this)} value={this.activity.dataEntrega} inputProps={{className: 'form-control'}} />
+                    <Input type="date" onChange={this.setDataEntregaAtividade.bind(this)} id="inputDate" value={this.state.data_entrega}/>
+                  </div>
+                  <div className="form-group col-md-3">
+                    <label htmlFor="inputStatus" className="required">Status da Atividade</label>
+                    <select id="inputStatus" value={this.state.status} onChange={this.setStatusAtividae.bind(this)}className="form-control">
+                      <option selected> {this.state.status} </option>
+                      {(this.state.status != 'iniciada'? <option>iniciada</option> : '')}
+                      {(this.state.status != 'pendente'? <option>pendente</option> : '')}
+                      {(this.state.status != 'pausada'? <option>pausada</option> : '')}
+                      {(this.state.status != 'finalizada'? <option>finalizada</option> : '')}
+                      {(this.state.status != 'cancelada'? <option>cancelada</option> : '')}
+                    </select>
                   </div>
                   <div className="form-group col-md-6">
                     <label>Dificuldade:&nbsp;</label>
                     <ReactStars
                       count={5}
-                      value={this.activity.complexidade}
-                      onChange=""
+                      value={this.state.complexidade}
+                      onChange={this.setComplexidadeAtividade.bind(this)}
                       size={16}
                       color2={'#ffd700'} />
                   </div>
                   <div className="form-group col-md-12">
                     <label htmlFor="inputDescricaoAtividade">Descrição:</label>
-                    <Input type="textarea" className="form-control" name="text" id="inputDescricaoAtividade" value={this.activity.descricao}/>
+                    <Input type="textarea" className="form-control" name="text" onChange={this.setDescricaoAtividade.bind(this)} id="inputDescricaoAtividade" value={this.state.descricao}/>
                   </div>
                   <div className="form-group col-md-8">
                     <label htmlFor="inputEndereco">Endereço:</label>
-                    <Input type="text" className="form-control" id="inputEndereco" value={this.activity.endereco}/>
+                    <Input type="text" className="form-control" id="inputEndereco" onChange={this.setEnderecoAtividade.bind(this)} value={this.state.endereco}/>
                   </div>
                    <div className="form-group col-md-4">
                     <label htmlFor="inputEnderecoNumero">Nº:</label>
-                    <Input type="text" className="form-control" id="inputEnderecoNumero" value={this.activity.enderecoNumero}/>
+                    <Input type="text" className="form-control" id="inputEnderecoNumero" onChange={this.setNumeroEnderecoAtividade.bind(this)} value={this.state.enderecoNumero}/>
                   </div>
                   <div className="form-group col-md-4">
                     <label htmlFor="inputComplemento">Complemento:</label>
-                    <Input type="text" className="form-control" id="inputComplemento" value={this.activity.complemento}/>
+                    <Input type="text" className="form-control" id="inputComplemento" onChange={this.setComplementoAtividade.bind(this)} value={this.state.complemento}/>
                   </div>
                   <div className="form-group col-md-4">
                     <label htmlFor="inputCidade">Cidade:</label>
-                    <Input type="text" className="form-control" id="inputCidade" value={this.activity.cidade}/>
+                    <Input type="text" className="form-control" id="inputCidade" onChange={this.setCidadeAtividade.bind(this)} value={this.state.cidade}/>
                   </div>
                   <div className="form-group col-md-3">
                     <label htmlFor="inputCEP">CEP:</label>
-                    <Input type="text" className="form-control" id="inputCEP" value={this.activity.cep}/>
+                    <Input type="text" className="form-control" id="inputCEP" onChange={this.setCepAtividade.bind(this)} value={this.state.cep}/>
                   </div>
                   <div className="form-group col-md-1">
                     <label htmlFor="inputEstado"className="required">UF:</label>
-                    <select id="inputEstado"  className="form-control">
-                      <option selected>{this.activity.uf}</option>
+                    <select id="inputEstado" onChange={this.setUfAtividade.bind(this)} className="form-control">
+                      <option selected>{this.state.uf}</option>
                       <option>AC</option>
                       <option>AL</option>
                       <option>AP</option>
@@ -388,14 +507,14 @@ export default class DetalheProjeto extends Component {
               </form>
             </ModalBody>
             <ModalFooter className="card-header" >
-              <button className="btn btn-success float-right mt-2">Salvar</button>
+              <button onClick={this.editarAtividade.bind(this)} className="btn btn-success float-right mt-2">Salvar</button>
             </ModalFooter>
           </Modal>
         </div>
 
         <ToastContainer
           position="top-right"
-          autoClose={5000}
+          autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
