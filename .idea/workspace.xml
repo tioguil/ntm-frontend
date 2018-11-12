@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7f94728b-4478-4987-8a3e-66463e59490a" name="Default Changelist" comment="FOdase">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/editarPerfil.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/editarPerfil.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/gestor/listarProjetos.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/gestor/listarProjetos.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -127,7 +128,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="Dockerfile" value="1" />
-          <entry key="js" value="33" />
+          <entry key="js" value="34" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
@@ -135,7 +136,7 @@
         <counts>
           <entry key="Dockerfile" value="1" />
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="33" />
+          <entry key="JavaScript" value="34" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -154,7 +155,7 @@
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.15" value="1" />
@@ -164,9 +165,10 @@
           <entry key="project.open.time.19" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.21" value="1" />
+          <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.32" value="1" />
           <entry key="project.open.time.74" value="1" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.opened" value="16" />
         </counts>
       </usages-collector>
     </session>
@@ -174,10 +176,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/views/editarPerfil.js">
+        <entry file="file://$PROJECT_DIR$/src/views/gestor/listarProjetos.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="133" column="70" lean-forward="true" selection-start-line="133" selection-start-column="70" selection-end-line="133" selection-end-column="70" />
+            <state relative-caret-position="-697">
+              <caret line="34" column="18" lean-forward="true" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -265,6 +267,7 @@
         <option value="$PROJECT_DIR$/src/views/gestor/dashboardAdmin.js" />
         <option value="$PROJECT_DIR$/src/views/analista/dashboard.js" />
         <option value="$PROJECT_DIR$/src/views/editarPerfil.js" />
+        <option value="$PROJECT_DIR$/src/views/gestor/listarProjetos.js" />
       </list>
     </option>
   </component>
@@ -298,7 +301,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -341,6 +343,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -418,18 +421,18 @@
       <workItem from="1541086378326" duration="5092000" />
       <workItem from="1541128526826" duration="699000" />
       <workItem from="1541459766396" duration="4627000" />
-      <workItem from="1541623045752" duration="4617000" />
+      <workItem from="1541623045752" duration="5318000" />
+      <workItem from="1542057716688" duration="1904000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="156215000" />
+    <option name="totallyTimeSpent" value="158820000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1320" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19578783" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19578783" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -443,7 +446,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2753846" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22615385" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -637,8 +640,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/editarPerfil.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="133" column="70" lean-forward="true" selection-start-line="133" selection-start-column="70" selection-end-line="133" selection-end-column="70" />
+        <state relative-caret-position="2431">
+          <caret line="143" column="21" lean-forward="true" selection-start-line="143" selection-start-column="21" selection-end-line="143" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/gestor/listarProjetos.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-697">
+          <caret line="34" column="18" lean-forward="true" selection-start-line="34" selection-start-column="18" selection-end-line="34" selection-end-column="18" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

@@ -35,8 +35,8 @@ export default class ListarProjetos extends Component {
     search(event){
         this.setState({chave:event.target.value})
         var config = {headers:{Authorization:this.token}};
-        axios.get(`${URL}usuario/gestor/pesquisar/${this.state.chave}`,config)
-            .then(resp=> this.setState({}))
+        axios.get(`${URL}projeto/gestor/listar/${this.state.chave}`,config)
+            .then(resp=> this.setState({projetos:resp.data.response}))
     }
 
     componentDidMount(){
