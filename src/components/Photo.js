@@ -5,7 +5,7 @@ const Photo = props => (
         <div className="Profile">
             <div className="Profile-photo ">
                 <span className="Profile-photo-container">
-          <img src={props.srcImage === null || props.srcImage === "sem" ? props.user.profile_image : "data:image/jpeg;charset=utf-8;base64, " +props.srcImage} />
+          <img style={{'width': '100%'}}src={props.srcImage === null || props.srcImage === "sem" ? props.user.profile_image : "data:image/jpeg;charset=utf-8;base64, "+props.srcImage} />
         </span>
             </div>
             <div className="Profile-name">

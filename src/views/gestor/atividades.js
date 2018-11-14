@@ -378,6 +378,11 @@ export default class Atividades extends Component {
         }
     }
 
+    goAtividade(){
+        sessionStorage.setItem('idProjeto',this.state.atividade.projeto.id);
+        this.props.history.push('/detalheProjeto')
+    }
+
     keyHandler(e) {
         if (e.key === 'Enter') {
             this.enviarComentario()
@@ -397,9 +402,7 @@ export default class Atividades extends Component {
     }
 
     render(){
-
         const trabalho = ()=>{
-
             return this.state.esforco.map(trabalho => {
 
                 return (<tr key={trabalho.id}>
@@ -449,7 +452,7 @@ export default class Atividades extends Component {
                         <Link to="/listarProjetos">Listar Projetos</Link>
                     </li>
                     <li className="breadcrumb-item active">
-                        <Link to="/detalheProjeto">Atividades</Link>
+                        <a href="#" onClick={this.goAtividade.bind(this)}>Atividades</a>
                     </li>
                     <li className="breadcrumb-item active">Detalhar atividade</li>
                 </ol>

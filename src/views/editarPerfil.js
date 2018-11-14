@@ -72,13 +72,12 @@ export default class EditarPerfil extends Component {
         localStorage.setItem("user", JSON.stringify(user));
     }
 
-    uploadImage(){
-        console.log("upload", this.state.imageFile)
-        if(this.state.imageFile == null){
+    uploadImage(img){
+        if(img == null){
             return;
         }else {
             const formData = new FormData();
-            formData.append('image', this.state.imageFile, this.state.imageFile.name);
+            formData.append('image', img, img.name);
             var config = {
                 headers: {
                     Authorization: this.state.token.numero
@@ -99,7 +98,6 @@ export default class EditarPerfil extends Component {
     }
 
     getImage(nameFile){
-        console.log("name file", nameFile)
         var config = {
             headers: {
                 Authorization: this.state.token.numero
@@ -110,15 +108,13 @@ export default class EditarPerfil extends Component {
                 this.setState({imagePerfil: resp.data.response})
                 localStorage.setItem("imgPerfil", resp.data.response)
             })
-            .then(resp => this.setState({imageFile: null}))
+            // .then(resp => this.setState({imageFile: null}))
     }
 
     imageSelect(event){
-        console.log(event)
-        this.setState({imageFile: event.target.files[0]});
-
+        // this.setState({imageFile: event.target.files[0]});
+        this.uploadImage(event.target.files[0])
     }
-
     render(){
         const imageData = {user: {
                 name: this.state.nome + " " +this.state.sobreNome,
@@ -136,7 +132,6 @@ export default class EditarPerfil extends Component {
 
                 <h3>Editar Perfil</h3>
                 <hr/>
-
                 <div className="row">
                     <div className="col-md-4 col-sm-12">
                         <div className="App">
@@ -147,9 +142,6 @@ export default class EditarPerfil extends Component {
                                 <Photo {...imageData} 
                                     srcImage={this.state.imagePerfil} />
                                 <input type="file" id="imagePerfil" onChange={this.imageSelect}/>
-                                <div>
-                                    <label>{(this.state.imageFile == null)? '' : 'Foto selecionada: ' + this.state.imageFile.name}</label>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -172,7 +164,7 @@ export default class EditarPerfil extends Component {
 
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputEmail" >Email:</label>
-                                        <Input type="text" className="form-control required" value={this.state.email} onChange={this.dadosUsuario.bind(this, "email")} id="inputEmail" placeholder="Email"/>
+                                        <Input disabled type="text" className="form-control required" value={this.state.email} onChange={this.dadosUsuario.bind(this, "email")} id="inputEmail" placeholder="Email"/>
                                     </div>
 
                                     <div className="form-group col-md-3">
