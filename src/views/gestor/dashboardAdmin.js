@@ -75,9 +75,6 @@ export default class DashboardAdmin extends Component {
         this.seteChartAtividade = this.seteChartAtividade.bind(this);
         this.chartAtividadeDias = this.chartAtividadeDias.bind(this);
         this.atualizaGraficoAtividade =this.atualizaGraficoAtividade.bind(this);
-
-
-
         this.atualzaGraficoProjeto = this.atualzaGraficoProjeto.bind(this);
         this.seteChartProjeto = this.seteChartProjeto.bind(this);
         this.changeDiasProjeto = this.changeDiasProjeto.bind(this);

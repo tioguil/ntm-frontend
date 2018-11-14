@@ -6,6 +6,7 @@ import Select, { Option, OptGroup} from 'rc-select';
 import { Redirect, Link } from 'react-router-dom';
 import {URL} from '../global'
 import Photo from "../components/Photo";
+import PubSub from 'pubsub-js';
 import {toast, ToastContainer} from "react-toastify";
 
 export default class EditarPerfil extends Component {
@@ -45,6 +46,7 @@ export default class EditarPerfil extends Component {
     }
 
     editar(){
+        
         var config = {headers:{Authorization:this.state.token.numero}};
         axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
         then(res => {
@@ -85,6 +87,7 @@ export default class EditarPerfil extends Component {
             };
             axios.post(`${URL}usuario/analista/uploadimage`,formData,config)
                 .then(resp => this.getImage(resp.data.response.diretorio))
+                .then(resp=> PubSub.publish('atualiza'))
                 .then(resp => toast.success('Dados salvos com sucesso!',
                     {
                         position: "top-right",

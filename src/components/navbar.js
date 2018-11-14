@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Link,Redirect} from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Photo from "../components/Photo";
+import PubSub from 'pubsub-js';
+import PhotoNav from './photoNav';
 
 
 
@@ -16,7 +18,7 @@ export default class Navbar extends Component {
         this.image = localStorage.getItem('imgPerfil');
         this.state = {nome:user.nome,modal:false,imagePerfil: null}
         this.perfilAcesso = user.perfilAcesso
-
+        this.atualiza = this.atualiza.bind(this)
     }
     componentDidMount(){
         const script = document.createElement("script");
@@ -24,6 +26,14 @@ export default class Navbar extends Component {
         script.async = true;
         document.body.appendChild(script);
         this.setState({imagePerfil: this.image})
+        PubSub.subscribe('atualiza', () => {this.atualiza()})
+    }
+
+
+    atualiza(){
+        this.image = localStorage.getItem('imgPerfil');
+        this.setState({imagePerfil: this.image})
+
     }
 
     toggle() {
@@ -67,10 +77,10 @@ export default class Navbar extends Component {
                         
                         <li className="nav-item dropdown no-arrow">
                             <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span>
-                                    <img src={this.state.imagePerfil === null || this.state.imagePerfil === "sem" ? "photo/default.jpg" : "data:image/jpeg;charset=utf-8;base64, " +this.state.imagePerfil} className="icon-size" alt="photo-perfil"/>
-                                    {this.state.nome}
-                                </span>
+                                <PhotoNav
+                                    nome={this.state.nome}
+                                    img={localStorage.getItem('imgPerfil')}
+                                />
                             </a>
                             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <Link className="dropdown-item" to="/editarPerfil">Configurações</Link>
