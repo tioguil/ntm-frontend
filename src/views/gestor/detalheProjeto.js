@@ -29,6 +29,7 @@ export default class DetalheProjeto extends Component {
       modal: false,
       projeto: {},
       atividades: [],
+      idAtividade:0,
       nome: "",
       descricao: "",
       complemento: "",
@@ -83,7 +84,9 @@ export default class DetalheProjeto extends Component {
         }
       );
       this.activity = modal
+      console.log(modal)
       this.setState({
+        idAtividade:modal.id,
         nome: modal.nome,
         status:modal.status,
         descricao: modal.descricao,
@@ -232,7 +235,9 @@ export default class DetalheProjeto extends Component {
   }
 
   editarAtividade(){
+    console.log(this.state.idAtividade)
     const json = {
+      id:this.state.idAtividade,
       nome: this.state.nome,
       dataEntrega: this.state.data_entrega,
       status:this.state.status,
@@ -244,10 +249,7 @@ export default class DetalheProjeto extends Component {
       complemento: this.state.complemento,
       cidade: this.state.cidade,
       cep: this.state.cep,
-      uf: this.state.uf,
-      projeto: {
-        id: this.projeto_id
-      }
+      uf: this.state.uf
     }
     console.log(json)
     var config = {
@@ -255,7 +257,7 @@ export default class DetalheProjeto extends Component {
         Authorization: this.token
       }
     };
-    axios.post(`${URL}`, json, config)
+    axios.post(`${URL}atividade/gestor/editarAtividade`, json, config)
       .then(resp => toast.success(
         'Atividade editada com sucesso!',
         {

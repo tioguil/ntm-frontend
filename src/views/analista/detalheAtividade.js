@@ -22,6 +22,7 @@ export default class DetalheAtividade extends Component {
     constructor(){
         super();
         var usuario = localStorage.getItem('user');
+        this.atividadeId = sessionStorage.getItem('idAtividadeAnalista')
         const user = JSON.parse(usuario);
         this.usuario = user;
         this.token = user.token.numero;
@@ -34,10 +35,10 @@ export default class DetalheAtividade extends Component {
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.keyHandler = this.keyHandler.bind(this);
+        
         this.state = {
             modalAnexo: false,
             atividade: {},
-            idAtividade: 0,
             comentario: "",
             horarioTrabalho: [],
             totalTrabalho: "",
@@ -57,13 +58,6 @@ export default class DetalheAtividade extends Component {
     refresh(){
         this.getLocation()
         const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
-        this.setState(
-            {
-                ...this.state,
-                idAtividade: idAtividade
-            }
-        );
-
         var config = {
             headers: {
                 Authorization: this.token
@@ -76,10 +70,7 @@ export default class DetalheAtividade extends Component {
                     ...this.state,
                     atividade: resp.data.response
                 }))
-            .then(resp=>console.log(this.state.atividade.comentarios))
-            .then(resp=> console.log(this.state.atividade.historicoAlocacao))
-
-
+          
             .then(resp=> this.setState({alocados:this.state.atividade.historicoAlocacao}))
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
             .then(resp => this.setState(
@@ -88,7 +79,7 @@ export default class DetalheAtividade extends Component {
                     horarioTrabalho: resp.data.response,
                     totalTrabalho: resp.data.message
                 }
-                )
+            )
             );
         axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
             {
@@ -106,7 +97,7 @@ export default class DetalheAtividade extends Component {
             }
         };
 
-        axios.get(`${URL}historico-trabalho/analista/lista-horario/${this.state.idAtividade}`,config)
+        axios.get(`${URL}historico-trabalho/analista/lista-horario/${this.atividadeId}`,config)
             .then(resp => this.setState(
                 {
                     ...this.state,
@@ -244,7 +235,6 @@ export default class DetalheAtividade extends Component {
     }
 
     downloadAnexo(localArmazenamento){
-        console.log(localArmazenamento)
         axios({
             url: URL+'anexo/analista/download/'+localArmazenamento,
             method: 'GET',
@@ -255,7 +245,6 @@ export default class DetalheAtividade extends Component {
         })
             .then((response) => {
                 const url = window.URL.createObjectURL(new Blob([response.data]));
-                console.log(response)
                 const link = document.createElement('a');
                 link.href = url;
                 link.setAttribute('download', localArmazenamento);
@@ -316,13 +305,15 @@ export default class DetalheAtividade extends Component {
     }
 
     changeStatus(id){
+
+        console.log(id,this.atividadeId)
         var coord = JSON.parse(sessionStorage.getItem("location"))
         var config = {headers:{Authorization:this.token}};
         let json;
         if(coord == null){
             json = {
                 atividade: {
-                    id: this.state.idAtividade
+                    id: this.atividadeId
                 },
                 latitude: "",
                 longitude: ""
@@ -330,7 +321,7 @@ export default class DetalheAtividade extends Component {
         } else {
             json = {
                 atividade: {
-                    id: this.state.idAtividade
+                    id: this.atividadeId
                 },
                 latitude: coord.latitude,
                 longitude: coord.longitude
@@ -339,18 +330,16 @@ export default class DetalheAtividade extends Component {
 
         if(id==null){
             axios.post(`${URL}historico-trabalho/analista/registrar`, json, config)
-                .then(resp => console.log(resp.data))
                 .then(resp => this.atualizarHorarioTrabalho())
         }
         else{
             const pause = {
                 id: id,
                 atividade: {
-                    id: this.state.idAtividade
+                    id: this.atividadeId
                 }
             }
             axios.post(`${URL}historico-trabalho/analista/finalizar-trabalho`, pause, config)
-                .then(resp => console.log(resp.data))
                 .then(resp => this.atualizarHorarioTrabalho())
         }
     }
@@ -361,7 +350,7 @@ export default class DetalheAtividade extends Component {
                 Authorization: this.token
             }
         };
-        var json = { id: this.state.idAtividade }
+        var json = { id: this.atividadeId }
         axios.post(`${URL}atividade/analista/finalizar`,json,config)
             .then(resp => this.setState(
                 {
