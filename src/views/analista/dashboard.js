@@ -113,7 +113,7 @@ export default class Dashboard extends Component {
                 <hr/>
                 <div className="container">
                 <div className="row">
-                    <select id="status" value={this.state.status} onChange={this.choiceStatus.bind(this)} className="col-md-2 form-control statusAnalista margimButton">
+                    <select id="status" value={this.state.status} onChange={this.choiceStatus.bind(this)} className="col-md-2 form-control statusAnalista marginButton">
                         <option selected>{this.state.status}</option>
                         <option>todos</option>
                         <option>finalizada</option>
@@ -122,13 +122,13 @@ export default class Dashboard extends Component {
                         <option>cancelada</option>
                     </select>
 
-                    <Input type="date" className="col-md-2 statusAnalista margimButton" onChange={this.formataDataCriacao.bind(this)}
+                    <Input type="date" className="col-md-2 statusAnalista marginButton" onChange={this.formataDataCriacao.bind(this)}
                     value={this.state.data_criacao} />
 
-                    <Input type="date" className="col-md-2 statusAnalista margimButton" onChange={this.formataDataEntrega.bind(this)}
+                    <Input type="date" className="col-md-2 statusAnalista marginButton" onChange={this.formataDataEntrega.bind(this)}
                     value={this.state.data_entrega} />
 
-                    <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary btn-round filterAtividade margimButton col-sm-2">Filtrar</button>
+                    <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary btn-round filterAtividade marginButton col-sm-2">Filtrar</button>
                 </div>
             </div>
                 <hr/>

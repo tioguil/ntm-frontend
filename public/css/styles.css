@@ -572,6 +572,12 @@ input[type='file'] {
 .pjDetalhe{
   color: grey;
 }
-.margimButton{
+.marginButton{
   margin-bottom: 10px;
+}
+
+@media(max-width: 768px) {
+    button.full-width {
+        width: 100%;  
+    }
 }
