@@ -75,33 +75,41 @@ export default class DetalheProjeto extends Component {
     if(modal == 'adicionar_atividade'){
       this.setState(
         {
-          [modal]: true
+          [modal]: true,
+          idAtividade:'',
+          nome: '',
+          status: '',
+          descricao: '',
+          complemento: '',
+          complexidade:  '',
+          data_entrega: '',
+          data_criacao: '',
+          cep:'',
+          endereco: '',
+          numero_endereco:  '',
+          cidade: '',
+          uf: '',
         }
       );
     } else {
       this.setState(
         {
-          ['editar_atividade']: true
+          ['editar_atividade']: true,
+          idAtividade:modal.id,
+          nome: modal.nome,
+          status:modal.status,
+          descricao: modal.descricao,
+          complemento: modal.complemento,
+          complexidade: modal.complexidade,
+          data_entrega: moment.utc(modal.data_entrega).format('YYYY-MM-DD'),
+          data_criacao:modal.dataCriacao,
+          cep: modal.cep,
+          endereco: modal.endereco,
+          numero_endereco: modal.numero_endereco,
+          cidade: modal.cidade,
+          uf: modal.uf,
         }
       );
-      this.activity = modal
-      console.log(modal)
-      this.setState({
-        idAtividade:modal.id,
-        nome: modal.nome,
-        status:modal.status,
-        descricao: modal.descricao,
-        complemento: modal.complemento,
-        complexidade: modal.complexidade,
-        data_entrega: moment.utc(modal.data_entrega).format('YYYY-MM-DD'),
-        data_criacao:modal.dataCriacao,
-        cep: modal.cep,
-        endereco: modal.endereco,
-        numero_endereco: modal.numero_endereco,
-        cidade: modal.cidade,
-        uf: modal.uf,
-      })
-
     }
   }
 

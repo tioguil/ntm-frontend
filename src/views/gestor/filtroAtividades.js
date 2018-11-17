@@ -14,7 +14,6 @@ export default props => {
             <div className="card-body">
               <h5 className="card-title">{atividade.nome} <i> ({atividade.status}) </i></h5>
               <p className="card-text">{atividade.descricao.substring(0,100)}...</p>
-
               <p className="card-text">Data Entrega:{formataData(atividade.dataEntrega)}</p>
               <button className="btn btn-primary btn-round" onClick={()=>props.visualizarAtividade(atividade.id)}>Visualizar</button>
             </div>

@@ -403,6 +403,7 @@ export default class Atividades extends Component {
 
     render(){
         const trabalho = ()=>{
+            console.log("aqui",this.state.esforco)
             return this.state.esforco.map(trabalho => {
 
                 return (<tr key={trabalho.id}>
@@ -438,7 +439,7 @@ export default class Atividades extends Component {
         const analistas = this.state.analistas;
         let options;
         options = analistas.map((a) => {
-            return <Option key={a.id,a.nome}> <i>{a.nome} - {a.email}</i></Option>;
+            return <Option key={a.id,a.nome}> <i>{a.nome} - {a.email} - {a.cidade}</i></Option>;
         })
 
         return (
@@ -658,10 +659,8 @@ export default class Atividades extends Component {
                                     </thead>
                                     <tbody>
                                     {trabalho()}
-                                    <tr>
-                                        <td colSpan="3">Total</td>
-                                        <td> horas</td>
-                                    </tr>
+                                    
+                                    
                                     </tbody>
                                 </table>
                             </div>
