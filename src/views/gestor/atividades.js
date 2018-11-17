@@ -495,15 +495,15 @@ export default class Atividades extends Component {
                                 <p className="descript">
                                     {this.state.atividade.descricao}
                                 </p>
-                                {this.state.atividade.endereco != ''? 
+                                {this.state.atividade.endereco != ''?
                                     <div className="location-margin">
                                         <li className="list-inline-item">
-                                        <i className="fa fa-location-arrow" aria-hidden="true"></i> 
-                                            <a className="atividade-localizacao" 
-                                            onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, 
-                                            {this.state.atividade.enderecoNumero}, 
-                                            {this.state.atividade.cidade}-
-                                            {this.state.atividade.uf} - {this.state.atividade.cep} 
+                                            <i className="fa fa-location-arrow" aria-hidden="true"></i>
+                                            <a className="atividade-localizacao"
+                                               onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco},
+                                                {this.state.atividade.enderecoNumero},
+                                                {this.state.atividade.cidade}-
+                                                {this.state.atividade.uf} - {this.state.atividade.cep}
                                             </a>
                                         </li>
                                     </div> : ""}
@@ -511,11 +511,10 @@ export default class Atividades extends Component {
                         </div>
 
                         <div className="tab-pane fade" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
-                            <div className="atividade-projeto">
-                                <hr/>
+                            <div className="pt-3">
                                 <div className="row">
                                     <div className="text-center mb-3 col-md-8 ">
-                                        
+
                                         <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
                                             <div className="container">
                                                 <ListaComentariosGestor comentarios={this.state.comentarios}/>
@@ -535,7 +534,7 @@ export default class Atividades extends Component {
 
                                     </div>
                                     <div className="d-none d-md-inline-block vl"></div>
-                                    
+
                                     <div className="col-md-3 p-3">
                                         <h5 style={{'margin-left':'10px'}}>Colaboradores</h5>
                                         <div className="col-md-12">
@@ -543,7 +542,7 @@ export default class Atividades extends Component {
                                                 this.state.alocados.map(function(analista){
                                                     return(
                                                         <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
-                                                        {this.getImage(analista.usuario.imagePath)}
+                                                            {this.getImage(analista.usuario.imagePath)}
                                                             {console.log("map", analista.usuario.nome, this.analistaImagem)}
                                                             <img src={analista.usuario.imagePath === null || analista.usuario.imagePath === "sem" ? "photo/default.jpg" : "data:image/jpeg;charset=utf-8;base64, " + this.analistaImagem} className="icon-size" alt="photo-perfil"/>
 
@@ -552,16 +551,16 @@ export default class Atividades extends Component {
                                                     );
                                                 }.bind(this))
                                             }
-                                            
+
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>                       
+                            </div>
                         </div>
-                    
 
-                        <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
+
+                        <div className="tab-pane fade atividade-projeto" id="members" role="tabpanel" aria-labelledby="members-tab">
                             <div className="row">
                                 <div className="col-md-6">
                                     <Select
@@ -612,40 +611,40 @@ export default class Atividades extends Component {
 
                         <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
                             <div className="row">
-                                <div className="col-md-12">
+                                <div className="col-md-12 atividade-projeto">
                                     <div className="input-anexo-atividade">
                                         <div className="col-md-12 col-sm-2 p-1">
                                             <input id="input-anexo" type="file" onChange={this.fileSelected}/>
-                                            <span className="p-2 col-sm-3"
-                                                  id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
-
-                                            <label className="btn btn-primary btn-round" htmlFor="input-anexo">
+                                            <label className="btn btn-sm btn-primary btn-round col-sm-12 col-md-2" htmlFor="input-anexo">
                                                 Selecionar arquivo
                                             </label>
+                                            <span className="p-2 col-sm-3"
+                                                  id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
                                         </div>
-                                        <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                                        <div className="col-md-12">
+                                            <button className="btn btn-success btn-round btn-sm col-md-1" onClick={this.fileUpload}>Enviar</button>
+                                            <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" className="col-md-11"/>
+                                        </div>
                                     </div>
-                                    <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
                                     <div className="table-responsive-md">
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Nome Arquivo</th>
-                                            <th scope="col">Tamanho</th>
-                                            <th scope="col">Usuário</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody className="curso-pointer">
-                                        {listaAnexo()}
-                                        </tbody>
-                                    </table>
+                                        <table className="table m-3">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Nome Arquivo</th>
+                                                <th scope="col">Tamanho</th>
+                                                <th scope="col">Usuário</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody className="curso-pointer">
+                                            {listaAnexo()}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="tab-pane fade" id="esforco" role="tabpanel" aria-labelledby="esforco-tab">
-                            <h3>Esforço</h3>
+                        <div className="tab-pane fade atividade-projeto" id="esforco" role="tabpanel" aria-labelledby="esforco-tab">
                             <div>
                                 <table className="table table-striped" style={{"fontSize": "12px", "marginTop": "10px"}}>
                                     <thead>
@@ -659,8 +658,8 @@ export default class Atividades extends Component {
                                     </thead>
                                     <tbody>
                                     {trabalho()}
-                                    
-                                    
+
+
                                     </tbody>
                                 </table>
                             </div>

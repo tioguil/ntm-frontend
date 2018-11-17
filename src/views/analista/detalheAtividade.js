@@ -560,6 +560,7 @@ export default class DetalheAtividade extends Component {
                 <Modal isOpen={this.state.modal3} toggle={this.closeModal.bind(this, 'modal3')} className={this.props.className}>
                     <ModalHeader toggle={this.closeModal.bind(this, 'modal3')}>Deseja realmente finalizar atividade?</ModalHeader>
                     <ModalBody>
+                        <p>Se você finalizar a atividade, não será possível retomá-la.</p>
                         <Button color="btn btn-default mt-2" onClick={this.closeModal.bind(this, 'modal3')}>Cancelar</Button>
                         <Button color="btn btn-primary float-right mt-2" onClick={this.finalizarAtividade.bind(this)}>Finalizar</Button>
                     </ModalBody>
