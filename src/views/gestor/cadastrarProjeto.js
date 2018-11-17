@@ -9,8 +9,6 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
 import {URL} from '../../global';
-import $ from 'jquery';
-import 'jquery-mask-plugin';
 
 
 export default class CadastrarProjeto extends Component {
@@ -42,23 +40,12 @@ export default class CadastrarProjeto extends Component {
     this.usuario = usuario == null ? null : user.perfilAcesso;
   }
 
-  componentDidMount() {
-    $('#projetoDataInicio').mask('00/00/0000');
-    $('#projetoDataFim').mask('00/00/0000');
+  formataDataInicio(evento) {
+   this.setState({inicio: evento.target.value});
   }
 
-  formataDataInicio(data) {
-    if (data !== undefined){
-      var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-      this.setState({inicio: dataFormatada});
-    }
-  }
-
-  formataDataFim(data) {
-    if (data !== undefined){
-      var dataFormatada = data.getFullYear() + "-" + ("0" + (data.getMonth())).substr(-2) + "-" + ("0" + data.getDate()).substr(-2);
-      this.setState({fim: dataFormatada});
-    }
+  formataDataFim(evento) {
+   this.setState({fim: evento.target.value});
   }
 
   onChange = (value) => {
@@ -190,11 +177,11 @@ export default class CadastrarProjeto extends Component {
               </div>
               <div className="form-group col-md-2">
                 <label htmlFor="inputDataInicio" className="required">Data inicial:</label>
-                <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataInicio.bind(this)} value={this.state.inicio} inputProps={{className: 'form-control', id: 'projetoDataInicio'}} />
+                <Input type="date" onChange={this.formataDataInicio.bind(this)} value={this.state.inicio} />
               </div>
               <div className="form-group col-md-2">
                 <label htmlFor="inputDataFim" className="required">Data final:</label>
-                <DayPickerInput format="DD/MM/YYYY" formatDate={formatDate} parseDate={parseDate} placeholder="DD/MM/YYYY" onDayChange={this.formataDataFim.bind(this)} inputProps={{className: 'form-control', id: 'projetoDataFim'}} />
+                <Input type="date" onChange={this.formataDataFim.bind(this)} value={this.state.fim} />
               </div>
               <div className="form-group col-md-2">
                 <label htmlFor="inputEsforco" className="required">Estimativa de esforço:</label>
