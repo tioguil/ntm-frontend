@@ -8,6 +8,7 @@ import {URL} from '../global'
 import Photo from "../components/Photo";
 import PubSub from 'pubsub-js';
 import {toast, ToastContainer} from "react-toastify";
+import InputMask from 'react-input-mask';
 
 export default class EditarPerfil extends Component {
     constructor(){
@@ -172,12 +173,12 @@ export default class EditarPerfil extends Component {
 
                                     <div className="form-group col-md-3">
                                         <label htmlFor="inputTelefone">Telefone:</label>
-                                        <Input type="text" className="form-control" value={this.state.telefone} onChange={this.dadosUsuario.bind(this, "telefone")} id="telefone" placeholder="(11)xxxx-xxxx"/>
+                                        <Input type="text" className="form-control" value={this.state.telefone} onChange={this.dadosUsuario.bind(this, "telefone")} id="telefone" placeholder="(11)xxxx-xxxx" mask="(99) 9999-9999" tag={InputMask}/>
                                     </div>
 
                                     <div className="form-group col-md-3">
                                         <label htmlFor="inputCelular" className="required">Celular:</label>
-                                        <Input type="text" className="form-control" value={this.state.celular} onChange={this.dadosUsuario.bind(this, "celular")} id="celular" placeholder="(11)9xxxx-xxxx"/>
+                                        <Input type="text" className="form-control" value={this.state.celular} onChange={this.dadosUsuario.bind(this, "celular")} id="celular" placeholder="(11)9xxxx-xxxx" mask="(99) 99999-9999" tag={InputMask}/>
                                     </div>
                                 </div>
 
@@ -203,7 +204,7 @@ export default class EditarPerfil extends Component {
                                 <div className="form-row">
                                     <div className="form-group col-md-3">
                                         <label htmlFor="inputCep" >CEP:</label>
-                                        <Input type="text" className="form-control" value={this.state.cep} onChange={this.dadosUsuario.bind(this, "cep")} id="inputCep" placeholder="00000-000"/>
+                                        <Input type="text" className="form-control" value={this.state.cep} onChange={this.dadosUsuario.bind(this, "cep")} id="inputCep" placeholder="00000-000" mask="99999-999" tag={InputMask}/>
                                     </div>
 
                                     <div className="form-group col-md-5">
