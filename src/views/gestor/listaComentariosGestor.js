@@ -6,7 +6,6 @@ export default props => {
   const idLogado = user.id
 
   const formataData = (data) => {
-    console.log(data)
     let dataFormatada = moment.utc(data).format('DD/MM/YYYY HH:mm:ss')
     return dataFormatada
   }
