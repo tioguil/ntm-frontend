@@ -50,6 +50,18 @@ export default class Calendario extends Component {
   }
 
   render(){
+    const messages = {
+          allDay: 'Todo dia',
+          previous: 'Voltar',
+          next: 'Próximo',
+          today: 'Hoje',
+          month: 'Mês',
+          week: 'Semana',
+          day: 'Dia',
+          agenda: 'Agenda',
+          date: 'data',
+          time: 'Tempo',
+    }
     console.log("render")
     if (this.usuario == null || this.usuario === "gestor") {
       return (
@@ -67,7 +79,7 @@ export default class Calendario extends Component {
         <h1>Calendário</h1>
         <hr/>
         <BigCalendar
-          className="mb-3"
+          messages={messages}
           style={{ height: 500 }}
           events={this.eventos}
           localizer={localizer}

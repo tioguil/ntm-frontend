@@ -137,7 +137,6 @@ export default class DashboardAdmin extends Component {
             canceladoP:0,
             totalProjeto:0
         })
-        console.log("SetProjeto",responseProjeto)
         for (let i = 0; i < responseProjeto.length; i++){
 
             switch (responseProjeto[i].status) {
@@ -230,16 +229,16 @@ export default class DashboardAdmin extends Component {
                     data: [this.state.iniciada, this.state.pendente, this.state.pausada, this.state.cancelada, this.state.finalizada],
                     backgroundColor: [
                         '#8fbc00',
-                        '#e14440',
-                        '#f77d00',
                         '#f9c200',
+                        '#f77d00',
+                        '#e14440',
                         '#2c93b1'
                     ],
                     hoverBackgroundColor: [
                         '#8fbc00',
-                        '#e14440',
-                        '#f77d00',
                         '#f9c200',
+                        '#f77d00',
+                        '#e14440',
                         '#2c93b1'
                     ]
                 }]

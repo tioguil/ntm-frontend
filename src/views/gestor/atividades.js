@@ -500,11 +500,16 @@ export default class Atividades extends Component {
                                         <li className="list-inline-item">
                                         <i className="fa fa-location-arrow" aria-hidden="true"></i> 
                                             <a className="atividade-localizacao" 
-                                            onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, 
-                                            {this.state.atividade.enderecoNumero}, 
-                                            {this.state.atividade.cidade}-
-                                            {this.state.atividade.uf} - {this.state.atividade.cep} 
+                                            onClick={this.mapsSelector.bind(this)}> 
+
+                                            {(this.state.atividade.endereco!=""|| null ?this.state.atividade.endereco:'')} 
+                                            {(this.state.atividade.enderecoNumero!="" || null ? ','+ this.state.atividade.enderecoNumero:'')} 
+                                            {(this.state.atividade.cidade!="" || null ?', '+this.state.atividade.cidade:'')} 
+                                            {(this.state.atividade.uf!="" || null ? "|"+this.state.atividade.uf:'')}
+                                            {(this.state.atividade.cep!="" ||null ? "-"+this.state.atividade.cep:'')} 
                                             </a>
+
+                                         
                                         </li>
                                     </div> : ""}
                             </div>
