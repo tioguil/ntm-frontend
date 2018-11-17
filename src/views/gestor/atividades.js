@@ -396,14 +396,12 @@ export default class Atividades extends Component {
             }
         };
 
-        fetch(`${URL}usuario/analista/getimage/${nameFile}`, config)
-            .then(resp => resp.json())
-            .then(resp => this.analistaImagem = resp.response)
+        axios.get(`${URL}usuario/analista/getimage/${nameFile}`, config)
+            .then(resp => this.analistaImagem = resp.data["response"]);
     }
 
     render(){
         const trabalho = ()=>{
-            console.log("aqui",this.state.esforco)
             return this.state.esforco.map(trabalho => {
 
                 return (<tr key={trabalho.id}>
@@ -425,7 +423,7 @@ export default class Atividades extends Component {
                     <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.tamanho}</td>
                     <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.usuario.nome}</td>
                     <td>
-                        <button style={{"margin-left":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
+                        <button style={{"marginLeft":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
                     </td>
                 </tr>
             ))
@@ -500,11 +498,16 @@ export default class Atividades extends Component {
                                         <li className="list-inline-item">
                                             <i className="fa fa-location-arrow" aria-hidden="true"></i>
                                             <a className="atividade-localizacao"
-                                               onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco},
-                                                {this.state.atividade.enderecoNumero},
-                                                {this.state.atividade.cidade}-
-                                                {this.state.atividade.uf} - {this.state.atividade.cep}
+                                               onClick={this.mapsSelector.bind(this)}>
+
+                                                {(this.state.atividade.endereco!=""|| null ?this.state.atividade.endereco:'')}
+                                                {(this.state.atividade.enderecoNumero!="" || null ? ','+ this.state.atividade.enderecoNumero:'')}
+                                                {(this.state.atividade.cidade!="" || null ?', '+this.state.atividade.cidade:'')}
+                                                {(this.state.atividade.uf!="" || null ? "|"+this.state.atividade.uf:'')}
+                                                {(this.state.atividade.cep!="" ||null ? "-"+this.state.atividade.cep:'')}
                                             </a>
+
+                                         
                                         </li>
                                     </div> : ""}
                             </div>
@@ -536,19 +539,28 @@ export default class Atividades extends Component {
                                     <div className="d-none d-md-inline-block vl"></div>
 
                                     <div className="col-md-3 p-3">
-                                        <h5 style={{'margin-left':'10px'}}>Colaboradores</h5>
+                                        <h5 style={{'marginLeft':'10px'}}>Colaboradores</h5>
                                         <div className="col-md-12">
                                             {
                                                 this.state.alocados.map(function(analista){
-                                                    return(
-                                                        <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
-                                                            {this.getImage(analista.usuario.imagePath)}
-                                                            {console.log("map", analista.usuario.nome, this.analistaImagem)}
-                                                            <img src={analista.usuario.imagePath === null || analista.usuario.imagePath === "sem" ? "photo/default.jpg" : "data:image/jpeg;charset=utf-8;base64, " + this.analistaImagem} className="icon-size" alt="photo-perfil"/>
+                                                    if (analista.usuario.imagePath === null) {
+                                                        return(
+                                                            <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
+                                                                <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
 
-                                                            <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
-                                                        </div>
-                                                    );
+                                                                <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        return(
+                                                            <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
+                                                                {this.getImage(analista.usuario.imagePath)}
+                                                                <img src={"data:image/jpeg;charset=utf-8;base64, " + this.analistaImagem} className="icon-size" alt="photo-perfil"/>
+
+                                                                <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
+                                                            </div>
+                                                        );
+                                                    }
                                                 }.bind(this))
                                             }
 

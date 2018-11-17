@@ -62,7 +62,6 @@ export default class Login extends Component {
 
 
       let perfilAcesso = this.state.usuario.perfilAcesso;
-      console.log(perfilAcesso)
       if (perfilAcesso === "gestor"){
         window.tipo_usuario = 1;
         this.props.history.push("/DashboardAdmin");

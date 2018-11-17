@@ -113,7 +113,6 @@ export default class DashboardAdmin extends Component {
     }
 
     atualzaGraficoProjeto(dias){
-        console.log("Projeto")
         var config = {headers:{Authorization:this.token}};
 
         axios.get(`${URL}projeto/gestor/listarProject/dash/${dias}`,config)
@@ -122,7 +121,6 @@ export default class DashboardAdmin extends Component {
 
 
     atualizaGraficoAtividade(dias){
-        console.log("Atividade")
         var config = {headers:{Authorization:this.token}};
 
         axios.get(`${URL}atividade/gestor/listar/dash/${dias}`,config)
@@ -137,7 +135,6 @@ export default class DashboardAdmin extends Component {
             canceladoP:0,
             totalProjeto:0
         })
-        console.log("SetProjeto",responseProjeto)
         for (let i = 0; i < responseProjeto.length; i++){
 
             switch (responseProjeto[i].status) {
@@ -189,7 +186,7 @@ export default class DashboardAdmin extends Component {
             finalizada:0,
             totalAtividade: 0
         })
-        console.log("setAtividade")
+   
         for (let i = 0; i < response.length; i++){
 
             switch (response[i].status) {
@@ -230,16 +227,16 @@ export default class DashboardAdmin extends Component {
                     data: [this.state.iniciada, this.state.pendente, this.state.pausada, this.state.cancelada, this.state.finalizada],
                     backgroundColor: [
                         '#8fbc00',
-                        '#e14440',
-                        '#f77d00',
                         '#f9c200',
+                        '#f77d00',
+                        '#e14440',
                         '#2c93b1'
                     ],
                     hoverBackgroundColor: [
                         '#8fbc00',
-                        '#e14440',
-                        '#f77d00',
                         '#f9c200',
+                        '#f77d00',
+                        '#e14440',
                         '#2c93b1'
                     ]
                 }]

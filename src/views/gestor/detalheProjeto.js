@@ -105,7 +105,7 @@ export default class DetalheProjeto extends Component {
           data_criacao:modal.dataCriacao,
           cep: modal.cep,
           endereco: modal.endereco,
-          numero_endereco: modal.numero_endereco,
+          numero_endereco: modal.enderecoNumero,
           cidade: modal.cidade,
           uf: modal.uf,
         }
@@ -244,7 +244,6 @@ export default class DetalheProjeto extends Component {
   }
 
   editarAtividade(){
-    console.log(this.state.idAtividade)
     const json = {
       id:this.state.idAtividade,
       nome: this.state.nome,
@@ -260,7 +259,6 @@ export default class DetalheProjeto extends Component {
       cep: this.state.cep,
       uf: this.state.uf
     }
-    console.log(json)
     var config = {
       headers: {
         Authorization: this.token
@@ -467,7 +465,7 @@ export default class DetalheProjeto extends Component {
                   </div>
                    <div className="form-group col-md-4">
                     <label htmlFor="inputEnderecoNumero">Nº:</label>
-                    <Input type="text" className="form-control" id="inputEnderecoNumero" onChange={this.setNumeroEnderecoAtividade.bind(this)} value={this.state.enderecoNumero}/>
+                    <Input type="text" className="form-control" id="inputEnderecoNumero" onChange={this.setNumeroEnderecoAtividade.bind(this)} value={this.state.numero_endereco}/>
                   </div>
                   <div className="form-group col-md-4">
                     <label htmlFor="inputComplemento">Complemento:</label>
