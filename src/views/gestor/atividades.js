@@ -403,6 +403,7 @@ export default class Atividades extends Component {
 
     render(){
         const trabalho = ()=>{
+            console.log("aqui",this.state.esforco)
             return this.state.esforco.map(trabalho => {
 
                 return (<tr key={trabalho.id}>
@@ -438,7 +439,7 @@ export default class Atividades extends Component {
         const analistas = this.state.analistas;
         let options;
         options = analistas.map((a) => {
-            return <Option key={a.id,a.nome}> <i>{a.nome} - {a.email}</i></Option>;
+            return <Option key={a.id,a.nome}> <i>{a.nome} - {a.email} - {a.cidade}</i></Option>;
         })
 
         return (
@@ -561,25 +562,32 @@ export default class Atividades extends Component {
                     
 
                         <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
-                            <Select
-                                style={{width:'50%','marginTop':'10px'}}
-                                onChange={this.onChange}
-                                onSelect={this.onSelect}
-                                notFoundContent="Não encontrado"
-                                allowClear
-                                placeholder="Buscar Analista por nome, cpf ou cnpj"
-                                value={this.state.value}
-                                combobox
-                                backfill
-                                filterOption={true}>
-                                {options}
-                            </Select>
-                            <button type="button" onClick={this.adicionar} className="btn btn-primary btn-adicionar-analista btn-round">Adicionar</button>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <Select
+                                        style={{width:'100%','marginTop':'10px'}}
+                                        onChange={this.onChange}
+                                        onSelect={this.onSelect}
+                                        notFoundContent="Não encontrado"
+                                        allowClear
+                                        placeholder="Buscar Analista por nome, cpf ou cnpj"
+                                        value={this.state.value}
+                                        combobox
+                                        backfill
+                                        filterOption={true}>
+                                        {options}
+                                    </Select>
+                                </div>
+                                <div className="col-md-2">
+                                    <button type="button" onClick={this.adicionar} className="btn btn-primary btn-round mt-2 full-width">Adicionar</button>
+                                </div>
+                                <div className="offset-md-4"></div>
+                            </div>
                             <div className="row members-margin">
                                 {
                                     this.state.alocados.map(function(analista){
                                         return(
-                                            <div key={analista.usuario.id}  className="card col-md-3 no-margin c-analista" >
+                                            <div key={analista.usuario.id}  className="card col-md-4 no-margin c-analista" >
                                                 <div className="float-right">
                                                     <span className="close desvincularAnalista" onClick={() => this.desvincularAnalista(analista.usuario.id)} aria-hidden="true">&times;</span>
                                                 </div>
@@ -651,10 +659,8 @@ export default class Atividades extends Component {
                                     </thead>
                                     <tbody>
                                     {trabalho()}
-                                    <tr>
-                                        <td colSpan="3">Total</td>
-                                        <td> horas</td>
-                                    </tr>
+                                    
+                                    
                                     </tbody>
                                 </table>
                             </div>

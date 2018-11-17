@@ -192,7 +192,7 @@ export default class ListarProjetos extends Component {
 
                 <div className="form-group col-md-8">
                     <h3>Listar Projetos</h3>
-                    <Input type="text" onChange={this.search} value={this.state.chave} className="form-control" id="inputProjetoListar" placeholder="Pesquisar por id, status, cidade.."/>
+                    <Input type="text" onChange={this.search} value={this.state.chave} className="form-control" id="inputProjetoListar" placeholder="Pesquisar pelo numero, nome, status ..."/>
                 </div>
                 
                 <hr/>
@@ -202,7 +202,7 @@ export default class ListarProjetos extends Component {
                         <th className="th-sm">Nº Projetos<i className="fa fa-sort float-right" aria-hidden="true"></i></th>
                         <th className="th-sm">Projetos <i className="fa fa-sort float-right" aria-hidden="true"></i></th>
                         <th className="th-sm">Status <i className="fa fa-sort float-right" aria-hidden="true"></i></th>
-                        <th className="th-sm">Região <i className="fa fa-sort float-right" aria-hidden="true"></i></th>
+                        <th className="th-sm">Opções <i className="fa fa-sort float-right" aria-hidden="true"></i></th>
                     </tr>
                     </thead>
 
@@ -215,7 +215,7 @@ export default class ListarProjetos extends Component {
                                     <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.numeroProjeto}</td>
                                     <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.nome}</td>
                                     <td onClick={this.projeto_detalhe.bind(this,projeto.id)}>{projeto.status}</td>
-                                    <td>São Paulo <i className="far fa-edit" style={{'float':'right'}} onClick={this.showModal.bind(this,projeto)}>
+                                    <td style={{'textAlign':'center'}} ><i className="far fa-edit" onClick={this.showModal.bind(this,projeto)}>
                                         </i>
                                     </td>
 
