@@ -55,11 +55,11 @@ export default class Dashboard extends Component {
     }
 
     formataDataEntrega(evento) {
-       this.setState({data_entrega:evento.target.value}) 
+       this.setState({data_entrega:evento.target.value})
     }
 
     formataDataCriacao(evento) {
-        this.setState({data_criacao:evento.target.value}) 
+        this.setState({data_criacao:evento.target.value})
     }
 
     choiceStatus(evento){
@@ -111,8 +111,9 @@ export default class Dashboard extends Component {
 
                 <h3>Visão geral</h3>
                 <hr/>
-                <div className="row dashboardAnalista">
-                    <select id="status" value={this.state.status} onChange={this.choiceStatus.bind(this)} className="col-md-2 form-control statusAnalista">
+                <div className="container">
+                <div className="row">
+                    <select id="status" value={this.state.status} onChange={this.choiceStatus.bind(this)} className="col-md-2 form-control statusAnalista margimButton">
                         <option selected>{this.state.status}</option>
                         <option>todos</option>
                         <option>finalizada</option>
@@ -120,15 +121,16 @@ export default class Dashboard extends Component {
                         <option>pendente</option>
                         <option>cancelada</option>
                     </select>
-       
-                    <Input type="date" className="col-md-2 statusAnalista" onChange={this.formataDataCriacao.bind(this)} 
+
+                    <Input type="date" className="col-md-2 statusAnalista margimButton" onChange={this.formataDataCriacao.bind(this)}
                     value={this.state.data_criacao} />
 
-                    <Input type="date" className="col-md-2 statusAnalista" onChange={this.formataDataEntrega.bind(this)} 
+                    <Input type="date" className="col-md-2 statusAnalista margimButton" onChange={this.formataDataEntrega.bind(this)}
                     value={this.state.data_entrega} />
 
-                    <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary btn-round filterAtividade">Filtrar</button>
+                    <button type="button" onClick={this.filtroAtividade.bind(this)} className="btn btn-primary btn-round filterAtividade margimButton col-sm-2">Filtrar</button>
                 </div>
+            </div>
                 <hr/>
                 <AnalistaListarAtividade
                     atividades={this.state.atividades}

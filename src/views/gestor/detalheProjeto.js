@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars';
-import moment from 'moment/moment'
+import moment from 'moment/moment';
 import 'react-toastify/dist/ReactToastify.css';
 import ListaAtividades from './listaAtividades';
 import axios from 'axios';
@@ -15,7 +15,8 @@ import {
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { formatDate, parseDate } from "react-day-picker/moment";
-import {URL} from '../../global'
+import {URL} from '../../global';
+import InputMask from 'react-input-mask';
 
 export default class DetalheProjeto extends Component {
   constructor(props) {
@@ -380,7 +381,7 @@ export default class DetalheProjeto extends Component {
                   </div>
                   <div className="form-group col-md-2">
                     <label htmlFor="inputCEP">CEP:</label>
-                    <Input type="text" value={this.state.cep} onChange={this.dadosAtividade.bind(this,'cep')} className="form-control" id="inputCEP" placeholder="00000-000"/>
+                    <Input type="text" value={this.state.cep} onChange={this.dadosAtividade.bind(this,'cep')} className="form-control" id="inputCEP" placeholder="00000-000" mask="99999-999" tag={InputMask}/>
                   </div>
                   <div className="form-group col-md-4">
                     <label htmlFor="inputEstado" className="required">UF:</label>
@@ -478,7 +479,7 @@ export default class DetalheProjeto extends Component {
                   </div>
                   <div className="form-group col-md-3">
                     <label htmlFor="inputCEP">CEP:</label>
-                    <Input type="text" className="form-control" id="inputCEP" onChange={this.setCepAtividade.bind(this)} value={this.state.cep}/>
+                    <Input type="text" className="form-control" id="inputCEP" onChange={this.setCepAtividade.bind(this)} value={this.state.cep} mask="99999-999" tag={InputMask}/>
                   </div>
                   <div className="form-group col-md-1">
                     <label htmlFor="inputEstado"className="required">UF:</label>
