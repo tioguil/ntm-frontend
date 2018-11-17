@@ -35,7 +35,7 @@ export default class DetalheAtividade extends Component {
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.keyHandler = this.keyHandler.bind(this);
-        
+
         this.state = {
             modalAnexo: false,
             atividade: {},
@@ -70,7 +70,7 @@ export default class DetalheAtividade extends Component {
                     ...this.state,
                     atividade: resp.data.response
                 }))
-          
+
             .then(resp=> this.setState({alocados:this.state.atividade.historicoAlocacao}))
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
             .then(resp => this.setState(
@@ -386,7 +386,7 @@ export default class DetalheAtividade extends Component {
                     <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.tamanho}</td>
                     <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.usuario.nome}</td>
                     <td>
-                        <button className="btn btn-outline-danger btn-round" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
+                        <button className="btn btn-outline-danger btn-round btn-sm" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
                     </td>
                 </tr>
             ))
@@ -473,8 +473,8 @@ export default class DetalheAtividade extends Component {
                                         status={this.state.atividade.status}/>
                                 </div>
                                 <div>
-                                    <HorarioTrabalho 
-                                    horarioTrabalho={this.state.horarioTrabalho} 
+                                    <HorarioTrabalho
+                                    horarioTrabalho={this.state.horarioTrabalho}
                                     totalTrabalho={this.state.totalTrabalho}/>
                                 </div>
                             </div>
@@ -487,17 +487,18 @@ export default class DetalheAtividade extends Component {
                                 <div className="input-anexo-atividade">
                                     <div className="col-md-12 col-sm-2 p-1">
                                         <input id="input-anexo" type="file" onChange={this.fileSelected}/>
-                                        <span className="p-2 col-sm-3" 
-                                        id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
-
-                                        <label className="btn btn-primary btn-round" for="input-anexo">
+                                        <label className="btn btn-sm btn-primary btn-round col-sm-12 col-md-2" htmlFor="input-anexo">
                                             Selecionar arquivo
                                         </label>
+                                        <span className="p-2 col-sm-3"
+                                        id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
                                     </div>
-                                    <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                                    <div className="col-md-12">
+                                    <button className="btn btn-success btn-round btn-sm col-md-1" onClick={this.fileUpload}>Enviar</button>
+                                    <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" className="col-md-11"/>
+                                    </div>
                                 </div>
-                                <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
-                                <table className="table">
+                                <table className="table m-3">
                                     <thead>
                                     <tr>
                                         <th scope="col">Nome Arquivo</th>
@@ -515,18 +516,18 @@ export default class DetalheAtividade extends Component {
                     </div>
 
                     <div className="tab-pane fade pt-3" id="comentarios-atividade1" role="tabpanel" aria-labelledby="comentarios-atividade-tab2">
-                        
+
                             <div className="row">
-                                
+
                                 <div className="col-md-8 row">
                                         <div className="col-md-12">
                                             <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
-                                            <ListarComentariosAnalista 
+                                            <ListarComentariosAnalista
                                                 comentarios={this.state.atividade.comentarios}/>
                                             </div>
                                                 <div className="text-comentario p-2 row">
                                                     <div className="col-md-9 col-sm-9">
-                                                        <Input type="textarea"  onChange={this.setComentario.bind(this)} value={this.state.comentario} 
+                                                        <Input type="textarea"  onChange={this.setComentario.bind(this)} value={this.state.comentario}
                                                         onKeyUp={this.keyHandler} name="text" id="inputComentario" />
                                                     </div>
                                                     <div className="col-md-3 p-3 col-sm-3 m-auto">
@@ -549,7 +550,7 @@ export default class DetalheAtividade extends Component {
                                                     );
                                                 }.bind(this))
                                             }
-                                            
+
                                         </div>
                                     </div>
                             </div>
