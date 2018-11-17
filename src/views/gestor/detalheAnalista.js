@@ -28,7 +28,6 @@ export default class DetalheAnalista extends Component {
   componentDidMount(){
     var config = {headers:{Authorization:this.token}};
     const idAnalista = sessionStorage.getItem("idAnalista")
-    console.log(idAnalista)
     axios.get(`${URL}usuario/analista/buscar_usuario_by_id/${idAnalista}`,config)
       .then(resp=> this.setState({usuario:resp.data.response}))    
   }
@@ -60,7 +59,6 @@ export default class DetalheAnalista extends Component {
   onChange = data => this.setState({data})
 
   visualizarAtividade(id){
-    console.log(id)
     sessionStorage.setItem('idAtividade', id);
     this.props.history.push("/atividades");
 		

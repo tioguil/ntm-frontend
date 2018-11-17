@@ -72,7 +72,6 @@ export default class DetalheProjeto extends Component {
   }
 
   showModal(modal) {
-    console.log(modal)
     if(modal == 'adicionar_atividade'){
       this.setState(
         {
@@ -260,7 +259,6 @@ export default class DetalheProjeto extends Component {
       cep: this.state.cep,
       uf: this.state.uf
     }
-    console.log(json)
     var config = {
       headers: {
         Authorization: this.token

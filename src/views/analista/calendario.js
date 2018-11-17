@@ -26,7 +26,7 @@ export default class Calendario extends Component {
   }
 
   componentWillMount(){
-    console.log("mount")
+
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/lista`,config)
         .then(resp=> this.setState(...this.state,{atividades:resp.data.response.atividades}))
@@ -38,7 +38,6 @@ export default class Calendario extends Component {
         for (let i = 0; i < this.state.atividades.length; i++) {
             const [yearStart, monthStart, dayStart] = (this.state.atividades[i].dataCriacao).split("-")
             const [yearFinal, monthFinal, dayFinal] = (this.state.atividades[i].dataEntrega).split("-")
-            console.log(new Date(yearFinal, monthFinal - 1, dayFinal.substring(0, 2), 10, 0, 0))
             this.eventos.push({
                 'id': this.state.atividades[i].id,
                 'title': this.state.atividades[i].nome,
@@ -62,7 +61,6 @@ export default class Calendario extends Component {
           date: 'data',
           time: 'Tempo',
     }
-    console.log("render")
     if (this.usuario == null || this.usuario === "gestor") {
       return (
         <Redirect to="/"/>

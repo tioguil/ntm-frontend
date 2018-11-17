@@ -169,7 +169,6 @@ export default class DetalheAtividade extends Component {
             }
         };
         anexo = {...anexo, atividade:{id: this.state.atividade.id}}
-        console.log(anexo)
         axios.post(`${URL}anexo/analista/delete`, anexo, config)
             .then(resp => this.atualizaListAnexo())
             .then(resp => toast.success("Anexo deletado com sucesso!"), {
@@ -254,7 +253,7 @@ export default class DetalheAtividade extends Component {
     }
 
     setComentario(event){
-        console.log(event.target.value)
+
         this.setState({comentario:event.target.value})
     }
 
@@ -306,7 +305,7 @@ export default class DetalheAtividade extends Component {
 
     changeStatus(id){
 
-        console.log(id,this.atividadeId)
+
         var coord = JSON.parse(sessionStorage.getItem("location"))
         var config = {headers:{Authorization:this.token}};
         let json;
@@ -409,7 +408,7 @@ export default class DetalheAtividade extends Component {
                 }
             }
         }
-        console.log(this.state.alocados)
+
         return (
             <div>
                 <ol className="breadcrumb">

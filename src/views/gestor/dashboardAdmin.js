@@ -113,7 +113,6 @@ export default class DashboardAdmin extends Component {
     }
 
     atualzaGraficoProjeto(dias){
-        console.log("Projeto")
         var config = {headers:{Authorization:this.token}};
 
         axios.get(`${URL}projeto/gestor/listarProject/dash/${dias}`,config)
@@ -122,7 +121,6 @@ export default class DashboardAdmin extends Component {
 
 
     atualizaGraficoAtividade(dias){
-        console.log("Atividade")
         var config = {headers:{Authorization:this.token}};
 
         axios.get(`${URL}atividade/gestor/listar/dash/${dias}`,config)
@@ -188,7 +186,7 @@ export default class DashboardAdmin extends Component {
             finalizada:0,
             totalAtividade: 0
         })
-        console.log("setAtividade")
+   
         for (let i = 0; i < response.length; i++){
 
             switch (response[i].status) {
