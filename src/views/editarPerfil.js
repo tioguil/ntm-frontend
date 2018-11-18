@@ -11,8 +11,8 @@ import {toast, ToastContainer} from "react-toastify";
 import InputMask from 'react-input-mask';
 
 export default class EditarPerfil extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         let img = localStorage.getItem('imgPerfil');
         let usuario = JSON.parse(localStorage.getItem('user'));
         this.state = {
@@ -37,7 +37,7 @@ export default class EditarPerfil extends Component {
         this.imageSelect = this.imageSelect.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
         this.getImage = this.getImage.bind(this);
-
+        console.log(this.props)
     }
 
     dadosUsuario(nomeInput,evento){
@@ -88,7 +88,6 @@ export default class EditarPerfil extends Component {
             };
             axios.post(`${URL}usuario/analista/uploadimage`,formData,config)
                 .then(resp => this.getImage(resp.data.response.diretorio))
-                .then(resp=> PubSub.publish('atualiza'))
                 .then(resp => toast.success('Dados salvos com sucesso!',
                     {
                         position: "top-right",
@@ -109,8 +108,9 @@ export default class EditarPerfil extends Component {
         };
         axios.get(`${URL}usuario/analista/getimage/${nameFile}`,config)
             .then(resp => {
-                this.setState({imagePerfil: resp.data.response})
-                localStorage.setItem("imgPerfil", resp.data.response)
+                this.setState({imagePerfil: resp.data.response});
+                localStorage.setItem("imgPerfil", resp.data.response);
+                PubSub.publish('atualiza');
             })
             // .then(resp => this.setState({imageFile: null}))
     }

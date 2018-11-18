@@ -57,9 +57,6 @@ export default class Login extends Component {
               Authorization: this.state.usuario.token.numero
           }
       };
-      axios.get(`${URL}usuario/analista/getimage/${this.state.usuario.imagePath}`,config)
-          .then(resp => localStorage.setItem("imgPerfil", resp.data.response))
-
 
       let perfilAcesso = this.state.usuario.perfilAcesso;
       if (perfilAcesso === "gestor"){

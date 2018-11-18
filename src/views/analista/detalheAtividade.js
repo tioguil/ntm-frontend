@@ -35,6 +35,7 @@ export default class DetalheAtividade extends Component {
         this.atualizaListAnexo = this.atualizaListAnexo.bind(this);
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.keyHandler = this.keyHandler.bind(this);
+        this.loadImages = this.loadImages.bind(this);
 
         this.state = {
             modalAnexo: false,
@@ -45,7 +46,8 @@ export default class DetalheAtividade extends Component {
             alocados: [],
             anexo: [],
             anexoFile: null,
-            progressUpload: 0
+            progressUpload: 0,
+            imagesComentarios:[]
         };
         this.refresh()
         if(usuario == null){
@@ -71,7 +73,10 @@ export default class DetalheAtividade extends Component {
                     atividade: resp.data.response
                 }))
 
-            .then(resp=> this.setState({alocados:this.state.atividade.historicoAlocacao}))
+            .then(resp=> {this.setState({
+                alocados:this.state.atividade.historicoAlocacao});
+                this.loadImages();
+            });
         axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
             .then(resp => this.setState(
                 {
@@ -88,6 +93,30 @@ export default class DetalheAtividade extends Component {
             }
             )
         )
+    }
+
+    loadImages(){
+        this.setState({imagesComentarios:[]});
+        for(let i = 0; i< this.state.alocados.length; i++){
+            let imagePath = this.state.alocados[i].usuario.imagePath;
+            let name = this.state.alocados[i].usuario.nome + " " + this.state.alocados[i].usuario.sobreNome;
+            let id = this.state.alocados[i].usuario.id;
+            if(imagePath !== null){
+                var config = {headers: {Authorization: this.token}};
+                axios.get(`${URL}usuario/analista/getimage/${imagePath}`, config)
+                    .then(resp =>{
+                        let newList = this.state.imagesComentarios;
+                        newList.push({id:id, name:name, photo:resp.data.response})
+                        this.setState({imagesComentarios:newList})
+                    })
+            }else {
+                let newList = this.state.imagesComentarios;
+                newList.push({id:id, name:name, photo:null})
+                this.setState({imagesComentarios:newList})
+            }
+
+        }
+        //console.log(this.state.imagesComentarios)
     }
 
     atualizarHorarioTrabalho(){
@@ -539,18 +568,30 @@ export default class DetalheAtividade extends Component {
                                     <div className="col-md-3 p-3">
                                         <h5>Colaboradores</h5>
                                             <div className="col-md-12">
-                                            {
-                                                this.state.alocados.map(function(analista){
-                                                    return(
-                                                        <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
-                                                            <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
-                                                            <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
-                                                        </div>
-                                                    );
-                                                }.bind(this))
-                                            }
+                                                {
+                                                    this.state.imagesComentarios.map(function(analista){
+                                                        if (analista.photo === null) {
+                                                            return(
+                                                                <div key={analista.id}  style={{'marginBottom':'5px'}}>
+                                                                    <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
 
-                                        </div>
+                                                                    <span className="ml-2">{analista.name}</span>
+                                                                </div>
+                                                            );
+                                                        } else {
+                                                            return(
+                                                                <div key={analista.id}  style={{'marginBottom':'5px'}}>
+                                                                    <img src={"data:image/jpeg;charset=utf-8;base64, " + analista.photo} className="icon-size" alt="photo-perfil"/>
+
+                                                                    <span className="ml-2">{analista.name}</span>
+                                                                </div>
+                                                            );
+                                                        }
+                                                    }.bind(this))
+                                                }
+
+
+                                            </div>
                                     </div>
                             </div>
                     </div>
