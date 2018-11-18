@@ -26,7 +26,7 @@ export default class Calendario extends Component {
   }
 
   componentWillMount(){
-    console.log("mount")
+
     var config = {headers:{Authorization:this.token}};
     axios.get(`${URL}atividade/analista/lista`,config)
         .then(resp=> this.setState(...this.state,{atividades:resp.data.response.atividades}))
@@ -38,7 +38,6 @@ export default class Calendario extends Component {
         for (let i = 0; i < this.state.atividades.length; i++) {
             const [yearStart, monthStart, dayStart] = (this.state.atividades[i].dataCriacao).split("-")
             const [yearFinal, monthFinal, dayFinal] = (this.state.atividades[i].dataEntrega).split("-")
-            console.log(new Date(yearFinal, monthFinal - 1, dayFinal.substring(0, 2), 10, 0, 0))
             this.eventos.push({
                 'id': this.state.atividades[i].id,
                 'title': this.state.atividades[i].nome,
@@ -50,7 +49,18 @@ export default class Calendario extends Component {
   }
 
   render(){
-    console.log("render")
+    const messages = {
+          allDay: 'Todo dia',
+          previous: 'Voltar',
+          next: 'Próximo',
+          today: 'Hoje',
+          month: 'Mês',
+          week: 'Semana',
+          day: 'Dia',
+          agenda: 'Agenda',
+          date: 'data',
+          time: 'Tempo',
+    }
     if (this.usuario == null || this.usuario === "gestor") {
       return (
         <Redirect to="/"/>
@@ -67,7 +77,7 @@ export default class Calendario extends Component {
         <h1>Calendário</h1>
         <hr/>
         <BigCalendar
-          className="mb-3"
+          messages={messages}
           style={{ height: 500 }}
           events={this.eventos}
           localizer={localizer}

@@ -35,8 +35,8 @@ export default class CadastrarAnalista extends Component {
 
   cadastrarAnalista(){
    var config = {headers:{Authorization:this.token}};
-   axios.post(`${URL}usuario/gestor/cadastrar`,this.state,config).then(resp=>console.log(resp.data))
-      .then(toast.success('Projeto cadastrado com sucesso!',{
+   axios.post(`${URL}usuario/gestor/cadastrar`,this.state,config)
+      .then(toast.success('Analista cadastrado com sucesso!',{
               position: "top-right",
               autoClose: 3000,
               hideProgressBar: false,

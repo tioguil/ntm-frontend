@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars';
 import axios from 'axios';
 import {URL} from '../../global';
+
 import ListaComentariosGestor from './listaComentariosGestor';
 import {
     Button,
@@ -39,7 +40,8 @@ export default class Atividades extends Component {
             value: "",
             anexo: [],
             anexoFile: null,
-            progressUpload: 0
+            progressUpload: 0,
+            imagesComentarios:[]
         };
         this.analistaImagem = "";
         this.adicionar = this.adicionar.bind(this);
@@ -53,7 +55,8 @@ export default class Atividades extends Component {
         this.deleteAnexo = this.deleteAnexo.bind(this);
         this.desvincularAnalista = this.desvincularAnalista.bind(this);
         this.mapsSelector2 = this.mapsSelector2.bind(this);
-        this.keyHandler = this.keyHandler.bind(this)
+        this.keyHandler = this.keyHandler.bind(this);
+        this.loadImages = this.loadImages.bind(this);
 
 
         if(usuario == null){
@@ -65,6 +68,8 @@ export default class Atividades extends Component {
     }
     componentDidMount(){
         this.refresh();
+
+
     }
 
     atualizaListAnexo(){
@@ -95,6 +100,32 @@ export default class Atividades extends Component {
                 comentarios:resp.data.response.comentarios, esforco: resp.data.response.horarioTrabalho}))
             .then(resp=> this.formataData(this.state.atividade.dataEntrega))
             .then(resp => this.atualizaListAnexo())
+            .then(res => this.loadImages())
+    }
+
+
+    loadImages(){
+        this.setState({imagesComentarios:[]});
+        for(let i = 0; i< this.state.alocados.length; i++){
+            let imagePath = this.state.alocados[i].usuario.imagePath;
+            let name = this.state.alocados[i].usuario.nome + " " + this.state.alocados[i].usuario.sobreNome;
+            let id = this.state.alocados[i].usuario.id;
+            if(imagePath !== null){
+                var config = {headers: {Authorization: this.token}};
+                axios.get(`${URL}usuario/analista/getimage/${imagePath}`, config)
+                    .then(resp =>{
+                        let newList = this.state.imagesComentarios;
+                        newList.push({id:id, name:name, photo:resp.data.response})
+                        this.setState({imagesComentarios:newList})
+                    })
+            }else {
+                let newList = this.state.imagesComentarios;
+                newList.push({id:id, name:name, photo:null})
+                this.setState({imagesComentarios:newList})
+            }
+
+        }
+        //console.log(this.state.imagesComentarios)
     }
 
     btn_detalheAnalista(id){
@@ -493,27 +524,31 @@ export default class Atividades extends Component {
                                 <p className="descript">
                                     {this.state.atividade.descricao}
                                 </p>
-                                {this.state.atividade.endereco != ''? 
+                                {this.state.atividade.endereco != ''?
                                     <div className="location-margin">
                                         <li className="list-inline-item">
-                                        <i className="fa fa-location-arrow" aria-hidden="true"></i> 
-                                            <a className="atividade-localizacao" 
-                                            onClick={this.mapsSelector.bind(this)}> {this.state.atividade.endereco}, 
-                                            {this.state.atividade.enderecoNumero}, 
-                                            {this.state.atividade.cidade}-
-                                            {this.state.atividade.uf} - {this.state.atividade.cep} 
+                                            <i className="fa fa-location-arrow" aria-hidden="true"/>
+                                            <a className="atividade-localizacao"
+                                               onClick={this.mapsSelector.bind(this)}>
+
+                                                {(this.state.atividade.endereco!=""|| null ?this.state.atividade.endereco:'')}
+                                                {(this.state.atividade.enderecoNumero!="" || null ? ','+ this.state.atividade.enderecoNumero:'')}
+                                                {(this.state.atividade.cidade!="" || null ?', '+this.state.atividade.cidade:'')}
+                                                {(this.state.atividade.uf!="" || null ? "|"+this.state.atividade.uf:'')}
+                                                {(this.state.atividade.cep!="" ||null ? "-"+this.state.atividade.cep:'')}
                                             </a>
+
+                                         
                                         </li>
                                     </div> : ""}
                             </div>
                         </div>
 
                         <div className="tab-pane fade" id="comentarios" role="tabpanel" aria-labelledby="comentarios-tab">
-                            <div className="atividade-projeto">
-                                <hr/>
+                            <div className="pt-3">
                                 <div className="row">
                                     <div className="text-center mb-3 col-md-8 ">
-                                        
+
                                         <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
                                             <div className="container">
                                                 <ListaComentariosGestor comentarios={this.state.comentarios}/>
@@ -533,42 +568,41 @@ export default class Atividades extends Component {
 
                                     </div>
                                     <div className="d-none d-md-inline-block vl"></div>
-                                    
+
                                     <div className="col-md-3 p-3">
                                         <h5 style={{'marginLeft':'10px'}}>Colaboradores</h5>
                                         <div className="col-md-12">
                                             {
-                                                this.state.alocados.map(function(analista){
-                                                    if (analista.usuario.imagePath === null) {
+                                                this.state.imagesComentarios.map(function(analista){
+                                                    if (analista.photo === null) {
                                                         return(
-                                                            <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
+                                                            <div key={analista.id}  style={{'marginBottom':'5px'}}>
                                                                 <img src="photo/default.jpg" className="icon-size" alt="photo-perfil"/>
 
-                                                                <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
+                                                                <span className="ml-2">{analista.name}</span>
                                                             </div>
                                                         );
                                                     } else {
                                                         return(
-                                                            <div key={analista.usuario.id}  style={{'marginBottom':'5px'}}>
-                                                                {this.getImage(analista.usuario.imagePath)}
-                                                                <img src={"data:image/jpeg;charset=utf-8;base64, " + this.analistaImagem} className="icon-size" alt="photo-perfil"/>
+                                                            <div key={analista.id}  style={{'marginBottom':'5px'}}>
+                                                                <img src={"data:image/jpeg;charset=utf-8;base64, " + analista.photo} className="icon-size" alt="photo-perfil"/>
 
-                                                                <span className="ml-2">{analista.usuario.nome} {analista.usuario.sobreNome}</span>
+                                                                <span className="ml-2">{analista.name}</span>
                                                             </div>
                                                         );
                                                     }
                                                 }.bind(this))
                                             }
-                                            
+
                                         </div>
 
                                     </div>
                                 </div>
-                            </div>                       
+                            </div>
                         </div>
-                    
 
-                        <div className="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
+
+                        <div className="tab-pane fade atividade-projeto" id="members" role="tabpanel" aria-labelledby="members-tab">
                             <div className="row">
                                 <div className="col-md-6">
                                     <Select
@@ -619,40 +653,40 @@ export default class Atividades extends Component {
 
                         <div className="tab-pane fade" id="anexos" role="tabpanel" aria-labelledby="anexos-tab">
                             <div className="row">
-                                <div className="col-md-12">
+                                <div className="col-md-12 atividade-projeto">
                                     <div className="input-anexo-atividade">
                                         <div className="col-md-12 col-sm-2 p-1">
                                             <input id="input-anexo" type="file" onChange={this.fileSelected}/>
-                                            <span className="p-2 col-sm-3"
-                                                  id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
-
-                                            <label className="btn btn-primary btn-round" htmlFor="input-anexo">
+                                            <label className="btn btn-sm btn-primary btn-round col-sm-12 col-md-2" htmlFor="input-anexo">
                                                 Selecionar arquivo
                                             </label>
+                                            <span className="p-2 col-sm-3"
+                                                  id="file-name">{(this.state.anexoFile == null)? 'Nenhum arquivo selecionado' : this.state.anexoFile.name}</span>
                                         </div>
-                                        <button className="btn btn-success btn-round" onClick={this.fileUpload}>Enviar <i className="fas fa-upload"></i></button>
+                                        <div className="col-md-12">
+                                            <button className="btn btn-success btn-round btn-sm col-md-1" onClick={this.fileUpload}>Enviar</button>
+                                            <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" className="col-md-11"/>
+                                        </div>
                                     </div>
-                                    <Line percent={this.state.progressUpload} strokeWidth="1" strokeColor="#85d262" />
                                     <div className="table-responsive-md">
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Nome Arquivo</th>
-                                            <th scope="col">Tamanho</th>
-                                            <th scope="col">Usuário</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody className="curso-pointer">
-                                        {listaAnexo()}
-                                        </tbody>
-                                    </table>
+                                        <table className="table m-3">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Nome Arquivo</th>
+                                                <th scope="col">Tamanho</th>
+                                                <th scope="col">Usuário</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody className="curso-pointer">
+                                            {listaAnexo()}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="tab-pane fade" id="esforco" role="tabpanel" aria-labelledby="esforco-tab">
-                            <h3>Esforço</h3>
+                        <div className="tab-pane fade atividade-projeto" id="esforco" role="tabpanel" aria-labelledby="esforco-tab">
                             <div>
                                 <table className="table table-striped" style={{"fontSize": "12px", "marginTop": "10px"}}>
                                     <thead>
@@ -666,8 +700,8 @@ export default class Atividades extends Component {
                                     </thead>
                                     <tbody>
                                     {trabalho()}
-                                    
-                                    
+
+
                                     </tbody>
                                 </table>
                             </div>

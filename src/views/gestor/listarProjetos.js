@@ -134,7 +134,7 @@ export default class ListarProjetos extends Component {
               clientes: resp.data.response
             }
           ) 
-        ).then(resp=> console.log(this.state.clientes))
+        )
         }
     }
 

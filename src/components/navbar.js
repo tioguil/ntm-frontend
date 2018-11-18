@@ -4,6 +4,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Photo from "../components/Photo";
 import PubSub from 'pubsub-js';
 import PhotoNav from './photoNav';
+import axios from "axios";
+import {URL} from "../global";
 
 
 
@@ -15,17 +17,31 @@ export default class Navbar extends Component {
         super(props);
         var usuario = localStorage.getItem('user');
         const user = JSON.parse(usuario);
-        this.image = localStorage.getItem('imgPerfil');
-        this.state = {nome:user.nome,modal:false,imagePerfil: null}
-        this.perfilAcesso = user.perfilAcesso
+        this.state = {nome:user.nome,modal:false,imagePerfil: null, usuario:JSON.parse(usuario)};
+        this.perfilAcesso = user.perfilAcesso;
         this.atualiza = this.atualiza.bind(this)
     }
     componentDidMount(){
+        if(localStorage.getItem('imgPerfil') ===null){
+            var config = {
+                headers: {
+                    Authorization: this.state.usuario.token.numero
+                }
+            };
+            axios.get(`${URL}usuario/analista/getimage/${this.state.usuario.imagePath}`,config)
+                .then(resp => {
+                    localStorage.setItem("imgPerfil", resp.data.response);
+                    this.setState({imagePerfil: resp.data.response});
+                })
+        }else {
+            let imagePerfil = localStorage.getItem('imgPerfil');
+            this.setState({imagePerfil: imagePerfil})
+        }
+
         const script = document.createElement("script");
         script.src = "./js/scripts.js";
         script.async = true;
         document.body.appendChild(script);
-        this.setState({imagePerfil: this.image})
         PubSub.subscribe('atualiza', () => {this.atualiza()})
     }
 
