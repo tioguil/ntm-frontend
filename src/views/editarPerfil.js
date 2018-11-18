@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import {Helmet} from 'react-helmet';
-import { Input } from 'reactstrap';
+import {
+  Input,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter } from 'reactstrap';
 import axios from 'axios'
 import Select, { Option, OptGroup} from 'rc-select';
 import { Redirect, Link } from 'react-router-dom';
@@ -16,6 +21,7 @@ export default class EditarPerfil extends Component {
         let img = localStorage.getItem('imgPerfil');
         let usuario = JSON.parse(localStorage.getItem('user'));
         this.state = {
+            modal: false,
             nome:usuario.nome,
             sobreNome: usuario.sobreNome,
             telefone:usuario.telefone,
@@ -30,14 +36,87 @@ export default class EditarPerfil extends Component {
             uf:usuario.uf,
             imagePerfil: img,
             token:{ numero: usuario.token.numero},
-            imageFile:null
+            imageFile: null,
+            senhaAtual: "",
+            novaSenha: ""
         }
-        this.editar= this.editar.bind(this);
+        this.editar = this.editar.bind(this);
         this.atualizaLocalStorage = this.atualizaLocalStorage.bind(this);
         this.imageSelect = this.imageSelect.bind(this);
         this.uploadImage = this.uploadImage.bind(this);
         this.getImage = this.getImage.bind(this);
+        this.toggle = this.toggle.bind(this);
+    }
 
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
+    closeModal(modal) {
+        if(modal == 'editar_senha'){
+            this.setState({
+                senhaAtual: "",
+                novaSenha: ""
+            });
+        }
+
+        this.setState({
+            [modal]: false
+        });
+    }
+
+    showModal(modal) {
+        if(modal == 'editar_senha'){
+            this.setState({
+                [modal]: true
+            });
+        }
+    }
+
+    dadosSenha(nomeInput, evento){
+        var campoSendoAlterado = {}
+        campoSendoAlterado[nomeInput] = evento.target.value
+        this.setState(campoSendoAlterado)
+    }
+
+    editarSenha() {
+        const json = {
+          senha: this.state.senhaAtual,
+          novaSenha: this.state.novaSenha
+        }
+
+        var config = {
+          headers: {
+            Authorization: this.state.token.numero
+          }
+        };
+
+        axios.post(`${URL}usuario/analista/atualizarsenha`, json, config)
+          .then(resp => toast.success(
+            resp.data["message"],
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true
+            })
+          )
+          .then(this.closeModal.bind(this, 'editar_senha'))
+          .catch(resp => toast.error(
+            resp.response.data["message"],
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true
+            })
+          )
     }
 
     dadosUsuario(nomeInput,evento){
@@ -49,7 +128,7 @@ export default class EditarPerfil extends Component {
     editar(){
         
         var config = {headers:{Authorization:this.state.token.numero}};
-        axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
+        axios.post(`${URL}usuario/analista/editar_senha`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
         then(res => {
             if(this.state.imageFile != null){
                 this.uploadImage()
@@ -246,8 +325,10 @@ export default class EditarPerfil extends Component {
                                     </div>
                                 </div>
 
-
-                                <button type="button" onClick={this.editar} className="btn btn-success float-right mb-3 btn-round">Salvar</button>
+                                <div className="text-right">
+                                    <button type="button" onClick={this.showModal.bind(this, 'editar_senha')} className="btn btn-primary mr-2 mb-3 btn-round">Editar senha</button>
+                                    <button type="button" onClick={this.editar} className="btn btn-success mb-3 btn-round">Salvar</button>
+                                </div>
                                 <h2 className="text-white perfil-usuario">{this.perfilAcesso}</h2>
                             </form>
                         </div>
@@ -265,6 +346,25 @@ export default class EditarPerfil extends Component {
                     />
                     <ToastContainer />
                 </div>
+
+                <Modal isOpen={this.state.editar_senha} toggle={this.closeModal.bind(this, 'editar_senha')} className="modal-dialog">
+                    <ModalHeader className="card-header">Editar senha</ModalHeader>
+                    <ModalBody className="card-header">
+                        <form className="form-row">
+                            <div className="form-group col-md-12">
+                                <label htmlFor="inputSenhaAtual">Senha atual:</label>
+                                <Input type="password" className="form-control" id="inputSenhaAtual" value={this.state.senhaAtual} onChange={this.dadosSenha.bind(this, "senhaAtual")}/>
+                            </div>
+                            <div className="form-group col-md-12">
+                                <label htmlFor="inputNovaSenha">Nova senha:</label>
+                                <Input type="password" className="form-control" id="inputNovaSenha" value={this.state.novaSenha} onChange={this.dadosSenha.bind(this, "novaSenha")}/>
+                            </div>
+                        </form>
+                    </ModalBody>
+                    <ModalFooter className="card-header">
+                      <button onClick={this.editarSenha.bind(this)} className="btn btn-success float-right mt-2 btn-round">Salvar</button>
+                    </ModalFooter>
+                  </Modal>
             </div>
         );
     }
