@@ -128,7 +128,7 @@ export default class EditarPerfil extends Component {
     editar(){
         
         var config = {headers:{Authorization:this.state.token.numero}};
-        axios.post(`${URL}usuario/analista/editar_senha`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
+        axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
         then(res => {
             if(this.state.imageFile != null){
                 this.uploadImage()
