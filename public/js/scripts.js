@@ -10,3 +10,8 @@
 
 
 })(jQuery); // End of use strict
+
+(function(){  
+    $('#textdiv').animate({scrollTop: $('#textdiv').prop("scrollHeight")}, 500);
+    
+});

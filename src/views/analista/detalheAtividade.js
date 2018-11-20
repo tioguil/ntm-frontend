@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import HorarioTrabalho from './horarioTrabalho';
 import ListarComentariosAnalista from './listarComentariosAnalista'
 import {URL} from '../../global'
+import $ from 'jquery'
 import {
     Button,
     Modal,
@@ -93,6 +94,8 @@ export default class DetalheAtividade extends Component {
             }
             )
         ))
+
+
         
     }
 
@@ -146,7 +149,8 @@ export default class DetalheAtividade extends Component {
         };
         const idAtividade = sessionStorage.getItem('idAtividadeAnalista')
 
-        axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
+        axios.get(`${URL}anexo/analista/list/${idAtividade}`, config)
+        .then(resp => this.setState(
             {
                 ...this.state,
                 anexo: resp.data.response
@@ -315,7 +319,9 @@ export default class DetalheAtividade extends Component {
                     closeOnClick: true,
                     pauseOnHover: true,
                     draggable: true
-                })).then(resp=> this.setState({...this.state,comentario:""})).then(resp=>this.refresh())
+                }))
+            .then(resp=> this.setState({...this.state,comentario:""})).then(resp=>this.refresh())
+            .then(resp=> $('#textdiv').animate({scrollTop: $('#textdiv').prop("scrollHeight")}, 500))
             .catch(err => toast.error('Não foi possível comentar nessa atividade, tente novamente.',{
                 position: "top-right",
                 autoClose: 3000,
@@ -453,11 +459,12 @@ export default class DetalheAtividade extends Component {
                         <a className="nav-link active" id="dados-atividade-tab" data-toggle="tab" href="#dados-atividade" role="tab" aria-controls="dados-atividade" aria-selected="true">Dados</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" id="anexos-atividade-tab" data-toggle="tab" href="#anexos-atividade" role="tab" aria-controls="anexos-atividade" aria-selected="false">Anexos</a>
-                    </li>
-                    <li className="nav-item">
                         <a className="nav-link" id="comentarios-atividade-tab" data-toggle="tab" href="#comentarios-atividade1" role="tab" aria-controls="comentarios-atividade" aria-selected="false">Comentários</a>
                     </li>
+                    <li className="nav-item">
+                        <a className="nav-link" id="anexos-atividade-tab" data-toggle="tab" href="#anexos-atividade" role="tab" aria-controls="anexos-atividade" aria-selected="false">Anexos</a>
+                    </li>
+                    
                 </ul>
 
                 <div className="tab-content">
@@ -550,7 +557,7 @@ export default class DetalheAtividade extends Component {
 
                                 <div className="col-md-8 row">
                                         <div className="col-md-12">
-                                            <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
+                                            <div id="textdiv" className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
                                             <ListarComentariosAnalista
                                                 comentarios={this.state.atividade.comentarios}/>
                                             </div>

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars';
 import axios from 'axios';
 import {URL} from '../../global';
-
+import $ from 'jquery'
 import ListaComentariosGestor from './listaComentariosGestor';
 import {
     Button,
@@ -97,7 +97,8 @@ export default class Atividades extends Component {
         axios.get(`${URL}atividade/analista/detalhe/${id}`,config)
             .then(resp => this.setState(...this.state,{atividade:resp.data.response,
                 alocados:resp.data.response.historicoAlocacao,
-                comentarios:resp.data.response.comentarios, esforco: resp.data.response.horarioTrabalho}))
+                comentarios:resp.data.response.comentarios, 
+                esforco: resp.data.response.horarioTrabalho}))
             .then(resp=> this.formataData(this.state.atividade.dataEntrega))
             .then(resp => this.atualizaListAnexo())
             .then(res => this.loadImages())
@@ -232,7 +233,8 @@ export default class Atividades extends Component {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true
-            }) )
+            }))
+            .then(resp=> $('#scrollbarComentario').animate({scrollTop: $('#scrollbarComentario').prop("scrollHeight")}, 500))
             .catch(error => toast.error('Mensagem não pode ser enviada!',{
                 position: "top-right",
                 autoClose: 3000,
@@ -549,7 +551,7 @@ export default class Atividades extends Component {
                                 <div className="row">
                                     <div className="text-center mb-3 col-md-8 ">
 
-                                        <div className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
+                                        <div id="scrollbarComentario" className="scrollbar scrollbar-primary" style={{'width':'100%','overflow':'auto'}}>
                                             <div className="container">
                                                 <ListaComentariosGestor comentarios={this.state.comentarios}/>
                                             </div>
