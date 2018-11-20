@@ -581,3 +581,10 @@ input[type='file'] {
         width: 100%;  
     }
 }
+
+
+.n-existem{
+  color: darkgray;
+  padding-top: 4%;
+  text-align: center;
+}

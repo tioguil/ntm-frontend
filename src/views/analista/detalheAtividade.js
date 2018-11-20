@@ -76,23 +76,24 @@ export default class DetalheAtividade extends Component {
             .then(resp=> {this.setState({
                 alocados:this.state.atividade.historicoAlocacao});
                 this.loadImages();
-            });
-        axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
-            .then(resp => this.setState(
-                {
-                    ...this.state,
-                    horarioTrabalho: resp.data.response,
-                    totalTrabalho: resp.data.message
-                }
-            )
-            );
-        axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
+            })
+        .then(axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
+                .then(resp => this.setState(
+                    {
+                        ...this.state,
+                        horarioTrabalho: resp.data.response,
+                        totalTrabalho: resp.data.message
+                    }
+                )
+                ))
+        .then(axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
             {
                 ...this.state,
                 anexo: resp.data.response
             }
             )
-        )
+        ))
+        
     }
 
     loadImages(){

@@ -44,7 +44,7 @@ export default props => {
                 )
             );
         }else{
-            return (<p> Não existem atividades</p>)
+            return (<div className="n-existem"> Não existem atividades</div>)
         }
     }
 
