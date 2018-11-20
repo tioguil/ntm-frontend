@@ -551,7 +551,7 @@ export default class Atividades extends Component {
                                 <div className="row">
                                     <div className="text-center mb-3 col-md-8 ">
 
-                                        <div id="scrollbarComentario" className="scrollbar scrollbar-primary" style={{'width':'100%','overflow':'auto'}}>
+                                        <div id="scrollbarComentario" className="scrollbar scrollbar-primary" style={{'width':'100%'}}>
                                             <div className="container">
                                                 <ListaComentariosGestor comentarios={this.state.comentarios}/>
                                             </div>
