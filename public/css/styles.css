@@ -258,7 +258,7 @@ a.nounderline:link {
 }
 
 .c-analista {
-  margin: 1% !important;
+  width: 230px;
 }
 
 .main-sidebar {
@@ -587,4 +587,7 @@ input[type='file'] {
   color: darkgray;
   padding-top: 4%;
   text-align: center;
+}
+.center-div{
+  padding-left: 1%;
 }

@@ -624,17 +624,16 @@ export default class Atividades extends Component {
                                 <div className="col-md-2">
                                     <button type="button" onClick={this.adicionar} className="btn btn-primary btn-round mt-2 full-width">Adicionar</button>
                                 </div>
-                                <div className="offset-md-4"></div>
                             </div>
-                            <div className="row members-margin">
+                            <div className="row members-margin center-div">
                                 {
                                     this.state.alocados.map(function(analista){
                                         return(
-                                            <div key={analista.usuario.id}  className="card col-md-4 no-margin c-analista" >
+                                            <div key={analista.usuario.id}  className="card no-margin c-analista m-2" >
                                                 <div className="float-right">
                                                     <span className="close desvincularAnalista" onClick={() => this.desvincularAnalista(analista.usuario.id)} aria-hidden="true">&times;</span>
                                                 </div>
-                                                <div  className="card-body card-properties" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
+                                                <div  className="card-body card-properties curso-pointer" onClick={this.btn_detalheAnalista.bind(this,analista.usuario.id)}>
                                                     <h5 className="card-title">{analista.usuario.nome} {analista.usuario.sobreNome}</h5>
                                                     <p className="card-text">
                                                         <li> {analista.usuario.celular} </li>
