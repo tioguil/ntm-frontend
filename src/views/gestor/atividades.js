@@ -41,7 +41,8 @@ export default class Atividades extends Component {
             anexo: [],
             anexoFile: null,
             progressUpload: 0,
-            imagesComentarios:[]
+            imagesComentarios:[],
+            enviaComentarioFlag:true
         };
         this.analistaImagem = "";
         this.adicionar = this.adicionar.bind(this);
@@ -68,8 +69,6 @@ export default class Atividades extends Component {
     }
     componentDidMount(){
         this.refresh();
-
-
     }
 
     atualizaListAnexo(){
@@ -101,24 +100,24 @@ export default class Atividades extends Component {
                 esforco: resp.data.response.horarioTrabalho}))
             .then(resp=> this.formataData(this.state.atividade.dataEntrega))
             .then(resp => this.atualizaListAnexo())
-            .then(res => this.loadImages())
+            .then(res => {if(this.state.enviaComentarioFlag){ this.loadImages()}})
     }
 
 
-    loadImages(){
+    async loadImages(){
         this.setState({imagesComentarios:[]});
-        for(let i = 0; i< this.state.alocados.length; i++){
+         for(let i = 0; i< this.state.alocados.length; i++){
             let imagePath = this.state.alocados[i].usuario.imagePath;
             let name = this.state.alocados[i].usuario.nome + " " + this.state.alocados[i].usuario.sobreNome;
             let id = this.state.alocados[i].usuario.id;
             if(imagePath !== null){
                 var config = {headers: {Authorization: this.token}};
-                axios.get(`${URL}usuario/analista/getimage/${imagePath}`, config)
+                await axios.get(`${URL}usuario/analista/getimage/${imagePath}`, config)
                     .then(resp =>{
                         let newList = this.state.imagesComentarios;
                         newList.push({id:id, name:name, photo:resp.data.response})
                         this.setState({imagesComentarios:newList})
-                    })
+                    });
             }else {
                 let newList = this.state.imagesComentarios;
                 newList.push({id:id, name:name, photo:null})
@@ -126,6 +125,7 @@ export default class Atividades extends Component {
             }
 
         }
+        this.setState({enviaComentarioFlag:true});
         //console.log(this.state.imagesComentarios)
     }
 
@@ -222,7 +222,8 @@ export default class Atividades extends Component {
 
     enviarComentario(){
         var config = {headers:{Authorization:this.token}};
-        const json = {comentario:this.state.comentario,atividade:{id:this.atividadeId}}
+        const json = {comentario:this.state.comentario,atividade:{id:this.atividadeId}};
+        this.setState({enviaComentarioFlag:false});
         axios.post(`${URL}comentario/analista/cadastrar`,json,config)
             .then(resp=> this.refresh())
             .then(resp=> this.setState({comentario:''}))

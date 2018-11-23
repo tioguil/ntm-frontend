@@ -11,11 +11,12 @@ export default props => {
   }
 
 	const comentarios = ()=>{
-        const lista = props.comentarios 
+        const lista = props.comentarios
+        console.log(lista)
           return lista.map(comentario => ( 
               <div key={comentario.id} className={comentario.usuario.id===idLogado? 'comentario' : 'comentario comentarios-eles' }>
                 <div className={comentario.usuario.id===idLogado? 'eu-comentario':'eles-comentario'}>
-                <span >{comentario.usuario.id===idLogado? 'Eu': comentario.usuario.nome}</span>
+                <span >{comentario.usuario.id===idLogado? 'Eu': comentario.usuario.nome + " " + comentario.usuario.sobreNome}</span>
                 </div>
                 <div key={comentario.id}className={comentario.usuario.id===idLogado? 'comentario-body' : 'comentario-body eles' }>
                   <p className="comentarios-p">{comentario.comentario}</p>
