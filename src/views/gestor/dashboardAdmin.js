@@ -90,9 +90,7 @@ export default class DashboardAdmin extends Component {
     }
 
     componentDidMount() {
-
         var config = {headers:{Authorization:this.token}};
-
         axios.get(`${URL}atividade/gestor/listar/dash/${this.state.diasAtividade}`,config)
             .then(resp=> this.seteChartAtividade(resp.data.response))
             .then(resp =>{
@@ -105,7 +103,6 @@ export default class DashboardAdmin extends Component {
 
     changeDiasProjeto(ev){
         this.setState({diasProjeto: ev.target.value});
-
         if(ev.target.value >= 1 && ev.target.value <= 120){
             this.atualzaGraficoProjeto(ev.target.value);
         }
@@ -114,7 +111,6 @@ export default class DashboardAdmin extends Component {
 
     atualzaGraficoProjeto(dias){
         var config = {headers:{Authorization:this.token}};
-
         axios.get(`${URL}projeto/gestor/listarProject/dash/${dias}`,config)
             .then(resp=> this.seteChartProjeto(resp.data.response))
     }
@@ -122,7 +118,6 @@ export default class DashboardAdmin extends Component {
 
     atualizaGraficoAtividade(dias){
         var config = {headers:{Authorization:this.token}};
-
         axios.get(`${URL}atividade/gestor/listar/dash/${dias}`,config)
             .then(resp=> this.seteChartAtividade(resp.data.response))
     }

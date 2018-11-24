@@ -26,9 +26,6 @@ export default class Routes extends Component{
 		this.state = {
 			renderPage: 0
 		};
-
-
-
 		var usuario = localStorage.getItem('user');
 		const user = JSON.parse(usuario);
 		this.usuario = user
@@ -53,8 +50,7 @@ export default class Routes extends Component{
 					<Route exact path="/" component={Login}/>
 					<Route path="/esqueceuSenha" component={EsqueceuSenha}/>
 						
-					<App>
-							
+					<App>	
 						<Switch>
 							<Route exact path="/DashboardAdmin" component={DashboardAdmin}/>
 							<Route  path="/listarAnalistas" component={ListarAnalistas}/>

@@ -23,6 +23,8 @@ export default class EditarPerfil extends Component {
         this.state = {
             modal: false,
             nome:usuario.nome,
+            cpfCnpj:usuario.cpfCnpj,
+            rg:usuario.rg,
             sobreNome: usuario.sobreNome,
             telefone:usuario.telefone,
             celular:usuario.celular,
@@ -244,7 +246,23 @@ export default class EditarPerfil extends Component {
                                     </div>
                                 </div>
                                 <div className="form-row">
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="inputCpf" >CPF:</label>
+                                        <Input type="text" className="form-control required" value={this.state.cpfCnpj} onChange={this.dadosUsuario.bind(this, "cpfCnpj")} id="inputCpf" placeholder="999.999.999-99" mask="999.999.999-99" tag={InputMask}/>
+                                    </div>
 
+                                    <div className="form-group col-md-6">
+                                        <label htmlFor="inputRg">RG:</label>
+                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} id="inputRg" placeholder="(11)xxxx-xxxx" mask="99.999.999-9" tag={InputMask}/>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div className="form-row">
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputEmail" >Email:</label>
                                         <Input disabled type="text" className="form-control required" value={this.state.email} onChange={this.dadosUsuario.bind(this, "email")} id="inputEmail" placeholder="Email"/>
