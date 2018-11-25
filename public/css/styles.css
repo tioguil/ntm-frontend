@@ -611,3 +611,19 @@ input[type='file'] {
 .center-div{
   padding-left: 1%;
 }
+
+.fa-play-circle.play{
+  cursor: pointer;
+}
+
+.fa-play-circle.play:hover{
+  color: #dc3545;
+}
+
+.fa-pause-circle.pause{
+  cursor: pointer;
+}
+
+.fa-pause-circle.pause:hover{
+  color: #dc3545;
+}
