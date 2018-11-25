@@ -3,6 +3,8 @@ import {Route,Redirect,Router,Switch,hashHistory} from 'react-router-dom'
 import createHistory from "history/createBrowserHistory"
 import App from './App'
 import Login from "./views/login";
+import Cadastro from "./views/cadastro"
+import TelaMensagem from "./views/telaMensagem"
 import EsqueceuSenha from './views/esqueceuSenha';
 import ListarAnalistas from "./views/gestor/listarAnalistas";
 import ListarProjetos from "./views/gestor/listarProjetos";
@@ -49,7 +51,8 @@ export default class Routes extends Component{
 				<Switch>
 					<Route exact path="/" component={Login}/>
 					<Route path="/esqueceuSenha" component={EsqueceuSenha}/>
-						
+					<Route exact path="/Cadastro" component={Cadastro}/>
+					<Route exact path="/msg" component={TelaMensagem}/>
 					<App>	
 						<Switch>
 							<Route exact path="/DashboardAdmin" component={DashboardAdmin}/>

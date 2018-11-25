@@ -11,8 +11,28 @@
   position: relative;
 }
 
+.selectWrapper{
+  border-radius:36px !important ; 
+  display:inline-block !important;
+  overflow:hidden !important;
+  background:#fff !important;
+  border:1px solid #ced4da !important;
+}
+.selectBox{
+  width:140px !important;
+  height:50px !important;
+  border:0px !important;
+  outline:none;
+}
 .icon-size-status{
   width: 10px;
+}
+
+.warn-input{
+  outline: none !important;
+  border:1px solid rgb(243, 6, 6) !important;
+  box-shadow: 0 0 10px #719ECE;
+
 }
 
 .link-login {

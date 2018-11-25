@@ -234,7 +234,6 @@ export default class EditarPerfil extends Component {
                         <div className="container-fluid mb-3">
                             <form>
                                 <div className="form-row">
-
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputNome" className="required">Nome:</label>
                                         <Input type="text" value={this.state.nome} onChange={this.dadosUsuario.bind(this, "nome")} className="form-control" id="inputNome" placeholder="Nome"/>
@@ -253,7 +252,7 @@ export default class EditarPerfil extends Component {
 
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputRg">RG:</label>
-                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} id="inputRg" placeholder="(11)xxxx-xxxx" mask="99.999.999-9" tag={InputMask}/>
+                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} placeholder="99.999.999-9" id="inputRg" mask="99.999.999-9" tag={InputMask}/>
                                     </div>
                                 </div>
 
