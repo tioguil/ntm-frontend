@@ -22,17 +22,19 @@ export default class Navbar extends Component {
         this.atualiza = this.atualiza.bind(this)
     }
     componentDidMount(){
-        if(localStorage.getItem('imgPerfil') ===null){
+        if(localStorage.getItem('imgPerfil') === null){
             var config = {
                 headers: {
                     Authorization: this.state.usuario.token.numero
                 }
             };
-            axios.get(`${URL}usuario/analista/getimage/${this.state.usuario.imagePath}`,config)
-                .then(resp => {
-                    localStorage.setItem("imgPerfil", resp.data.response);
-                    this.setState({imagePerfil: resp.data.response});
-                })
+            if(this.state.usuario.imagePath !== undefined){
+                axios.get(`${URL}usuario/analista/getimage/${this.state.usuario.imagePath}`,config)
+                    .then(resp => {
+                        localStorage.setItem("imgPerfil", resp.data.response);
+                        this.setState({imagePerfil: resp.data.response});
+                    })
+            }
         }else {
             let imagePerfil = localStorage.getItem('imgPerfil');
             this.setState({imagePerfil: imagePerfil})
