@@ -246,20 +246,15 @@ export default class EditarPerfil extends Component {
                                 </div>
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
-                                        <label htmlFor="inputCpf" >CPF:</label>
-                                        <Input type="text" className="form-control required" value={this.state.cpfCnpj} onChange={this.dadosUsuario.bind(this, "cpfCnpj")} id="inputCpf" placeholder="999.999.999-99" mask="999.999.999-99" tag={InputMask}/>
+                                        <label htmlFor="inputCpf">CPF:</label>
+                                        <Input type="text" className="form-control required" value={this.state.cpfCnpj} onChange={this.dadosUsuario.bind(this, "cpfCnpj")} id="inputCpf" placeholder="999.999.999-99" mask="999.999.999-99" tag={InputMask} disabled/>
                                     </div>
 
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputRg">RG:</label>
-                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} placeholder="99.999.999-9" id="inputRg" mask="99.999.999-9" tag={InputMask}/>
+                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} placeholder="99.999.999-9" id="inputRg" mask="99.999.999-9" tag={InputMask} disabled/>
                                     </div>
                                 </div>
-
-
-
-
-
 
                                 <div className="form-row">
                                     <div className="form-group col-md-6">
@@ -278,9 +273,7 @@ export default class EditarPerfil extends Component {
                                     </div>
                                 </div>
 
-
                                 <div className="form-row">
-
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputEndereco">Endereço:</label>
                                         <Input type="text" className="form-control" value={this.state.endereco} onChange={this.dadosUsuario.bind(this, "endereco")} id="inputEndereco" placeholder="Rua/Av.:"/>
@@ -365,7 +358,7 @@ export default class EditarPerfil extends Component {
                 </div>
 
                 <Modal isOpen={this.state.editar_senha} toggle={this.closeModal.bind(this, 'editar_senha')} className="modal-dialog">
-                    <ModalHeader className="card-header">Editar senha</ModalHeader>
+                    <ModalHeader className="card-header" toggle={this.closeModal.bind(this, 'editar_senha')}>Editar senha</ModalHeader>
                     <ModalBody className="card-header">
                         <form className="form-row">
                             <div className="form-group col-md-12">
