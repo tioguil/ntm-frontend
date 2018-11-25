@@ -25,7 +25,7 @@ export default props => {
                 <tbody>
                 {trabalho()}
                 <tr>
-                    <td colspan="2">Total</td>
+                    <td colSpan="2">Total</td>
                     <td>{props.totalTrabalho} horas</td>
                 </tr>
                 </tbody>

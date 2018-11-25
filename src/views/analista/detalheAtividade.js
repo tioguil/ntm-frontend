@@ -41,6 +41,7 @@ export default class DetalheAtividade extends Component {
         this.state = {
             modalAnexo: false,
             atividade: {},
+            projeto: {},
             comentario: "",
             horarioTrabalho: [],
             totalTrabalho: "",
@@ -69,34 +70,36 @@ export default class DetalheAtividade extends Component {
         };
 
         axios.get(`${URL}atividade/analista/detalhe/${idAtividade}`, config)
-            .then(resp => this.setState(
-                {
+            .then(resp => this.setState({
                     ...this.state,
                     atividade: resp.data.response
-                }))
-
-            .then(resp=> {this.setState({alocados:this.state.atividade.historicoAlocacao});
-                if(this.state.enviaComentarioFlag){ this.loadImages()}
                 })
-        .then(axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
-                .then(resp => this.setState(
-                    {
-                        ...this.state,
-                        horarioTrabalho: resp.data.response,
-                        totalTrabalho: resp.data.message
-                    }
-                )
-                ))
-        .then(axios.get(`${URL}anexo/analista/list/${idAtividade}`, config).then(resp => this.setState(
-            {
-                ...this.state,
-                anexo: resp.data.response
-            }
             )
-        ))
-
-
-        
+            .then(resp => {
+                    this.setState({
+                        projeto: this.state.atividade.projeto,
+                        alocados: this.state.atividade.historicoAlocacao
+                    });
+                    if(this.state.enviaComentarioFlag) this.loadImages()
+                }
+            )
+            .then(
+                axios.get(`${URL}historico-trabalho/analista/lista-horario/${idAtividade}`, config)
+                    .then(resp => this.setState({
+                            ...this.state,
+                            horarioTrabalho: resp.data.response,
+                            totalTrabalho: resp.data.message
+                        })
+                    )
+            )
+            .then(
+                axios.get(`${URL}anexo/analista/list/${idAtividade}`, config)
+                    .then(resp => this.setState({
+                            ...this.state,
+                            anexo: resp.data.response
+                        })
+                    )
+            )
     }
 
     async loadImages(){
@@ -473,8 +476,11 @@ export default class DetalheAtividade extends Component {
                     <div className="tab-pane fade show pt-3 active" id="dados-atividade" role="tabpanel" aria-labelledby="dados-atividade-tab">
                         <div className="row">
                             <div className="col-md-12">
-                                <span style={{"font-size":"20px"}}>
-                                    {this.state.atividade.nome} <i> {(this.state.atividade.status ==='finalizada'? '(finalizada)':'')} </i>
+                                <p style={{"fontSize":"18px"}}>
+                                    <small><strong>Projeto:</strong> ({this.state.projeto.numeroProjeto}){this.state.projeto.nome}</small>
+                                </p>
+                                <span style={{"fontSize":"20px"}}>
+                                    <strong>Atividade:</strong> {this.state.atividade.nome} <i> {(this.state.atividade.status ==='finalizada'? '(finalizada)':'')} </i>
                                 </span>
                                 <div>
                                     <ReactStars
@@ -494,7 +500,7 @@ export default class DetalheAtividade extends Component {
                             </div>
 
                             <div className="col-md-6">
-                                <label style={{"font-size":"12px"}}>Descrição</label>
+                                <label style={{"fontSize":"12px"}}><strong>Descrição:</strong></label>
                                 <div className="card-detail-atividade">
                                     <span>{this.state.atividade.descricao}</span>
                                 </div>
