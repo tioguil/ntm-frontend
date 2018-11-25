@@ -51,7 +51,7 @@ export default class Routes extends Component{
 				<Switch>
 					<Route exact path="/" component={Login}/>
 					<Route path="/esqueceuSenha" component={EsqueceuSenha}/>
-					<Route exact path="/Cadastro" component={Cadastro}/>
+					<Route exact path="/cadastro" component={Cadastro}/>
 					<Route exact path="/msg" component={TelaMensagem}/>
 					<App>	
 						<Switch>
