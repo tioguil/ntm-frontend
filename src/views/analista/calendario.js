@@ -3,13 +3,12 @@ import { Redirect, Link } from 'react-router-dom';
 import BigCalendar from "react-big-calendar";
 import * as moment from 'moment';
 import axios from 'axios';
-import {URL} from '../../global'
+import {URL} from '../../global';
 import 'moment/locale/pt-br';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 moment.locale('pt-BR');
 const localizer = BigCalendar.momentLocalizer(moment);
-
 
 export default class Calendario extends Component {
   constructor(){
@@ -18,7 +17,7 @@ export default class Calendario extends Component {
     const user = JSON.parse(usuario);
     this.usuario = user;
     this.token = user.token.numero;
-    this.state={atividades:[]}
+    this.state = {atividades: []}
     this.eventos = []
     this.usuario = usuario == null ? null : user.perfilAcesso;
     this.listarCalendario = this.listarCalendario.bind(this);
@@ -26,11 +25,26 @@ export default class Calendario extends Component {
   }
 
   componentWillMount(){
+    this.carregarAtividades();
+  }
 
-    var config = {headers:{Authorization:this.token}};
-    axios.get(`${URL}atividade/analista/lista`,config)
-        .then(resp=> this.setState(...this.state,{atividades:resp.data.response.atividades}))
-        .then(resp=>this.listarCalendario())
+  carregarAtividades(){
+    var config = {
+      headers: {
+        Authorization:this.token
+      }
+    };
+
+    axios.get(`${URL}atividade/analista/lista`, config)
+      .then(resp => this.setState(
+        ...this.state, {
+          atividades: resp.data.response.atividades
+        })
+      )
+      .then(resp => {
+        this.listarCalendario();
+        this.forceUpdate();
+      });
   }
 
   listarCalendario(){
