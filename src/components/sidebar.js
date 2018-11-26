@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export default class Sidebar extends Component {
     constructor(props){
@@ -23,7 +23,7 @@ export default class Sidebar extends Component {
     let display = 'none';
     let dashboard = "/Dashboard";
     let calendario;
-    if(this.state.tipo == "gestor" ){
+    if(this.state.tipo === "gestor" ){
       dashboard = "/DashboardAdmin";
       display = 'block';
 
@@ -51,7 +51,7 @@ export default class Sidebar extends Component {
 
 
     }
-    if (this.state.tipo == "analista"){
+    if (this.state.tipo === "analista"){
        calendario= `
         <a class="nav-link" >
            <i class="fas fa-fw fa-calendar-alt"></i>

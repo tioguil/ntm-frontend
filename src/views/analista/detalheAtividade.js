@@ -440,7 +440,7 @@ export default class DetalheAtividade extends Component {
 
         const buttonFinalizar = () => {
             {
-                if(this.state.atividade.status == 'finalizada'){
+                if(this.state.atividade.status === 'finalizada'){
                     return(<button onClick={this.showModal.bind(this, 'modal3')} className="btn btn-danger" style={{"float": "right"}} disabled>Finalizar atividade</button>)
                 } else {
                     return(

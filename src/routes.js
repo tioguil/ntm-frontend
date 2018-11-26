@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import {Route,Redirect,Router,Switch,hashHistory} from 'react-router-dom'
-import createHistory from "history/createBrowserHistory"
-import App from './App'
+import {Route,Router,Switch} from 'react-router-dom';
+import createHistory from "history/createBrowserHistory";
+import App from './App';
 import Login from "./views/login";
-import Cadastro from "./views/cadastro"
-import TelaMensagem from "./views/telaMensagem"
+import Cadastro from "./views/cadastro";
+import TelaMensagem from "./views/telaMensagem";
 import EsqueceuSenha from './views/esqueceuSenha';
 import ListarAnalistas from "./views/gestor/listarAnalistas";
 import ListarProjetos from "./views/gestor/listarProjetos";
@@ -17,8 +17,7 @@ import Dashboard from "./views/analista/dashboard";
 import DetalheAtividade from "./views/analista/detalheAtividade";
 import Atividades from './views/gestor/atividades';
 import Calendario from './views/analista/calendario';
-	
-import EditarPerfil from './views/editarPerfil'
+import EditarPerfil from './views/editarPerfil';
 
 const history = createHistory();
 

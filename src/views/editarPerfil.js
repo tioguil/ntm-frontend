@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Helmet} from 'react-helmet';
 import {
   Input,
   Modal,
@@ -7,8 +6,7 @@ import {
   ModalBody,
   ModalFooter } from 'reactstrap';
 import axios from 'axios'
-import Select, { Option, OptGroup} from 'rc-select';
-import { Redirect, Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {URL} from '../global'
 import Photo from "../components/Photo";
 import PubSub from 'pubsub-js';
@@ -57,7 +55,7 @@ export default class EditarPerfil extends Component {
     }
 
     closeModal(modal) {
-        if(modal == 'editar_senha'){
+        if(modal === 'editar_senha'){
             this.setState({
                 senhaAtual: "",
                 novaSenha: ""
@@ -70,7 +68,7 @@ export default class EditarPerfil extends Component {
     }
 
     showModal(modal) {
-        if(modal == 'editar_senha'){
+        if(modal === 'editar_senha'){
             this.setState({
                 [modal]: true
             });
@@ -130,8 +128,9 @@ export default class EditarPerfil extends Component {
     editar(){
         
         var config = {headers:{Authorization:this.state.token.numero}};
-        axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config).then(resp=> this.atualizaLocalStorage(resp.data)).
-        then(res => {
+        axios.post(`${URL}usuario/analista/editar_perfil`,this.state,config)
+            .then(resp=> this.atualizaLocalStorage(resp.data))
+            .then(res => {
             if(this.state.imageFile != null){
                 this.uploadImage()
             }else {

@@ -12,9 +12,7 @@ import {
   ModalBody,
   Input,
   ModalFooter } from 'reactstrap';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import { formatDate, parseDate } from "react-day-picker/moment";
 import {URL} from '../../global';
 import InputMask from 'react-input-mask';
 
@@ -72,7 +70,7 @@ export default class DetalheProjeto extends Component {
   }
 
   showModal(modal) {
-    if(modal == 'adicionar_atividade'){
+    if(modal === 'adicionar_atividade'){
       this.setState(
         {
           [modal]: true,
@@ -317,10 +315,10 @@ export default class DetalheProjeto extends Component {
           <button className="btn btn-success float-right btn-round" onClick={this.showModal.bind(this, 'adicionar_atividade')}><i className="fas fa-plus fa-1x"></i> Adicionar nova atividade</button>
           <div className="clearfix"/>
           <div style={{'width':'100%'}}>
-          {this.state.projeto.status != undefined ? <p style={{'margin':'0'}} ><strong> Status:</strong> <em className="pjDetalhe"> {this.state.projeto.status}</em></p>:''}
-          {this.state.projeto.fim != null ? <p style={{'margin':'0'}} ><strong> Entrega:</strong> <em className="pjDetalhe"> {moment.utc(this.state.projeto.fim).format('DD/MM/YYYY')}</em></p>:''}
-          {this.state.cliente.nome!= undefined? <p style={{'margin':'0'}}><strong> Cliente:</strong> <em className="pjDetalhe"> {this.state.cliente.nome}</em></p>:''}
-          {this.state.projeto.descricao != ''? <p style={{'overflow':'hidden','word-wrap': 'break-word'}}><strong>Descrição:</strong> <i className="pjDetalhe">{this.state.projeto.descricao}</i></p> :''}
+          {this.state.projeto.status !== undefined ? <p style={{'margin':'0'}} ><strong> Status:</strong> <em className="pjDetalhe"> {this.state.projeto.status}</em></p>:''}
+          {this.state.projeto.fim !== null ? <p style={{'margin':'0'}} ><strong> Entrega:</strong> <em className="pjDetalhe"> {moment.utc(this.state.projeto.fim).format('DD/MM/YYYY')}</em></p>:''}
+          {this.state.cliente.nome!== undefined? <p style={{'margin':'0'}}><strong> Cliente:</strong> <em className="pjDetalhe"> {this.state.cliente.nome}</em></p>:''}
+          {this.state.projeto.descricao !== ''? <p style={{'overflow':'hidden','word-wrap': 'break-word'}}><strong>Descrição:</strong> <i className="pjDetalhe">{this.state.projeto.descricao}</i></p> :''}
           
           </div>
           <hr/>
@@ -439,11 +437,11 @@ export default class DetalheProjeto extends Component {
                     <label htmlFor="inputStatus" className="required">Status da Atividade</label>
                     <select id="inputStatus" value={this.state.status} onChange={this.setStatusAtividae.bind(this)}className="form-control">
                       <option selected> {this.state.status} </option>
-                      {(this.state.status != 'iniciada'? <option>iniciada</option> : '')}
-                      {(this.state.status != 'pendente'? <option>pendente</option> : '')}
-                      {(this.state.status != 'pausada'? <option>pausada</option> : '')}
-                      {(this.state.status != 'finalizada'? <option>finalizada</option> : '')}
-                      {(this.state.status != 'cancelada'? <option>cancelada</option> : '')}
+                      {(this.state.status !== 'iniciada'? <option>iniciada</option> : '')}
+                      {(this.state.status !== 'pendente'? <option>pendente</option> : '')}
+                      {(this.state.status !== 'pausada'? <option>pausada</option> : '')}
+                      {(this.state.status !== 'finalizada'? <option>finalizada</option> : '')}
+                      {(this.state.status !== 'cancelada'? <option>cancelada</option> : '')}
                     </select>
                   </div>
                   <div className="form-group col-md-6">

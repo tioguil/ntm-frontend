@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Line } from 'rc-progress';
-import Select, { Option, OptGroup } from 'rc-select';
+import Select, { Option } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
 import ReactStars from 'react-stars';
 import axios from 'axios';
@@ -15,7 +15,6 @@ import {
     ModalBody,
     ModalFooter,
     Input } from 'reactstrap';
-import Photo from "../../components/Photo";
 
 export default class Atividades extends Component {
     constructor(props){
@@ -185,7 +184,7 @@ export default class Atividades extends Component {
     }
 
     verificaConflito(data){
-        if(data.statusCode=='401'){
+        if(data.statusCode === '401'){
             this.setState({
                 ['modal']: true
             });
@@ -253,7 +252,7 @@ export default class Atividades extends Component {
 
     onChange = (value) => {
         this.setState({value,});
-        if (value!=" ") {
+        if (value !== " ") {
             var config = {headers:{Authorization:this.token}};
             axios.get(`${URL}usuario/gestor/pesquisar/${this.state.value}`,config)
                 .then(resp=> this.setState({analistas:resp.data.response}))
@@ -527,18 +526,18 @@ export default class Atividades extends Component {
                                 <p className="descript">
                                     {this.state.atividade.descricao}
                                 </p>
-                                {this.state.atividade.endereco != ''?
+                                {this.state.atividade.endereco !== ''?
                                     <div className="location-margin">
                                         <li className="list-inline-item">
                                             <i className="fa fa-location-arrow" aria-hidden="true"/>
                                             <a className="atividade-localizacao"
                                                onClick={this.mapsSelector.bind(this)}>
 
-                                                {(this.state.atividade.endereco!=""|| null ?this.state.atividade.endereco:'')}
-                                                {(this.state.atividade.enderecoNumero!="" || null ? ','+ this.state.atividade.enderecoNumero:'')}
-                                                {(this.state.atividade.cidade!="" || null ?', '+this.state.atividade.cidade:'')}
-                                                {(this.state.atividade.uf!="" || null ? "|"+this.state.atividade.uf:'')}
-                                                {(this.state.atividade.cep!="" ||null ? "-"+this.state.atividade.cep:'')}
+                                                {(this.state.atividade.endereco !== ""|| null ?this.state.atividade.endereco:'')}
+                                                {(this.state.atividade.enderecoNumero !== "" || null ? ','+ this.state.atividade.enderecoNumero:'')}
+                                                {(this.state.atividade.cidade !== "" || null ?', '+this.state.atividade.cidade:'')}
+                                                {(this.state.atividade.uf !== "" || null ? "|"+this.state.atividade.uf:'')}
+                                                {(this.state.atividade.cep !== "" ||null ? "-"+this.state.atividade.cep:'')}
                                             </a>
 
                                          

@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import {Redirect,Link} from 'react-router-dom';
 import Select, { Option } from 'rc-select';
 import { ToastContainer, toast } from 'react-toastify';
-import moment from 'moment/moment'
-import axios from 'axios'
+import moment from 'moment/moment';
+import axios from 'axios';
 import {
   Modal,
   ModalHeader,
   ModalBody,
   Input,
   ModalFooter } from 'reactstrap';
-import $ from 'jquery';
-import {URL} from '../../global'
+import {URL} from '../../global';
 
 export default class ListarProjetos extends Component {
     constructor(props){
@@ -126,7 +125,7 @@ export default class ListarProjetos extends Component {
 
     onChange = (cliente) => {
       this.setState({cliente});
-      if (cliente != " ") {
+      if (cliente !== " ") {
         var config = {headers:{Authorization:this.token}};
         axios.get(`${URL}cliente/gestor/listarclientes/${this.state.cliente}`, config)
           .then(resp => this.setState(...this.state, 
@@ -140,7 +139,7 @@ export default class ListarProjetos extends Component {
 
     onSelect = (v) => {
       for (let i=0; i<this.state.clientes.length; i++) {
-        if (v == this.state.clientes[i].nome)
+        if (v === this.state.clientes[i].nome)
           this.idCliente = this.state.clientes[i].id; 
       }
     }
@@ -244,10 +243,10 @@ export default class ListarProjetos extends Component {
                                 <label htmlFor="inputStatus" className="required">Status do Projeto</label>
                                 <select id="inputStatus" value={this.state.status} onChange={this.editarStatus.bind(this)} className="form-control">
                                   <option selected> {this.state.status} </option>
-                                  {(this.state.status != 'iniciado'? <option>iniciado</option> : '')}
-                                  {(this.state.status != 'em andamento'? <option>em andamento</option> : '')}
-                                  {(this.state.status != 'finalizado'? <option>finalizado</option> : '')}
-                                  {(this.state.status != 'cancelado'? <option>cancelado</option> : '')}
+                                  {(this.state.status !== 'iniciado'? <option>iniciado</option> : '')}
+                                  {(this.state.status !== 'em andamento'? <option>em andamento</option> : '')}
+                                  {(this.state.status !== 'finalizado'? <option>finalizado</option> : '')}
+                                  {(this.state.status !== 'cancelado'? <option>cancelado</option> : '')}
                                 </select>
                               </div>
 

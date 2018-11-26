@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {URL} from '../global';
 import {Helmet} from 'react-helmet';
-import $ from 'jquery';
 
 export default class EsqueceuSenha extends Component {
   constructor(){

@@ -35,9 +35,8 @@ export default class DetalheAnalista extends Component {
   filtroAtividade(){
     let inicio;
     let fim;
-    let json;
     var config = {headers:{Authorization:this.token}};
-    if(this.state.data != undefined){
+    if(this.state.data !== undefined){
       if (this.state.data.length > 1) {
         for(let i = 0; i<this.state.data.length ;i++){ 
           inicio=this.state.data[0].toISOString().split('T')[0]

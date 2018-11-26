@@ -10,7 +10,7 @@ export default props => {
 	const atividade = () => {
     const lista = props.atividades || [];
     console.log(lista.length)
-    if (lista.length==0){
+    if (lista.length === 0){
       return (<div className="n-existem">Não existem atividades nesse período!</div>)
     }
     return lista.map(atividade => (

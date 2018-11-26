@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'rc-select/assets/index.css';
-import Select, {Option, OptGroup} from 'rc-select';
+import Select, {Option} from 'rc-select';
 import { Input } from 'reactstrap';
 import axios from 'axios';
 import {Redirect,Link} from 'react-router-dom';
@@ -85,7 +85,7 @@ export default class CadastrarAnalista extends Component {
 
     onChange = (value) => {
         this.setState({value,});
-        if (value!=" ") {
+        if (value !== " ") {
             var config = {headers:{Authorization:this.token}};
             axios.get(`${URL}cargo/gestor/pesquisar/${this.state.value}`,config)
                 .then(resp=> this.setState(...this.state,{cargos:resp.data.response}))
@@ -94,7 +94,7 @@ export default class CadastrarAnalista extends Component {
 
     onSelect = (v) => {
         for (let i=0; i<this.state.cargos.length; i++){
-            if( v ==this.state.cargos[i].cargo){
+            if( v === this.state.cargos[i].cargo){
                 this.setState({cargo:{id:this.state.cargos[i].id}})
             }
         }

@@ -3,8 +3,6 @@ import {Redirect,Link} from 'react-router-dom';
 import {Pie, Bar} from 'react-chartjs-2';
 import axios from "axios";
 import {URL} from "../../global";
-import Select from "rc-select";
-
 
 export default class DashboardAdmin extends Component {
 

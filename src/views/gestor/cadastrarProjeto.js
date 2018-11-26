@@ -5,9 +5,7 @@ import 'rc-select/assets/index.css';
 import Select, { Option } from 'rc-select';
 import { Redirect,Link } from 'react-router-dom';
 import axios from 'axios';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
-import { formatDate, parseDate } from "react-day-picker/moment";
 import {URL} from '../../global';
 
 

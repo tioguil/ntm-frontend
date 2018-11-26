@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import {Link,Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import Photo from "../components/Photo";
 import PubSub from 'pubsub-js';
 import PhotoNav from './photoNav';
 import axios from "axios";
 import {URL} from "../global";
-
-
-
-
 
 export default class Navbar extends Component {
 
