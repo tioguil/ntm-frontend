@@ -365,6 +365,16 @@ a.nounderline:link {
   margin-right: 40%;
 }
 
+.gestor {
+  text-align: left;
+}
+
+.comentarios-gestor {
+  background-color: #87cefa;
+  margin-left: 0px;
+  margin-right: 40%;
+}
+
 .text-comentario {
   border-radius: 10px;
   background-color: #f8f9fa;
