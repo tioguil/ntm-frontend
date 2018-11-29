@@ -5,7 +5,7 @@ import Select, {Option} from 'rc-select';
 import { Input } from 'reactstrap';
 import axios from 'axios';
 import {Redirect,Link} from 'react-router-dom';
-import {URL} from '../../global';
+import {URL,CEP} from '../../global';
 import InputMask from 'react-input-mask';
 
 export default class CadastrarAnalista extends Component {
@@ -32,6 +32,10 @@ export default class CadastrarAnalista extends Component {
     dadosUsuario(nomeInput,evento){
         var campoSendoAlterado = {}
         campoSendoAlterado[nomeInput] = evento.target.value
+        if (nomeInput=='cep' && !evento.target.value.endsWith('_')){
+        axios.get(`${CEP}${evento.target.value}/json/`)
+            .then(resp=> {this.state, this.setState({endereco:resp.data.logradouro,uf:resp.data.uf,cidade:resp.data.localidade})})
+        }
         this.setState(campoSendoAlterado)
     }
 
@@ -157,7 +161,7 @@ export default class CadastrarAnalista extends Component {
 
                                     <div className="form-group col-md-3">
                                         <label htmlFor="inputRG" className="required">RG:</label>
-                                        <Input type="text"  value={this.state.rg} onChange={this.dadosUsuario.bind(this,'rg')} className="form-control" id="rg" placeholder="xx.xxx.xxx-x" mask="99.999.999-9" tag={InputMask}/>
+                                        <Input type="text"  value={this.state.rg} onChange={this.dadosUsuario.bind(this,'rg')} className="form-control" id="rg" placeholder="xx.xxx.xxx-x" mask="99.999.999-*" tag={InputMask}/>
                                     </div>
 
                                     <div className="form-group col-md-6">

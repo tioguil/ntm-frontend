@@ -144,6 +144,14 @@ export default class Atividades extends Component {
     adicionarDepoisDeVeirificar(){
         const json = {atividade:{id:this.state.atividade.id},usuario:this.state.usuario}
         var config = {headers:{Authorization:this.token}};
+        toast.info('Notificando o Analista!',{
+                position: "top-right",
+                autoClose: 5500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            })
         axios.post(`${URL}historicoAlocacao/gestor/vincular`,json,config)
             .then(resp => this.verificaAnalista(resp.data))
             .then(resp=> this.setState({value:""}))

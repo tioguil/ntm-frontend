@@ -7,7 +7,7 @@ import {
   ModalFooter } from 'reactstrap';
 import axios from 'axios'
 import {Link} from 'react-router-dom';
-import {URL} from '../global'
+import {URL,CEP} from '../global'
 import Photo from "../components/Photo";
 import PubSub from 'pubsub-js';
 import {toast, ToastContainer} from "react-toastify";
@@ -122,6 +122,10 @@ export default class EditarPerfil extends Component {
     dadosUsuario(nomeInput,evento){
         var campoSendoAlterado = {}
         campoSendoAlterado[nomeInput] = evento.target.value
+        if (nomeInput=='cep' && !evento.target.value.endsWith('_')){
+        axios.get(`${CEP}${evento.target.value}/json/`)
+            .then(resp=> {this.state, this.setState({endereco:resp.data.logradouro,uf:resp.data.uf,cidade:resp.data.localidade})})
+        }
         this.setState(campoSendoAlterado)
     }
 
@@ -251,7 +255,7 @@ export default class EditarPerfil extends Component {
 
                                     <div className="form-group col-md-6">
                                         <label htmlFor="inputRg">RG:</label>
-                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} placeholder="99.999.999-9" id="inputRg" mask="99.999.999-9" tag={InputMask} disabled/>
+                                        <Input type="text" className="form-control" value={this.state.rg} onChange={this.dadosUsuario.bind(this, "rg")} placeholder="99.999.999-9" id="inputRg" mask="99.999.999-*" tag={InputMask} disabled/>
                                     </div>
                                 </div>
 

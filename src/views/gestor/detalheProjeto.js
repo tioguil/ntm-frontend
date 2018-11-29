@@ -13,7 +13,7 @@ import {
   Input,
   ModalFooter } from 'reactstrap';
 import 'react-day-picker/lib/style.css';
-import {URL} from '../../global';
+import {URL,CEP} from '../../global';
 import InputMask from 'react-input-mask';
 
 export default class DetalheProjeto extends Component {
@@ -135,6 +135,10 @@ export default class DetalheProjeto extends Component {
   dadosAtividade(nomeInput, evento) {
     var campoSendoAlterado = {}
     campoSendoAlterado[nomeInput] = evento.target.value;
+    if (nomeInput =='cep' && !evento.target.value.endsWith('_')){
+      axios.get(`${CEP}${evento.target.value}/json/`)
+        .then(resp=> {this.state, this.setState({endereco:resp.data.logradouro,uf:resp.data.uf,cidade:resp.data.localidade})})
+    }
     this.setState(campoSendoAlterado);
   }
 
@@ -222,11 +226,18 @@ export default class DetalheProjeto extends Component {
   }
 
   setComplementoAtividade(event){
+    console.log(event.target.value)
     this.setState({complemento:event.target.value})
   }
 
   setCepAtividade(event){
     this.setState({cep:event.target.value})
+    if(!event.target.value.endsWith('_')){
+      axios.get(`${CEP}${event.target.value}/json/`)
+        .then(resp=> {this.state, this.setState({endereco:resp.data.logradouro,uf:resp.data.uf,cidade:resp.data.localidade})})
+    }
+    
+    
   }
 
   setCidadeAtividade(event){
