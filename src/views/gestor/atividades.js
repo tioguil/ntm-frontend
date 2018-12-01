@@ -315,7 +315,6 @@ export default class Atividades extends Component {
     }
 
     fileUpload(){
-
         if(this.state.anexoFile == null){
             toast.warn("Nenhum arquivo selecionado", {
                 position: "top-right",
@@ -423,6 +422,7 @@ export default class Atividades extends Component {
     }
 
     getImage(nameFile) {
+        console.log(nameFile)
         var config = {
             headers: {
                 Authorization: this.token

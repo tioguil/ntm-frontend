@@ -13,6 +13,7 @@ export default class DetalheAnalista extends Component {
     const user = JSON.parse(usuario);
     this.usuario = user
     this.token = user.token.numero;
+    this.loadImage = this.loadImage.bind(this)
     this.state = {data:new Date(),
       usuario:"",
       atividades:[]}
@@ -30,6 +31,17 @@ export default class DetalheAnalista extends Component {
     const idAnalista = sessionStorage.getItem("idAnalista")
     axios.get(`${URL}usuario/analista/buscar_usuario_by_id/${idAnalista}`,config)
       .then(resp=> this.setState({usuario:resp.data.response}))    
+      .then(response => this.loadImage(this.state.usuario)) 
+  }
+
+  loadImage(response){
+    var config = {headers:{Authorization:this.token}};
+    console.log(response.imagePath)
+    if(response.imagePath!=null){
+      axios.get(`${URL}usuario/analista/getimage/${response.imagePath}`,config)
+        .then(resp=>this.setState({imagePath:resp.data.response}))
+    }
+    
   }
 
   filtroAtividade(){
@@ -87,7 +99,8 @@ export default class DetalheAnalista extends Component {
             <div className="col-md-7">
               <div className="container text-center">
                 <h3>{this.state.usuario.nome} {this.state.usuario.sobreNome} </h3>
-                <a className="email-detalhe-atividade" href="mailto:rodrigo11_santos@hotmail.com"><em><i className="far fa-envelope fa-1x fa-email"></i> {this.state.usuario.email}</em></a>
+                {(this.state.imagePath!=null? <img src={"data:image/jpeg;charset=utf-8;base64, " + this.state.imagePath}  className="analista-foto-detalhe" alt="photo-perfil"/>:'')}
+                <a style={{'display':'block'}} className="email-detalhe-atividade" href="mailto:rodrigo11_santos@hotmail.com"><em><i className="far fa-envelope fa-1x fa-email"></i> {this.state.usuario.email}</em></a>
                 <p className="telefones-contato"> <i className="fas fa-mobile-alt"></i> <em className="email-detalhe-atividade" > {this.state.usuario.celular} </em>
                 <i className="fas fa-phone"></i> <em className="email-detalhe-atividade" > {this.state.usuario.telefone} </em></p>
                 <i className="fa fa-location-arrow" aria-hidden="true"></i> {this.state.usuario.endereco}, {this.state.usuario.enderecoNumero} - {this.state.usuario.cidade}, {this.state.usuario.uf} - CEP: {this.state.usuario.cep}

@@ -9,8 +9,16 @@
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+
 }
 
+
+.analista-foto-detalhe{
+    width: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
 .selectWrapper{
   border-radius:36px !important ; 
   display:inline-block !important;
