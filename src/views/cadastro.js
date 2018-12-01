@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {URL} from '../global';
+import {URL,CEP} from '../global';
 import {Helmet} from 'react-helmet';
 import InputMask from 'react-input-mask';
 import {Input} from 'reactstrap';
@@ -40,7 +40,13 @@ export default class Cadastro extends Component {
     setEndereco(event){this.setState({endereco:event.target.value})}
     setEnderecoNumero(event){this.setState({enderecoNumero:event.target.value})}
     setComplemento(event){this.setState({complemento:event.target.value})}
-    setCep(event){this.setState({cep:event.target.value})}
+    setCep(event){
+        this.setState({cep:event.target.value})
+        if(!event.target.value.endsWith('_')){
+        axios.get(`${CEP}${event.target.value}/json/`)
+            .then(resp=> {this.state, this.setState({endereco:resp.data.logradouro,uf:resp.data.uf,cidade:resp.data.localidade})})
+    }
+    }
     setCidade(event){this.setState({cidade:event.target.value})}
     setUf(event){this.setState({uf:event.target.value})}
     setTelefone(event){this.setState({telefone:event.target.value})}
