@@ -45,8 +45,7 @@ export default class Cadastro extends Component {
         if(!event.target.value.endsWith('_')){
         axios.get(`${CEP}${event.target.value}/json/`)
             .then(resp=> {this.state, this.setState({endereco:resp.data.logradouro,uf:resp.data.uf,cidade:resp.data.localidade})})
-    }
-    }
+    }}
     setCidade(event){this.setState({cidade:event.target.value})}
     setUf(event){this.setState({uf:event.target.value})}
     setTelefone(event){this.setState({telefone:event.target.value})}
@@ -56,7 +55,6 @@ export default class Cadastro extends Component {
         event.preventDefault();
         var parans = new URLSearchParams(this.props.location.search);
         let token = parans.get("token");
-        console.log(token)
 
         if(this.state.senha2!==this.state.senha || this.state.senha === "" ){
             document.getElementById('inputPassword2').classList.add('warn-input')
@@ -64,14 +62,28 @@ export default class Cadastro extends Component {
         else if (this.state.senha2===this.state.senha){
             document.getElementById('inputPassword2').classList.remove('warn-input')
             axios.post(`${URL}usuario/cadastrar/invite/${token}`,this.state)
-                .then(resp=> console.log(resp))
-                .then(tresp=> this.props.history.push("/msg"))
-                .catch(resp => alert("token invalido"))
+                .then(resp=> this.conflitos(resp))
         }
     }
-    render(){
-        return(
 
+    conflitos(resp){
+        if(resp.data.statusCode=="400"){
+            this.setState({token:true}) 
+        }
+        else{
+           this.props.history.push("/msg") 
+        }
+        
+    }
+    render(){
+        const errorMessage = (
+          this.state.token?
+            <div className="alert alert-danger" role="alert">
+              Convite já utilizado ou token expirado!
+            </div>
+          : null
+        );
+        return(
             <div className="container">
                 <Helmet>
                     <style>{"html, body {height: 100% !important; } body {background-color: #f0f2f4; align-items: center !important; } #root {width: 100%;}"}</style>
@@ -84,6 +96,7 @@ export default class Cadastro extends Component {
                                 <div className="card-title text-center contact-image">
                                     <img src="img/logo.png" alt="Logo"/>
                                 </div>
+                                {errorMessage}
                                 <div className="text-center" style={{'marginBottom':'10px'}}>
                                     <h2>Bem vindo ao NTM</h2>
                                     <i>(Preencha o formulário abaixo)</i>
