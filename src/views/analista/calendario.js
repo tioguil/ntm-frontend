@@ -62,9 +62,14 @@ export default class Calendario extends Component {
     }
   }
 
+  mostrarDetalhes(idAtividade){
+    sessionStorage.setItem('idAtividadeAnalista', idAtividade);
+    this.props.history.push(`/DetalheAtividade`);
+  }
+
   render(){
     const messages = {
-          allDay: 'Todo dia',
+          allDay: 'dia inteiro',
           previous: 'Voltar',
           next: 'Próximo',
           today: 'Hoje',
@@ -74,6 +79,7 @@ export default class Calendario extends Component {
           agenda: 'Agenda',
           date: 'data',
           time: 'Tempo',
+          showMore: (count) => `+${count} atividades`
     }
     if (this.usuario == null || this.usuario === "gestor") {
       return (
@@ -99,6 +105,8 @@ export default class Calendario extends Component {
           endAccessor='end'
           onClickWeekNumber={(weekNumber, date) => alert('Clicked week: ', weekNumber, 'that starts on: ', date)}
           returnValue="range"
+          onSelectEvent={event => this.mostrarDetalhes(event.id)}
+          popup='true'
         />
       </div>
     );

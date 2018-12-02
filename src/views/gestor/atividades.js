@@ -439,7 +439,7 @@ export default class Atividades extends Component {
 
                 return (<tr key={trabalho.id}>
                     <td>{trabalho.usuario.nome} {trabalho.usuario.sobreNome}</td>
-                    <td onClick={() => this.mapsSelector2(trabalho.latitude, trabalho.longitude)}>Local</td>
+                    <td className="curso-pointer link-style" onClick={() => this.mapsSelector2(trabalho.latitude, trabalho.longitude)}><i className="fa fa-location-arrow"/> Local</td>
                     <td>{trabalho.dataInicio}</td>
                     <td>{trabalho.dataFim === null ? "Em andamento" : trabalho.dataFim}</td>
                     <td>{trabalho.totalHoras}</td>
@@ -452,9 +452,9 @@ export default class Atividades extends Component {
             let list = this.state.anexo || [];
             return list.map(anexo => (
                 <tr key={anexo.id}>
-                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
-                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.tamanho} Kbps</td>
-                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.usuario.nome}</td>
+                    <td className="link-style" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
+                    <td>{anexo.tamanho} Kbps</td>
+                    <td>{anexo.usuario.nome} {anexo.usuario.sobreNome}</td>
                     <td>
                         <button style={{"marginLeft":"12px"}} className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
                     </td>
@@ -678,7 +678,7 @@ export default class Atividades extends Component {
                                                 <th scope="col">Usuário</th>
                                             </tr>
                                             </thead>
-                                            <tbody className="curso-pointer">
+                                            <tbody>
                                             {listaAnexo()}
                                             </tbody>
                                         </table>

@@ -620,7 +620,6 @@ input[type='file'] {
     }
 }
 
-
 .n-existem{
   color: darkgray;
   padding-top: 4%;
@@ -644,4 +643,20 @@ input[type='file'] {
 
 .fa-pause-circle.pause:hover{
   color: #dc3545;
+}
+
+.link-style{
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.link-style:hover{
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.lista-atividade:hover{
+  background-color: #ecedec;
+  border-radius: 5px;
 }

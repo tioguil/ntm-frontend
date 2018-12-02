@@ -422,11 +422,11 @@ export default class DetalheAtividade extends Component {
             let list = this.state.anexo;
             return list.map(anexo => (
                 <tr key={anexo.id}>
-                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
-                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.tamanho} kbps</td>
-                    <td onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.usuario.nome}</td>
+                    <td className="link-style" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
+                    <td>{anexo.tamanho} kbps</td>
+                    <td>{anexo.usuario.nome} {anexo.usuario.sobreNome}</td>
                     <td>
-                        <button className="btn btn-outline-danger btn-round btn-sm" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
+                        <button className="btn btn-outline-danger" onClick={() => this.deleteAnexo(anexo)}>Remover</button>
                     </td>
                 </tr>
             ))
@@ -551,7 +551,7 @@ export default class DetalheAtividade extends Component {
                                         <th scope="col">Opções</th>
                                     </tr>
                                     </thead>
-                                    <tbody className="curso-pointer">
+                                    <tbody>
                                     {listaAnexo()}
                                     </tbody>
                                 </table>

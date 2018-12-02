@@ -16,7 +16,7 @@ export default props => {
                 (
                     <div key={atividade.id} className="container curso-pointer"
                          onClick={() => props.mostrarDetalhes(atividade.id)}>
-                        <div className="row row-striped">
+                        <div className="row row-striped lista-atividade py-2">
                             <div className="col-2 text-right">
                                 <p className="display-4">
                                     <span
@@ -30,10 +30,10 @@ export default props => {
                                         className="inline status-atividade-analista">({atividade.status})</p></strong>
                                 </h4>
                                 <ul className="list-inline">
-                                    <li className="list-inline-item">
+                                    <li className="list-inline-item link-style">
                                         <i className="fa fa-location-arrow" aria-hidden="true"></i> <a
                                         onClick={() => props.mapsSelector(atividade.endereco, atividade.enderecoNumero)}
-                                        className="atividade-localizacao"> {atividade.endereco}, {atividade.enderecoNumero}-{atividade.cidade} - {atividade.uf}</a>
+                                        className="atividade-localizacao"> {atividade.endereco}, {atividade.enderecoNumero} - {atividade.cidade} - {atividade.uf}</a>
                                     </li>
                                 </ul>
                                 <p>{atividade.descricao}</p>
