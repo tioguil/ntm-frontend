@@ -21,6 +21,7 @@ export default class ListarProjetos extends Component {
         this.token = user.token.numero
         this.search = this.search.bind(this)
         this.toggle = this.toggle.bind(this);
+        this.refresh();
         this.state= {clientes:[],cliente:{id:0} ,id:0,projetos:[],chave:"",modal:false, nome:'',descricao:'',status:'',numeroProjeto:'',inicio:'',fim:''}
         this.idCliente = 0
         if(usuario == null){
@@ -38,7 +39,11 @@ export default class ListarProjetos extends Component {
             .then(resp=> this.setState({projetos:resp.data.response}))
     }
 
-    componentDidMount(){
+
+
+
+
+    refresh(){
         var config = {headers:{Authorization:this.token}};
         axios.get(`${URL}projeto/gestor/listar/`,config)
             .then(resp=> this.setState({projetos:resp.data.response}))
@@ -79,7 +84,7 @@ export default class ListarProjetos extends Component {
             pauseOnHover: true,
             draggable: true
           })
-        )
+        ).then(resp=> this.refresh())
         .catch(err => toast.error('Não foi possível atualizar o projeto, tente novamente.',
           {
             position: "top-right",
