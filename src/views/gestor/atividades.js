@@ -528,16 +528,16 @@ export default class Atividades extends Component {
                                 </p>
                                 {this.state.atividade.endereco !== ''?
                                     <div className="location-margin">
-                                        <li className="list-inline-item">
-                                            <i className="fa fa-location-arrow" aria-hidden="true"/>
+                                        <li className="list-inline-item link-style">
+                                            <i className="fa fa-location-arrow" aria-hidden="true"/> 
                                             <a className="atividade-localizacao"
                                                onClick={this.mapsSelector.bind(this)}>
 
                                                 {(this.state.atividade.endereco !== ""|| null ?this.state.atividade.endereco:'')}
-                                                {(this.state.atividade.enderecoNumero !== "" || null ? ','+ this.state.atividade.enderecoNumero:'')}
-                                                {(this.state.atividade.cidade !== "" || null ?', '+this.state.atividade.cidade:'')}
-                                                {(this.state.atividade.uf !== "" || null ? "|"+this.state.atividade.uf:'')}
-                                                {(this.state.atividade.cep !== "" ||null ? "-"+this.state.atividade.cep:'')}
+                                                {(this.state.atividade.enderecoNumero !== "" || null ? ', '+ this.state.atividade.enderecoNumero:'')}
+                                                {(this.state.atividade.cidade !== "" || null ?' - '+this.state.atividade.cidade:'')}
+                                                {(this.state.atividade.uf !== "" || null ? "/"+this.state.atividade.uf:'')}
+                                                {(this.state.atividade.cep !== "" ||null ? " - "+this.state.atividade.cep:'')}
                                             </a>
 
                                          
