@@ -419,7 +419,7 @@ export default class DetalheAtividade extends Component {
         }
 
         const listaAnexo = () => {
-            let list = this.state.anexo;
+            let list = this.state.anexo || [];
             return list.map(anexo => (
                 <tr key={anexo.id}>
                     <td className="link-style" onClick={()=> {this.downloadAnexo((anexo.localArmazenamento + anexo.nomeAquivo))}} >{anexo.nomeAquivo}</td>
