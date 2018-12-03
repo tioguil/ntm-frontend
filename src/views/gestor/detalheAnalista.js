@@ -61,7 +61,7 @@ export default class DetalheAnalista extends Component {
       else{
         inicio = this.state.data.toISOString().split('T')[0]
         fim = this.state.data.toISOString().split('T')[0]
-        axios.get(`${URL}gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
+        axios.get(`${URL}atividade/gestor/listar/${inicio}/${fim}/${this.state.usuario.id}/`,config)
           .then(resp=>this.setState({atividades:resp.data.response}))
       }
     }
