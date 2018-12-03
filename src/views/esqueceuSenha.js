@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {URL} from '../global';
 import {Helmet} from 'react-helmet';
+import {toast, ToastContainer} from "react-toastify";
 
 export default class EsqueceuSenha extends Component {
   constructor(){
@@ -21,7 +22,28 @@ export default class EsqueceuSenha extends Component {
 
   recuperar_senha(){
     axios.post(`${URL}usuario/recuperacao`,{email:this.state.email})
-      .then(resp => console.log(resp.data))
+      .then(resp => toast.success(
+        resp.data['message'],
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })
+      )
+      .catch(resp => toast.error(
+        resp.response.data["message"],
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        })
+      )
     this.props.history.push("/");
   }
 
@@ -48,7 +70,7 @@ export default class EsqueceuSenha extends Component {
                     <input type="email" id="inputEmail" className="form-control" value={this.state.email} onChange={this.setEmail} placeholder="Digite o seu e-mail" required autofocus/>
                     <label for="inputEmail">Digite o seu e-mail</label>
                   </div>
-                  <button className="btn btn-lg btn-danger btn-red btn-block text-uppercase" onClick={this.recuperar_senha.bind(this)} type="submit">Recuperar senha</button>
+                  <button className="btn btn-lg btn-danger btn-red btn-block text-uppercase" onClick={this.recuperar_senha.bind(this)}>Recuperar senha</button>
                 </form>
                 <div className="text-center mt-2">
                   <a className="small link-login" onClick={this.login.bind(this)} href="#">Acessar sua conta</a>
@@ -57,6 +79,7 @@ export default class EsqueceuSenha extends Component {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     );
   }

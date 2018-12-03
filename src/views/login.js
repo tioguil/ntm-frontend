@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {URL} from '../global';
 import {Helmet} from 'react-helmet';
+import {toast, ToastContainer} from "react-toastify";
 
 export default class Login extends Component {
   constructor(){
@@ -116,6 +117,7 @@ export default class Login extends Component {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     );
   }
